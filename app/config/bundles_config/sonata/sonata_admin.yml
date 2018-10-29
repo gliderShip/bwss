@@ -1,0 +1,25 @@
+sonata_admin:
+  title: BWSS
+  title_logo: bwss.png
+  show_mosaic_button:   false
+  options:
+    html5_validate: false
+  #        lock_protection: true #https://symfony.com/doc/master/bundles/SonataAdminBundle/cookbook/recipe_lock_protection.html
+
+sonata_block:
+  default_contexts: [cms]
+  blocks:
+    # enable the SonataAdminBundle block
+    sonata.user.block.menu:
+    sonata.user.block.account:
+    sonata.block.service.text:
+    sonata.admin.block.admin_list:
+      contexts:   [admin]
+    # ...
+
+sonata_core:
+  form:
+    mapping:
+      enabled: false
+
+services:
