@@ -2,22 +2,26 @@
 
 namespace AppBundle\Admin;
 
-use AppBundle\Entity\Service;
-use AppBundle\Repository\ServiceRepository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
-class ServiceAdmin extends AbstractAdmin
+class CostItemAdmin extends AbstractAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
             ->add('name')
+            ->add('service')
+            ->add('price')
+            ->add('currency')
+            ->add('vat')
         ;
     }
 
@@ -26,8 +30,6 @@ class ServiceAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('parent')
-            ->add('children')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -40,28 +42,17 @@ class ServiceAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $query = $this->modelManager->getEntityManager($entity)->createQuery('SELECT s FROM MyCompany\MyProjectBundle\Entity\Seria s ORDER BY s.nameASC');
-
         $formMapper
             ->add('name')
-            ->add('parent', EntityType::class,
+            ->add('service')
+            ->add('price', MoneyType::class,
                 [
-                    'required' => false,
-                    'class' => Service::class,
-                    'query_builder' => function (ServiceRepository $r) {
-                        $qb = $r->createQueryBuilder('s');
-                        $id = $this->getSubject()->getId();
-                        if($id != null){
-                            $qb->andWhere('s.id <> :id')
-                                ->setParameter('id', $id);
-                        }
-
-                        return $qb;
-
-                    },
+                    "currency" => false,
+                    "scale" => 2
                 ]
             )
-//            ->add('children')
+            ->add('currency', CurrencyType::class)
+            ->add('vat', PercentType::class)
         ;
     }
 
@@ -70,11 +61,10 @@ class ServiceAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('parent')
-//            ->add('children')
+            ->add('service')
+            ->add('price', MoneyType::class)
+            ->add('currency', CurrencyType::class)
+            ->add('vat', PercentType::class)
         ;
     }
-
-
-
 }

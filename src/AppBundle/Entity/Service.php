@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Service
@@ -30,15 +32,51 @@ class Service
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Service", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Service", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="parent")
      */
     private $children;
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        $id = $this->getId();
+        if( $id!=null ){
+            //editing existing object
+            $parent = $this->getParent();
+            if ($parent) {
+                if ($parent == $this) {
+                    $context->buildViolation('It can not be its own parent mate!')
+                        ->atPath('parent')
+                        ->addViolation();
+                        return;
+                }
+
+                $ancestor = $parent;
+                while ($ancestor){
+                    if($ancestor->getId() == $this->getId()){
+                        $context->buildViolation(
+                            "$this can not be a child of [{$parent}] because is its ancestor! Try updating [{$parent}] parent if that's what you're up to."
+                        )
+                            ->atPath('parent')
+                            ->addViolation();
+                            return;
+                    }
+
+                    $ancestor = $ancestor->getParent();
+                }
+            }
+
+        }
+
+    }
 
 
     public function __construct() {
@@ -112,6 +150,11 @@ class Service
     public function setChildren($children): void
     {
         $this->children = $children;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getName();
     }
 
 

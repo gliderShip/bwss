@@ -29,3 +29,17 @@ services:
     tags:
     - { name: sonata.admin, manager_type: orm, group: admin, label: Service }
     public: true
+
+  app.admin.cost_item:
+    class: AppBundle\Admin\CostItemAdmin
+    arguments: [~, AppBundle\Entity\CostItem, AppBundle:CostItemAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: admin, label: CostItem }
+    public: true
+
+#  app.admin.price:
+#    class: AppBundle\Admin\PriceAdmin
+#    arguments: [~, AppBundle\Entity\Price, AppBundle:PriceAdmin]
+#    tags:
+#    - { name: sonata.admin, manager_type: orm, group: admin, label: Price }
+#    public: true
