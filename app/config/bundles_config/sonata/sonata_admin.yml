@@ -23,3 +23,9 @@ sonata_core:
       enabled: false
 
 services:
+  app.admin.service:
+    class: AppBundle\Admin\ServiceAdmin
+    arguments: [~, AppBundle\Entity\Service, AppBundle:ServiceAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: admin, label: Service }
+    public: true
