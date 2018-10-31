@@ -32,7 +32,7 @@ class ServiceCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="serviceCategory")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="serviceCategory", cascade={"persist", "remove"})
      */
     private $services;
 
@@ -83,13 +83,13 @@ class ServiceCategory
         return $this->services;
     }
 
-    /**
-     * @param mixed $services
-     */
-    public function setServices($services): void
-    {
-        $this->services = $services;
-    }
+//    /**
+//     * @param mixed $services
+//     */
+//    public function setServices($services): void
+//    {
+//        $this->services = $services;
+//    }
 
     public function __toString()
     {

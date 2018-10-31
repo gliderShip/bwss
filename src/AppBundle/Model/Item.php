@@ -2,6 +2,7 @@
 
 namespace AppBundle\Model;
 
+use AppBundle\Entity\Service;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,7 +26,7 @@ abstract class Item
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service")
-     * @ORM\JoinColumn(name="service_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="service_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $service;
 

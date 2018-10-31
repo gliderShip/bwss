@@ -19,6 +19,7 @@ class CostItem extends Item implements Billable
     /**
      * @var string
      * @Assert\GreaterThan(0)
+     * @Assert\LessThanOrEqual(9999999, message="This value should be less than or equal to {{ compared_value }}.")
      * @ORM\Column(name="price", type="decimal", precision=9, scale=2, options={"unsigned"=true})
      */
     private $price;
@@ -45,11 +46,10 @@ class CostItem extends Item implements Billable
     public function setPrice($price, $vatIncluded = true)
     {
         if(!$vatIncluded){
-            $this->price = $this->setNetPrice($price);
+            $this->setNetPrice($price);
+        } else{
+            $this->setGrossPrice($price);
         }
-
-       $this->price = $this->setGrossPrice($price);
-        
     }
 
     public function setGrossPrice($grossPrice){

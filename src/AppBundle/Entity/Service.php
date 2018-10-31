@@ -33,13 +33,18 @@ class Service
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceCategory", inversedBy="services")
-     * @ORM\JoinColumn(name="serviceCategory_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="serviceCategory_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $serviceCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CostItem", mappedBy="service", cascade={"persist", "remove"})
+     */
+    private $costItems;
     
     
     public function __construct() {
-        
+        $this->costItems = new ArrayCollection();
     }
 
     /**
@@ -94,6 +99,24 @@ class Service
     {
         return $this->serviceCategory;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCostItems()
+    {
+        return $this->costItems;
+    }
+
+//    /**
+//     * @param mixed $costItems
+//     */
+//    public function setCostItems($costItems): void
+//    {
+//        $this->costItems = $costItems;
+//    }
+
+
 
 
     public function __toString()

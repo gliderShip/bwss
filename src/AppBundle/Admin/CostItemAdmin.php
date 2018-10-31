@@ -30,6 +30,10 @@ class CostItemAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('name')
+            ->add('service')
+            ->add('price')
+            ->add('currency')
+            ->add('vat')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -47,12 +51,25 @@ class CostItemAdmin extends AbstractAdmin
             ->add('service')
             ->add('price', MoneyType::class,
                 [
+                    'help' => 'Price must include VAT',
                     "currency" => false,
                     "scale" => 2
                 ]
             )
-            ->add('currency', CurrencyType::class)
-            ->add('vat', PercentType::class)
+            ->add('currency', CurrencyType::class,
+                [
+                    'attr' => array('readonly' => true), // Frontend
+                    'disabled' => true,                     // Backend
+                    'required' => false,
+                ]
+            )
+            ->add('vat', PercentType::class,
+                [
+                    'attr' => array('readonly' => true), // Frontend
+                    'disabled' => true,                     // Backend
+                    'required' => false,
+                ]
+            )
         ;
     }
 
