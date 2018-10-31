@@ -23,6 +23,13 @@ sonata_core:
       enabled: false
 
 services:
+  app.admin.service_category:
+    class: AppBundle\Admin\ServiceCategoryAdmin
+    arguments: [~, AppBundle\Entity\ServiceCategory, AppBundle:ServiceCategoryAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: admin, label: Service Category }
+    public: true
+
   app.admin.service:
     class: AppBundle\Admin\ServiceAdmin
     arguments: [~, AppBundle\Entity\Service, AppBundle:ServiceAdmin]

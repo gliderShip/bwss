@@ -10,10 +10,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * Service
  *
- * @ORM\Table(name="service")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
+ * @ORM\Table(name="service_category")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceCategoryRepository")
  */
-class Service
+class ServiceCategory
 {
     /**
      * @var int
@@ -32,14 +32,13 @@ class Service
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceCategory", inversedBy="services")
-     * @ORM\JoinColumn(name="serviceCategory_id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="serviceCategory")
      */
-    private $serviceCategory;
-    
-    
+    private $services;
+
+
     public function __construct() {
-        
+        $this->services = new ArrayCollection();
     }
 
     /**
@@ -59,7 +58,7 @@ class Service
      *
      * @return Service
      */
-    public function setName($name): Service
+    public function setName($name): ServiceCategory
     {
         $this->name = $name;
 
@@ -77,24 +76,20 @@ class Service
     }
 
     /**
-     * @param $serviceCategory
-     * @return $this
+     * @return ArrayCollection|null
      */
-    public function setServiceCategory(ServiceCategory $serviceCategory): Service
+    public function getServices()
     {
-        $this->serviceCategory = $serviceCategory;
-
-        return $this;
+        return $this->services;
     }
 
     /**
-     * @return Service|null
+     * @param mixed $services
      */
-    public function getServiceCategory(): ?ServiceCategory
+    public function setServices($services): void
     {
-        return $this->serviceCategory;
+        $this->services = $services;
     }
-
 
     public function __toString()
     {

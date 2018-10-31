@@ -2,23 +2,20 @@
 
 namespace AppBundle\Admin;
 
-use AppBundle\Entity\Service;
-use AppBundle\Repository\ServiceRepository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class ServiceAdmin extends AbstractAdmin
+class ServiceCategoryAdmin extends AbstractAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('serviceCategory')
+            ->add('services')
         ;
     }
 
@@ -27,7 +24,7 @@ class ServiceAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('serviceCategory')
+            ->add('services')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -40,12 +37,9 @@ class ServiceAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $query = $this->modelManager->getEntityManager($entity)->createQuery('SELECT s FROM MyCompany\MyProjectBundle\Entity\Seria s ORDER BY s.nameASC');
-
         $formMapper
             ->add('name')
-            ->add('serviceCategory')
-//            ->add('children')
+//            ->add('services')
         ;
     }
 
@@ -54,11 +48,7 @@ class ServiceAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('serviceCategory')
-//            ->add('children')
+            ->add('services')
         ;
     }
-
-
-
 }
