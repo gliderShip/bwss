@@ -23,39 +23,18 @@ class Offer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service")
-     * @ORM\JoinColumn(name="serivice_id", referencedColumnName="id")
+     * @var string
+     *
+     * @ORM\Column(name="service_category", type="string", length=255)
+     */
+    private $serviceCategory;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="service", type="string", length=255)
      */
     private $service;
-
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getService()
-    {
-        return $this->service;
-    }
-
-    /**
-     * @param mixed $service
-     */
-    public function setService($service): void
-    {
-        $this->service = $service;
-    }
-
-
 
 
 }

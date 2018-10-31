@@ -108,21 +108,11 @@ class Service
         return $this->costItems;
     }
 
-//    /**
-//     * @param mixed $costItems
-//     */
-//    public function setCostItems($costItems): void
-//    {
-//        $this->costItems = $costItems;
-//    }
-
-
-
-
     public function __toString()
     {
         return (string) $this->getName();
     }
+
 
 
 }
