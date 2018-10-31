@@ -2,11 +2,13 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Model\Billable;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
@@ -20,9 +22,14 @@ class CostItemAdmin extends AbstractAdmin
             ->add('name')
             ->add('service')
             ->add('price')
+            ->add('priceType',null, ['field_type' => ChoiceType::class, 'field_options' =>
+                [
+                    'choices' => Billable::BILLABLE_TYPES,
+                ]
+                    ]
+            )
             ->add('currency')
-            ->add('vat')
-        ;
+            ->add('vat');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -32,6 +39,11 @@ class CostItemAdmin extends AbstractAdmin
             ->add('name')
             ->add('service')
             ->add('price')
+            ->add('priceType', ChoiceType::class,
+                [
+                    'choices' => Billable::BILLABLE_TYPES,
+                ]
+            )
             ->add('currency')
             ->add('vat')
             ->add('_action', null, [
@@ -40,8 +52,7 @@ class CostItemAdmin extends AbstractAdmin
                     'edit' => [],
                     'delete' => [],
                 ],
-            ])
-        ;
+            ]);
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -54,6 +65,11 @@ class CostItemAdmin extends AbstractAdmin
                     'help' => 'Price must include VAT',
                     "currency" => false,
                     "scale" => 2
+                ]
+            )
+            ->add('priceType', ChoiceType::class,
+                [
+                    'choices' => Billable::BILLABLE_TYPES,
                 ]
             )
             ->add('currency', CurrencyType::class,
@@ -69,8 +85,7 @@ class CostItemAdmin extends AbstractAdmin
                     'disabled' => true,                     // Backend
                     'required' => false,
                 ]
-            )
-        ;
+            );
     }
 
     protected function configureShowFields(ShowMapper $showMapper)
@@ -80,8 +95,8 @@ class CostItemAdmin extends AbstractAdmin
             ->add('name')
             ->add('service')
             ->add('price', MoneyType::class)
+            ->add('priceType')
             ->add('currency', CurrencyType::class)
-            ->add('vat', PercentType::class)
-        ;
+            ->add('vat', PercentType::class);
     }
 }

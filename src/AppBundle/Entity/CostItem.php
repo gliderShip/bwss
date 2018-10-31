@@ -25,6 +25,13 @@ class CostItem extends Item implements Billable
     private $price;
 
     /**
+     * @var string
+     * @Assert\Choice(choices=Billable::BILLABLE_TYPES, message="Invalid price type:{{ value }}")
+     * @ORM\Column(name="price_type", type="string", length=50, nullable=false)
+     */
+    private $priceType;
+
+    /**
      * @var string 3-letter ISO 4217 currencies
      * @ORM\Column(name="currency", type="string", length=3)
      */
@@ -96,6 +103,22 @@ class CostItem extends Item implements Billable
     }
 
     /**
+     * @return string
+     */
+    public function getPriceType(): ?string
+    {
+        return $this->priceType;
+    }
+
+    /**
+     * @param mixed $priceType
+     */
+    public function setPriceType($priceType): void
+    {
+        $this->priceType = $priceType;
+    }
+
+    /**
      * Set currency
      * @param string $currency
      */
@@ -155,6 +178,7 @@ class CostItem extends Item implements Billable
 
         return false;
     }
+
 
 }
 

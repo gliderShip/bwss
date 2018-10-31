@@ -33,3 +33,10 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    appBundle.form.flow.createOffer:
+        class: AppBundle\Form\CreateOfferFlow
+        parent: craue.form.flow
+        public: true
+        autowire: true
+        autoconfigure: false

@@ -1,0 +1,11 @@
+{% extends  "@!SonataAdmin/standard_layout.html.twig" %}
+{% block side_bar_nav %}
+    {{ parent() }}
+    <ul class="sidebar-menu">
+        <li class="treeview">
+            <a href="{{ path('order_create', {'name':'Hello'}) }}">
+                New Order
+            </a>
+        </li>
+    </ul>
+{% endblock %}
