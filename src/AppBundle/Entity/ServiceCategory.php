@@ -22,19 +22,19 @@ class ServiceCategory
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="serviceCategory", cascade={"persist", "remove"})
      */
-    private $services;
+    protected $services;
 
 
     public function __construct() {

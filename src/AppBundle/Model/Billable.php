@@ -32,6 +32,7 @@ interface Billable
     public function getVat();
     public function priceEquals(Billable $billable);
     public function priceEqualsNet(Billable $billable);
+    public function priceEqualsGross(Billable $billable);
 
 
 }

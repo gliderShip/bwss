@@ -25,7 +25,7 @@ abstract class Item
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service", inversedBy="items")
      * @ORM\JoinColumn(name="service_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $service;
@@ -38,30 +38,6 @@ abstract class Item
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return CostItem
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

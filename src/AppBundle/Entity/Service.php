@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,9 +13,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="service")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Service
 {
+    use Timestampable;
+
     /**
      * @var int
      *
@@ -22,29 +26,33 @@ class Service
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceCategory", inversedBy="services")
      * @ORM\JoinColumn(name="serviceCategory_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private $serviceCategory;
+    protected $serviceCategory;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CostItem", mappedBy="service", cascade={"persist", "remove"})
      */
-    private $costItems;
-    
+    protected $items;
+
     
     public function __construct() {
-        $this->costItems = new ArrayCollection();
+
+        $this->items = new ArrayCollection();
+
+        $this->updatedAt = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -105,15 +113,13 @@ class Service
      */
     public function getCostItems()
     {
-        return $this->costItems;
+        return $this->items;
     }
 
     public function __toString()
     {
         return (string) $this->getName();
     }
-
-
 
 }
 
