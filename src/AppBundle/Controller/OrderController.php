@@ -7,6 +7,7 @@ use AppBundle\Entity\ItemSnapshot;
 use AppBundle\Entity\Offer;
 use AppBundle\Entity\OfferItem;
 use AppBundle\Form\CreateOfferForm;
+use AppBundle\Service\ItemSnapshotManager;
 use AppBundle\Service\SnapshotManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,13 +23,13 @@ class OrderController extends Controller
     /**
      * @Route("/new", name="create")
      */
-    public function indexAction(Request $request, SnapshotManager $snapshotmanager)
+    public function indexAction(Request $request, ItemSnapshotManager $itemSnapshotManager)
     {
-        $em = $this->get('doctrine.orm.entity_manager');;
+        $em = $this->get('doctrine.orm.entity_manager');
         $costItemRepository = $em->getRepository(CostItem::class);
         $costItem = $costItemRepository->findAll()[0];
         dump($costItem);
-        $itemSnapshot = $snapshotmanager->getCurrentSnapshot($costItem);
+        $itemSnapshot = $itemSnapshotManager->getCurrentSnapshot($costItem);
         dump($itemSnapshot);
         $em->persist($itemSnapshot);
         $em->flush();

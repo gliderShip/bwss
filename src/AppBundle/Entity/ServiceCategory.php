@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,6 +16,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ServiceCategory
 {
+    use Timestampable;
+
     /**
      * @var int
      *
@@ -38,7 +41,10 @@ class ServiceCategory
 
 
     public function __construct() {
+
         $this->services = new ArrayCollection();
+        $this->updatedAt = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
     /**

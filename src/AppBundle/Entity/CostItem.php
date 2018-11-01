@@ -21,6 +21,12 @@ class CostItem extends Item implements Billable, Versionable
 {
     use Priceable, Timestampable;
 
+    public function __construct() {
+
+        $this->updatedAt = new \DateTime();
+        $this->createdAt = new \DateTime();
+    }
+
 
 }
 

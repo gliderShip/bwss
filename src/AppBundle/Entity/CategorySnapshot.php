@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="category_snapshot")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategorySnapshotRepository")
  */
-class CategorySnapshot extends ServiceCategory
+class CategorySnapshot extends AbstractSnapshot
 {
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceCategory")
@@ -22,14 +22,14 @@ class CategorySnapshot extends ServiceCategory
      */
     protected $category;
 
-    static function create(ServiceCategory $serviceCategory){
 
-        $categorySnapshot = new CategorySnapshot();
-        $categorySnapshot->category = $serviceCategory;
-        $categorySnapshot->setName($serviceCategory->getName());
+    public function __construct(ServiceCategory $category, int $version)
+    {
+        parent::__construct($version);
 
-        return $categorySnapshot;
+        $this->category = $category;
     }
+
 
     /**
      * @return ServiceCategory|null

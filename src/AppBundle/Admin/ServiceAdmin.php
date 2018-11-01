@@ -19,7 +19,7 @@ class ServiceAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('serviceCategory')
-            ->add('costItems')
+            ->add('items')
         ;
     }
 
@@ -29,7 +29,7 @@ class ServiceAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('serviceCategory')
-            ->add('costItems')
+            ->add('items')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -57,7 +57,7 @@ class ServiceAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('serviceCategory')
-            ->add('costItems')
+            ->add('items')
 //            ->add('children')
         ;
     }

@@ -15,7 +15,7 @@ use AppBundle\Entity\Service;
  * @ORM\Table(name="service_snapshot")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceSnapshotRepository")
  */
-class ServiceSnapshot extends Service
+class ServiceSnapshot extends AbstractSnapshot
 {
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Service")
@@ -30,17 +30,11 @@ class ServiceSnapshot extends Service
     protected $categorySnapshot;
 
 
-    static function create(Service $service){
+    public function __construct(Service $service, int $version)
+    {
+        parent::__construct($version);
 
-        $serviceSnapshot = new ServiceSnapshot();
-        $serviceSnapshot->service = $service;
-        $serviceSnapshot->setName($service->getName());
-
-        $serviceCategory = $service->getServiceCategory();
-        $serviceSnapshot->setServiceCategory($serviceCategory);
-        $serviceSnapshot->categorySnapshot = CategorySnapshot::create($serviceCategory);
-
-        return $serviceSnapshot;
+        $this->service = $service;
     }
 
     /**
@@ -49,6 +43,14 @@ class ServiceSnapshot extends Service
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * @param CategorySnapshot $categorySnapshot
+     */
+    public function setCategorySnapshot(CategorySnapshot $categorySnapshot): void
+    {
+        $this->categorySnapshot = $categorySnapshot;
     }
 
     /**
