@@ -38,7 +38,7 @@ trait Priceable
      * @var string 3-letter ISO 4217 currencies
      * @ORM\Column(name="currency", type="string", length=3)
      */
-    private $currency = self::DEFAULT_CURRENCY;
+    private $currency = Billable::DEFAULT_CURRENCY;
 
     /**
      * @var string
@@ -46,7 +46,7 @@ trait Priceable
      * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(name="vat", type="decimal", precision=3, scale=2)
      */
-    private $vat = self::VAT;
+    private $vat = Billable::VAT;
 
     /**
      * @return boolean

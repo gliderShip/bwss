@@ -24,6 +24,15 @@ class ItemSnapshot implements Billable
     use Priceable, Timestampable;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="version", type="integer", unique=true)
@@ -67,6 +76,16 @@ class ItemSnapshot implements Billable
         $itemSnapshot->serviceSnapshot = $serviceSnapshot;
 
         return $itemSnapshot;
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function __construct(CostItem $costItem, int $version)
