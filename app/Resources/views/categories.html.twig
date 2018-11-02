@@ -1,0 +1,40 @@
+{% extends  "@SonataAdmin/standard_layout.html.twig" %}
+{% block sonata_admin_content %}
+    <script src="https://intercoolerreleases-leaddynocom.netdna-ssl.com/intercooler-1.2.1.min.js"></script>
+
+
+    {% if categories is defined and categories is not empty %}
+
+        <div class="container" id="replace">
+            <h2>Plase pick a service category:</h2>
+
+            <div class="list-group col-md-4 col-lg-4">
+                {% for category in categories %}
+                    <a ic-get-from="{{ path('category_services', {'categoryId': category.id}) }}"
+                       class="list-group-item list-group-item-action"
+                       ic-target='#replace'
+                    >
+                        {{ category.name }}
+                        <span class="badge badge-primary badge-pill">{{ category.services|length }}</span>
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

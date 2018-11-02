@@ -245,8 +245,4 @@ trait Priceable
         return false;
     }
 
-
-
-
-
 }

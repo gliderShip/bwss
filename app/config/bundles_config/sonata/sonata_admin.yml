@@ -44,6 +44,19 @@ services:
     - { name: sonata.admin, manager_type: orm, group: admin, label: CostItem }
     public: true
 
+  app.admin.offer_item:
+    class: AppBundle\Admin\OfferItemAdmin
+    arguments: [~, AppBundle\Entity\OfferItem, AppBundle:OfferItemAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Offers, label: OfferItem }
+    public: true
+
+  app.admin.offer:
+    class: AppBundle\Admin\OfferAdmin
+    arguments: [~, AppBundle\Entity\Offer, AppBundle:OfferAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Offers, label: Offer }
+    public: true
 
 
 #  app.admin.price:

@@ -111,7 +111,7 @@ class Service
     /**
      * @return mixed
      */
-    public function getCostItems()
+    public function getItems()
     {
         return $this->items;
     }

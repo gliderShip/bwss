@@ -1,0 +1,23 @@
+
+    {% if services is defined %}
+        <div class="container" id="replace">
+
+            {% if services is empty %}
+                <h2>No services found under this service category.</h2>
+            {% else %}
+                <h2>Plase pick a service:</h2>
+
+                <div class="list-group col-md-4 col-lg-4">
+                    {% for service in services %}
+                        <a ic-get-from="{{ path('category_services', {'categoryId': service.id}) }}"
+                           class="list-group-item list-group-item-action">{{ service.name }}
+                            <span class="badge badge-primary badge-pill">{{ service.items|length }}</span>
+                        </a>
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+    {% endif %}
