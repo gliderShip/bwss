@@ -70,10 +70,5 @@ class ItemSnapshot extends AbstractSnapshot implements Billable
         return $this->serviceSnapshot;
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
-
 }
 

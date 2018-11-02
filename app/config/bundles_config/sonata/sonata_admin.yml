@@ -58,6 +58,26 @@ services:
     - { name: sonata.admin, manager_type: orm, group: Offers, label: Offer }
     public: true
 
+  app.admin.item_snapshot:
+    class: AppBundle\Admin\ItemSnapshotAdmin
+    arguments: [~, AppBundle\Entity\ItemSnapshot, AppBundle:ItemSnapshotAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Snapshots, label: CostItem Snapshot }
+    public: true
+
+  app.admin.service_snapshot:
+    class: AppBundle\Admin\ServiceSnapshotAdmin
+    arguments: [~, AppBundle\Entity\ServiceSnapshot, AppBundle:ServiceSnapshotAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Snapshots, label: Service Snapshot }
+    public: true
+
+  app.admin.category_snapshot:
+    class: AppBundle\Admin\CategorySnapshotAdmin
+    arguments: [~, AppBundle\Entity\CategorySnapshot, AppBundle:CategorySnapshotAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Snapshots, label: Category Snapshot }
+    public: true
 
 #  app.admin.price:
 #    class: AppBundle\Admin\PriceAdmin

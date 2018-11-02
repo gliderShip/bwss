@@ -61,9 +61,5 @@ class ServiceSnapshot extends AbstractSnapshot
         return $this->categorySnapshot;
     }
 
-
-
-
-
 }
 
