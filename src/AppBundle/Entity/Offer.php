@@ -26,20 +26,22 @@ class Offer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ItemSnapshot", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceSnapshot", cascade={"persist"})
      * @ORM\JoinColumn(name="snapshot_id", referencedColumnName="id", nullable=false)
      */
     protected $serviceSnapshot;
 
     /**
+     * @var OfferItem[] $items
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\OfferItem", mappedBy="offer", cascade={"persist", "remove"})
      */
     protected $items;
 
-    public function __construct() {
+    public function __construct(ServiceSnapshot $serviceSnapshot, $items) {
 
-        $this->items = new ArrayCollection();
-
+        $this->serviceSnapshot = $serviceSnapshot;
+        $this->setItems($items);
+        dump($this->items );
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
     }
@@ -81,7 +83,13 @@ class Offer
      */
     public function setItems($items): void
     {
-        $this->items = $items;
+
+        $this->items = new ArrayCollection();
+
+        foreach ($items as $item){
+            $this->items->add($item);
+            $item->setOffer($this);
+        }
     }
 
 

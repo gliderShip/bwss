@@ -48,7 +48,6 @@ class ItemSnapshotManager
     public function getCurrentSnapshot(CostItem $costItem)
     {
 
-
         $version = $costItem->getUpdatedAt()->getTimestamp();
         $currentSnapshot = $this->repository->findOneByVersion($version);
 

@@ -9,8 +9,11 @@ use AppBundle\Entity\OfferItem;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
 use AppBundle\Form\CreateOfferForm;
+use AppBundle\Form\OfferType;
 use AppBundle\Repository\ServiceCategoryRepository;
 use AppBundle\Service\ItemSnapshotManager;
+use AppBundle\Service\OfferManager;
+use AppBundle\Service\ServiceSnapshotManager;
 use AppBundle\Service\SnapshotManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -32,7 +35,7 @@ class OfferController extends Controller
     /**
      * @Route("/offer/service-categories", name="offer_categories")
      */
-    public function listAction(Request $request, ItemSnapshotManager $itemSnapshotManager)
+    public function listCategoryAction(Request $request, ItemSnapshotManager $itemSnapshotManager)
     {
         $this->em = $this->get('doctrine.orm.entity_manager');
         $categoryRepository =  $this->em->getRepository(ServiceCategory::class);
@@ -77,6 +80,50 @@ class OfferController extends Controller
         return $this->render('_services.html.twig', array(
             'services' => $services
         ));
+    }
+
+
+    /**
+     * @Route("/offer/service/{serviceId}/create", name="offer_create", requirements={"serviceId"="\d+"})
+     */
+    public function offerCreateAction(Request $request, int $serviceId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager){
+
+        $serviceRepository =  $this->em->getRepository(Service::class);
+
+        /**
+         * @var Service $service
+         */
+        $service = $serviceRepository->findOneById($serviceId);
+
+        if(!$service){
+            return $this->createNotFoundException("Service not found.");
+        }
+
+
+//        $items = $service->getItems();
+        $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
+//        $itemsSnapshots = $offerManager->getItemsSnapshots($service);
+
+        $offerItems = $offerManager->getOfferItems($service);
+        dump($offerItems);
+
+        $offer = new Offer($serviceSnapshot, $offerItems);
+
+        $offerForm = $this->createForm(OfferType::class, $offer);
+
+        $offerForm->handleRequest($request);
+
+        if ($offerForm->isSubmitted() && $offerForm->isValid()) {
+
+            $data = $offerForm->getData();
+
+            dump($data);
+        }
+
+        return $this->render('offer.html.twig', array(
+            'form' => $offerForm->createView(),
+        ));
+
     }
 
 

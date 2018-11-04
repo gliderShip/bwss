@@ -2,6 +2,75 @@
 
 {% block sonata_admin_content %}
 
-Hello
+    {{ form_start(form) }}
+    <h3>Service->getName() Offer</h3>
+
+    <table class="table table-bordered table-hover ">
+        <caption>Fixed Price Items</caption>
+        <thead >
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Net Price</th>
+            <th scope="col">Gross Price</th>
+            <th scope="col">Currency</th>
+            <th scope="col">%VAT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>Thornton</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-hover ">
+        <caption>Hourly Priced Items Service->getName() Items. Please Provide the hours for each item</caption>
+        <thead >
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Net Price</th>
+            <th scope="col">Gross Price</th>
+            <th scope="col">Currency</th>
+            <th scope="col">%VAT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>Thornton</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% dump form %}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
 {% endblock %}

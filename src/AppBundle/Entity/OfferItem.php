@@ -49,8 +49,9 @@ class OfferItem
      */
     protected $itemSnapshot;
 
-    public function __construct()
+    public function __construct(ItemSnapshot $itemSnapshot = null)
     {
+        $this->itemSnapshot = $itemSnapshot;
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
     }
@@ -107,7 +108,7 @@ class OfferItem
     /**
      * @param mixed $itemSnapshot
      */
-    public function setItemSnapshot(ItemSnapshot $itemSnapshot): void
+    public function setItemSnapshot(ItemSnapshot $itemSnapshot = null): void
     {
         $this->itemSnapshot = $itemSnapshot;
     }
