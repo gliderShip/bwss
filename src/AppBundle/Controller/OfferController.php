@@ -38,7 +38,7 @@ class OfferController extends Controller
     public function listCategoryAction(Request $request, ItemSnapshotManager $itemSnapshotManager)
     {
         $this->em = $this->get('doctrine.orm.entity_manager');
-        $categoryRepository =  $this->em->getRepository(ServiceCategory::class);
+        $categoryRepository = $this->em->getRepository(ServiceCategory::class);
         $serviceCategories = $categoryRepository->findAll();
 
         return $this->render('categories.html.twig', array(
@@ -48,14 +48,10 @@ class OfferController extends Controller
 
         $costItemRepository = $this->em->getRepository(CostItem::class);
         $costItem = $costItemRepository->findAll()[0];
-        dump($costItem);
         $itemSnapshot = $itemSnapshotManager->getCurrentSnapshot($costItem);
-        dump($itemSnapshot);
         $this->em->persist($itemSnapshot);
         $this->em->flush();
-        dump($itemSnapshot);
 
-        die;
         return $this->render('offer.html.twig', array(
             'form' => $form->createView(),
             'flow' => $flow,
@@ -65,13 +61,14 @@ class OfferController extends Controller
     /**
      * @Route("/offer/service-categories/{categoryId}/services", name="category_services", requirements={"categoryId"="\d+"})
      */
-    public function listCategoryServicesAction(int $categoryId){
+    public function listCategoryServicesAction(int $categoryId)
+    {
 
-        $categoryRepository =  $this->em->getRepository(ServiceCategory::class);
+        $categoryRepository = $this->em->getRepository(ServiceCategory::class);
 
         $category = $categoryRepository->findOneById($categoryId);
 
-        if(!$category){
+        if (!$category) {
             return $this->createNotFoundException("Service category not found.");
         }
 
@@ -86,28 +83,25 @@ class OfferController extends Controller
     /**
      * @Route("/offer/service/{serviceId}/create", name="offer_create", requirements={"serviceId"="\d+"})
      */
-    public function offerCreateAction(Request $request, int $serviceId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager){
+    public function offerCreateAction(Request $request, int $serviceId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager)
+    {
 
-        $serviceRepository =  $this->em->getRepository(Service::class);
+        $serviceRepository = $this->em->getRepository(Service::class);
 
         /**
          * @var Service $service
          */
         $service = $serviceRepository->findOneById($serviceId);
 
-        if(!$service){
+        if (!$service) {
             return $this->createNotFoundException("Service not found.");
         }
 
-
-//        $items = $service->getItems();
         $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
-//        $itemsSnapshots = $offerManager->getItemsSnapshots($service);
 
         $offerItems = $offerManager->getOfferItems($service);
-        dump($offerItems);
 
-        $offer = new Offer($serviceSnapshot, $offerItems);
+        $offer = new Offer($serviceSnapshot,$offerItems);
 
         $offerForm = $this->createForm(OfferType::class, $offer);
 
@@ -116,8 +110,11 @@ class OfferController extends Controller
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
 
             $data = $offerForm->getData();
+            dump($offerForm->getViewData());
 
             dump($data);
+            dump($offerForm);
+            die;
         }
 
         return $this->render('offer.html.twig', array(

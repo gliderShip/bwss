@@ -19,6 +19,12 @@ interface Billable
         'HOURLY AMOUNT' => 'HOURLY AMOUNT'
     ];
 
+    const PRICE_PRECISION = 9;
+    const PRICE_SCALE = 2;
+
+    const VAT_PRECISION = 3;
+    const VAT_SCALE = 2;
+
     public function getPrice($vatIncluded = true);
     public function getPriceType();
     public function getGrossPrice();

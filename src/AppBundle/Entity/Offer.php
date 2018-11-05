@@ -41,7 +41,7 @@ class Offer
 
         $this->serviceSnapshot = $serviceSnapshot;
         $this->setItems($items);
-        dump($this->items );
+
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
     }
@@ -71,7 +71,7 @@ class Offer
     }
 
     /**
-     * @return mixed
+     * @return OfferItem[]
      */
     public function getItems()
     {

@@ -17,8 +17,15 @@ class OfferItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        dump($builder->getData());
         $builder->add('hours', NumberType::class);
-        $builder->add('item', HiddenType::class, array('mapped' => false));
+//        $builder->add('itemSnapshot', null, ['by_reference'=>false]);
+//        $builder->add('itemSnapshot', HiddenType::class,
+//            [
+//                'data' => '1234',
+//                'mapped' => false,
+//                ]
+//        );
     }
 
 
@@ -27,7 +34,7 @@ class OfferItemType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => OfferItem::class,
         ));
+
+//        $resolver->setRequired('itemSnapshot');
     }
-
-
 }

@@ -23,7 +23,7 @@ trait Priceable
      * @var float
      * @Assert\GreaterThan(0)
      * @Assert\LessThanOrEqual(9999999, message="This value should be less than or equal to {{ compared_value }}.")
-     * @ORM\Column(name="price", type="decimal", precision=9, scale=2, options={"unsigned"=true})
+     * @ORM\Column(name="price", type="decimal", precision=Billable::PRICE_PRECISION, scale=Billable::PRICE_SCALE, options={"unsigned"=true})
      */
     private $price;
 
@@ -44,7 +44,7 @@ trait Priceable
      * @var string
      * @Assert\LessThan(1)
      * @Assert\GreaterThanOrEqual(0)
-     * @ORM\Column(name="vat", type="decimal", precision=3, scale=2)
+     * @ORM\Column(name="vat", type="decimal", precision=Billable::VAT_PRECISION, scale=Billable::VAT_SCALE)
      */
     private $vat = Billable::VAT;
 
@@ -85,9 +85,9 @@ trait Priceable
      */
     public function setGrossPrice(float $grossPrice){
         if($this->priceIncludesVat){
-            $this->price = $grossPrice;
+            $this->price = round($grossPrice, Billable::PRICE_SCALE);
         } else{
-            $this->price = $grossPrice / (1+$this->getVat() );
+            $this->price = round($grossPrice / (1+$this->getVat() ), Billable::PRICE_SCALE);
         }
     }
 
@@ -98,9 +98,9 @@ trait Priceable
      */
     public function setNetPrice(float $netPrice){
         if(!$this->priceIncludesVat){
-            $this->price = $netPrice;
+            $this->price = round($netPrice, Billable::PRICE_SCALE);
         } else{
-            $this->price = ($netPrice * (1+$this->getVat())) ;
+            $this->price = round(($netPrice * (1+$this->getVat())) , Billable::PRICE_SCALE);
         }
     }
 
@@ -128,7 +128,7 @@ trait Priceable
         if($this->priceIncludesVat) {
             return $this->price;
         }else{
-            return ($this->price * (1+$this->getVat())) ;
+            return  round(($this->price * (1+$this->getVat())), Billable::PRICE_SCALE);
         }
     }
 
@@ -143,7 +143,7 @@ trait Priceable
             return $this->price;
         }
         else{
-            return ( $this->price / (1+$this->getVat()) );
+            return round(( $this->price / (1+$this->getVat()) ), Billable::PRICE_SCALE);
         }
 
     }
@@ -193,7 +193,7 @@ trait Priceable
      */
     public function setVat(float $vat = Billable::VAT)
     {
-        $this->vat = $vat;
+        $this->vat = round($vat, Billable::VAT_SCALE);
     }
 
     /**
@@ -214,9 +214,9 @@ trait Priceable
     public function getVatAmount(): ?float
     {
         if($this->priceIncludesVat){
-            $this->price - ($this->price / (1+$this->vat));
+            round($this->price - ($this->price / (1+$this->vat)), Billable::PRICE_SCALE);
         } else{
-            return $this->price * $this->vat;
+            return round($this->price * $this->vat , Billable::PRICE_SCALE);
         }
     }
 
@@ -244,5 +244,7 @@ trait Priceable
 
         return false;
     }
+
+
 
 }

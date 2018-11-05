@@ -1,9 +1,25 @@
-{% extends  "@SonataAdmin/standard_layout.html.twig" %}
-
-{% block sonata_admin_content %}
 
     {{ form_start(form) }}
-    <h3>Service->getName() Offer</h3>
+
+    {% set offer = form.vars.data %}
+    {% dump offer %}
+    {#{% dump form %}#}
+
+    {% set singleCostItemsSnapshots = [] %}
+    {% set hourlyCostItemsSnapshots = [] %}
+
+    {% for item in offer.items %}
+        {% if item.itemSnapshot.priceType == 'SINGLE AMOUNT' %}
+            {% set singleCostItemsSnapshots = singleCostItemsSnapshots|merge([item.itemSnapshot]) %}
+        {% endif %}
+        {% if item.itemSnapshot.priceType == 'HOURLY AMOUNT' %}
+            {% set hourlyCostItemsSnapshots = hourlyCostItemsSnapshots|merge([item.itemSnapshot]) %}
+        {% endif %}
+    {% endfor %}
+
+        {% dump form.offer %}
+
+    <h3>{{ offer.serviceSnapshot.name }} Service Offer</h3>
 
     <table class="table table-bordered table-hover ">
         <caption>Fixed Price Items</caption>
@@ -18,27 +34,23 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>Thornton</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
+
+        {% for singleItem in singleCostItemsSnapshots %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{ singleItem.name }}</td>
+                <td>{{ singleItem.costItem.netPrice }}</td>
+                <td>{{ singleItem.costItem.grossPrice }}</td>
+                <td>{{ singleItem.currency }}</td>
+                <td>{{ singleItem.vat }}</td>
+            </tr>
+        {% endfor %}
+
         </tbody>
     </table>
 
     <table class="table table-bordered table-hover ">
-        <caption>Hourly Priced Items Service->getName() Items. Please Provide the hours for each item</caption>
+        <caption>Hourly Priced {{ offer.serviceSnapshot.name }} Items. Please Provide the hours for each item</caption>
         <thead >
         <tr>
             <th scope="col">#</th>
@@ -47,30 +59,31 @@
             <th scope="col">Gross Price</th>
             <th scope="col">Currency</th>
             <th scope="col">%VAT</th>
+            <th scope="col">Billed Hours</th>
         </tr>
         </thead>
         <tbody>
+
+
+        {% for hourlyItem in hourlyCostItemsSnapshots %}
+        {% set name=hourlyItem.name %}
+
         <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+            <td>{{ hourlyItem.name }}</td>
+            <td>{{ hourlyItem.costItem.netPrice }}</td>
+            <td>{{ hourlyItem.costItem.grossPrice }}</td>
+            <td>{{ hourlyItem.currency }}</td>
+            <td>{{ hourlyItem.vat }}</td>
+            <td> {{ form_row(attribute(form, hourlyItem.costItem.name)) }} </td>
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>Thornton</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
+        {% endfor %}
+
         </tbody>
     </table>
 
-    {% dump form %}
+    {#{% dump form.items %}#}
+
+    {#{{ form_row(form.items) }}#}
     {{ form_widget(form) }}
     {{ form_end(form) }}
-
-{% endblock %}

@@ -61,5 +61,10 @@ class ServiceSnapshot extends AbstractSnapshot
         return $this->categorySnapshot;
     }
 
+    public function __toString()
+    {
+        return $this->name . ' Snapshot';
+    }
+
 }
 

@@ -49,7 +49,7 @@ class OfferItem
      */
     protected $itemSnapshot;
 
-    public function __construct(ItemSnapshot $itemSnapshot = null)
+    public function __construct(ItemSnapshot $itemSnapshot)
     {
         $this->itemSnapshot = $itemSnapshot;
         $this->updatedAt = new \DateTime();
@@ -59,7 +59,7 @@ class OfferItem
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

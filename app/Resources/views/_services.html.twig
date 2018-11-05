@@ -9,8 +9,11 @@
 
                 <div class="list-group col-md-4 col-lg-4">
                     {% for service in services %}
-                        <a ic-get-from="{{ path('category_services', {'categoryId': service.id}) }}"
-                           class="list-group-item list-group-item-action">{{ service.name }}
+                        <a ic-get-from="{{ path('offer_create', {'serviceId': service.id}) }}"
+                           class="list-group-item list-group-item-action"
+                           ic-target='#replace'
+                        >
+                            {{ service.name }}
                             <span class="badge badge-primary badge-pill">{{ service.items|length }}</span>
                         </a>
                     {% endfor %}
