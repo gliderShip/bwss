@@ -18,6 +18,7 @@ use AppBundle\Entity\ServiceSnapshot;
  *
  * @ORM\Table(name="item_snapshot")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ItemSnapshotRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ItemSnapshot extends AbstractSnapshot implements Billable
 {
@@ -37,11 +38,17 @@ class ItemSnapshot extends AbstractSnapshot implements Billable
     protected $serviceSnapshot;
 
 
-    public function __construct(CostItem $costItem, int $version)
+    public function __construct(CostItem $costItem)
     {
-        parent::__construct($version);
+        parent::__construct();
 
         $this->costItem = $costItem;
+
+        $this->setName($costItem->getName());
+        $this->setPrice($costItem->getPrice());
+        $this->setPriceType($costItem->getPriceType());
+        $this->setCurrency($costItem->getCurrency());
+        $this->setVat($costItem->getVat());
     }
 
 

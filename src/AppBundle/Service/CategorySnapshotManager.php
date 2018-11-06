@@ -10,21 +10,9 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\CategorySnapshot;
-use AppBundle\Entity\CostItem;
-use AppBundle\Entity\ItemSnapshot;
-use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
-use AppBundle\Entity\ServiceSnapshot;
-use AppBundle\Model\Timestampable;
-use AppBundle\Model\Versionable;
 use AppBundle\Repository\CategorySnapshotRepository;
-use AppBundle\Repository\CostItemRepository;
-use AppBundle\Repository\ItemSnapshotRepository;
-use AppBundle\Repository\ServiceSnapshotRepository;
-use AppBundle\Repository\SnapshotRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class CategorySnapshotManager
 {
@@ -47,24 +35,27 @@ class CategorySnapshotManager
 
     public function getCurrentSnapshot(ServiceCategory $category)
     {
-
-        $version = $category->getUpdatedAt()->getTimestamp();
+        $version = $this->getCategoryCurrentVersion($category);
         $currentSnapshot = $this->repository->findOneByVersion($version);
 
         if (!$currentSnapshot) {
-            $currentSnapshot = $this->createSnapshot($category, $version);
+            $currentSnapshot = $this->createSnapshot($category);
         }
 
         return $currentSnapshot;
 
     }
 
-    private function createSnapshot(ServiceCategory $category, $version)
+    private function createSnapshot(ServiceCategory $category)
     {
-            $categorySnapshot = new CategorySnapshot($category, $version);
-            $categorySnapshot->setName($category->getName());
+            $categorySnapshot = new CategorySnapshot($category);
 
             return $categorySnapshot;
+    }
+
+    private function getCategoryCurrentVersion(ServiceCategory $category){
+
+        return $category->getUpdatedAt()->getTimestamp();
     }
 
 }

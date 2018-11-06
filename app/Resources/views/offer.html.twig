@@ -1,9 +1,8 @@
 
     {{ form_start(form) }}
 
-    {% set offer = form.vars.data %}
     {% dump offer %}
-    {#{% dump form %}#}
+    {% dump form %}
 
     {% set singleCostItemsSnapshots = [] %}
     {% set hourlyCostItemsSnapshots = [] %}
@@ -17,7 +16,6 @@
         {% endif %}
     {% endfor %}
 
-        {% dump form.offer %}
 
     <h3>{{ offer.serviceSnapshot.name }} Service Offer</h3>
 

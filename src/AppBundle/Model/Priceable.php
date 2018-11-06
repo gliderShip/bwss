@@ -245,6 +245,9 @@ trait Priceable
         return false;
     }
 
+    public function isRentable(){
+        return $this->priceType == Billable::BILLABLE_TYPES['HOURLY AMOUNT'];
+    }
 
 
 }

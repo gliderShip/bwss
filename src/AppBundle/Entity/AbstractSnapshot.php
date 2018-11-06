@@ -44,10 +44,8 @@ class AbstractSnapshot
         return $this->id;
     }
 
-    public function __construct(int $version)
+    public function __construct()
     {
-        $this->version = $version;
-
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
     }
@@ -82,6 +80,24 @@ class AbstractSnapshot
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+        $this->version = $this->updatedAt->getTimestamp();
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->version = $this->updatedAt->getTimestamp();
     }
 
 }

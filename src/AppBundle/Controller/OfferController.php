@@ -9,7 +9,9 @@ use AppBundle\Entity\OfferItem;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
 use AppBundle\Form\CreateOfferForm;
+use AppBundle\Form\DataTransformer\ItemToNameTransformer;
 use AppBundle\Form\OfferType;
+use AppBundle\Model\Billable;
 use AppBundle\Repository\ServiceCategoryRepository;
 use AppBundle\Service\ItemSnapshotManager;
 use AppBundle\Service\OfferManager;
@@ -17,6 +19,9 @@ use AppBundle\Service\ServiceSnapshotManager;
 use AppBundle\Service\SnapshotManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,24 +106,30 @@ class OfferController extends Controller
 
         $offerItems = $offerManager->getOfferItems($service);
 
-        $offer = new Offer($serviceSnapshot,$offerItems);
+        $offer = new Offer($serviceSnapshot, $offerItems);
 
-        $offerForm = $this->createForm(OfferType::class, $offer);
+        $offerForm = $this->getForm($offer);
 
         $offerForm->handleRequest($request);
 
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
 
-            $data = $offerForm->getData();
-            dump($offerForm->getViewData());
+            $formData = $offerForm->getData();
+            foreach ($offerItems as $offerItem) {
+                $costItemSnapshot = $offerItem->getItemSnapshot();
+                if ($costItemSnapshot->isRentable()) {
+                    // TODO: Validate Form. Contains all rentable items names and hours etc.
+                    $offerItem->setHours($formData[$costItemSnapshot->getName()]);
+                }
+            }
 
-            dump($data);
-            dump($offerForm);
-            die;
+            $this->em->persist($offer);
+            $this->em->flush();
         }
 
         return $this->render('offer.html.twig', array(
             'form' => $offerForm->createView(),
+            'offer' => $offer,
         ));
 
     }
@@ -143,6 +154,48 @@ class OfferController extends Controller
 //            'services' => $services
 //        ));
 //    }
+
+    private function getForm(Offer $offer)
+    {
+
+        $offerId = $offer->getId();
+        $serviceSnapshotId = $offer->getServiceSnapshot()->getId();
+        $serviceId = $offer->getServiceSnapshot()->getService()->getId();
+        $rentableItems = array();
+
+        foreach ($offer->getItems() as $offerItem) {
+            $costItemSnapshot = $offerItem->getItemSnapshot();
+            if ($costItemSnapshot->isRentable()) {
+                $rentableItems[$costItemSnapshot->getName()] = $offerItem->getHours();
+            }
+        }
+
+        $form = $this->createFormBuilder($rentableItems);
+
+        foreach ($offer->getItems() as $offerItem) {
+
+            if ($offerItem->getItemSnapshot()->getPriceType() == Billable::BILLABLE_TYPES['HOURLY AMOUNT']) {
+
+                $itemSnapshot = $offerItem->getItemSnapshot();
+
+                $form->add($itemSnapshot->getName(), IntegerType::class, [
+                        'attr' => [
+                            'offerItem' => $offerItem->getId() ?? null,
+                            'itemSnapshot' => $itemSnapshot->getId() ?? null,
+                            'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
+                        ],
+                        'label' => false
+                    ]
+                );
+            }
+
+        }
+
+        $form->setAction($this->generateUrl('offer_create', ['serviceId' => $serviceId]));
+        $form->add('save', SubmitType::class);
+
+        return $form->getForm();
+    }
 
 
 }

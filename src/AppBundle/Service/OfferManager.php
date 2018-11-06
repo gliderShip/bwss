@@ -11,7 +11,6 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\OfferItem;
 use AppBundle\Entity\Service;
-use Doctrine\ORM\EntityManagerInterface;
 
 class OfferManager
 {
@@ -38,7 +37,10 @@ class OfferManager
         return $snapshots;
     }
 
-
+    /**
+     * @param Service $service
+     * @return OfferItem[]
+     */
     public function getOfferItems($service)
     {
         $snapshots = $this->getItemsSnapshots($service);

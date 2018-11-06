@@ -40,5 +40,7 @@ interface Billable
     public function priceEqualsNet(Billable $billable);
     public function priceEqualsGross(Billable $billable);
 
+    public function isRentable();
+
 
 }

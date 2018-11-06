@@ -14,6 +14,7 @@ use AppBundle\Entity\Service;
  *
  * @ORM\Table(name="service_snapshot")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceSnapshotRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ServiceSnapshot extends AbstractSnapshot
 {
@@ -30,11 +31,12 @@ class ServiceSnapshot extends AbstractSnapshot
     protected $categorySnapshot;
 
 
-    public function __construct(Service $service, int $version)
+    public function __construct(Service $service)
     {
-        parent::__construct($version);
+        parent::__construct();
 
         $this->service = $service;
+        $this->setName($service->getName());
     }
 
     /**

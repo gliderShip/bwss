@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="category_snapshot")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategorySnapshotRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class CategorySnapshot extends AbstractSnapshot
 {
@@ -23,13 +24,13 @@ class CategorySnapshot extends AbstractSnapshot
     protected $category;
 
 
-    public function __construct(ServiceCategory $category, int $version)
+    public function __construct(ServiceCategory $category)
     {
-        parent::__construct($version);
+        parent::__construct();
 
         $this->category = $category;
+        $this->setName($category->getName());
     }
-
 
     /**
      * @return ServiceCategory|null

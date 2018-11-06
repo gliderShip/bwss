@@ -11,14 +11,8 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\CostItem;
 use AppBundle\Entity\ItemSnapshot;
-use AppBundle\Model\Timestampable;
-use AppBundle\Model\Versionable;
-use AppBundle\Repository\CostItemRepository;
 use AppBundle\Repository\ItemSnapshotRepository;
-use AppBundle\Repository\SnapshotRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ItemSnapshotManager
 {
@@ -48,27 +42,21 @@ class ItemSnapshotManager
     public function getCurrentSnapshot(CostItem $costItem)
     {
 
-        $version = $costItem->getUpdatedAt()->getTimestamp();
+        $version = $this->getItemCurrentVersion($costItem);
         $currentSnapshot = $this->repository->findOneByVersion($version);
 
         if (!$currentSnapshot) {
-            $currentSnapshot = $this->createSnapshot($costItem, $version);
+            $currentSnapshot = $this->createSnapshot($costItem);
         }
 
         return $currentSnapshot;
 
     }
 
-    private function createSnapshot(CostItem $costItem, $version)
+    private function createSnapshot(CostItem $costItem)
     {
 
-        $itemSnapshot = new ItemSnapshot($costItem, $version);
-
-        $itemSnapshot->setName($costItem->getName());
-        $itemSnapshot->setPrice($costItem->getPrice());
-        $itemSnapshot->setPriceType($costItem->getPriceType());
-        $itemSnapshot->setCurrency($costItem->getCurrency());
-        $itemSnapshot->setVat($costItem->getVat());
+        $itemSnapshot = new ItemSnapshot($costItem);
 
         $service = $costItem->getService();
         $serviceSnapshot = $this->serviceSnapshotManager->getCurrentSnapshot($service);
@@ -77,4 +65,8 @@ class ItemSnapshotManager
         return $itemSnapshot;
     }
 
+    private function getItemCurrentVersion(CostItem $costItem){
+
+        return $costItem->getUpdatedAt()->getTimestamp();
+    }
 }
