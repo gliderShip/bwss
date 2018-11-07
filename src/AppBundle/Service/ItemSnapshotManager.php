@@ -11,62 +11,53 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\CostItem;
 use AppBundle\Entity\ItemSnapshot;
+use AppBundle\Entity\ServiceSnapshot;
 use AppBundle\Repository\ItemSnapshotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ItemSnapshotManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     private $em;
+
+    private $serviceSnapshotManager;
+
+    private $itemManager;
 
     /**
      * @var ItemSnapshotRepository
      */
     private $repository;
 
-    /**
-     * @var ServiceSnapshotManager
-     */
-    private $serviceSnapshotManager;
 
-
-    public function __construct(EntityManagerInterface $em, ServiceSnapshotManager $serviceSnapshotManager)
+    public function __construct(EntityManagerInterface $em, ItemManager $itemManager, ServiceSnapshotManager $serviceSnapshotManager)
     {
         $this->em = $em;
         $this->repository = $em->getRepository(ItemSnapshot::class);
         $this->serviceSnapshotManager = $serviceSnapshotManager;
+        $this->itemManager = $itemManager;
     }
 
-    public function getCurrentSnapshot(CostItem $costItem)
+    public function getCurrentSnapshot(CostItem $costItem, ServiceSnapshot $serviceSnapshot = null)
     {
 
-        $version = $this->getItemCurrentVersion($costItem);
+        $version = $this->itemManager->getCurrentVersion($costItem);
         $currentSnapshot = $this->repository->findOneByVersion($version);
 
         if (!$currentSnapshot) {
-            $currentSnapshot = $this->createSnapshot($costItem);
+            $currentSnapshot = $this->createSnapshot($costItem, $version, $serviceSnapshot);
         }
 
         return $currentSnapshot;
 
     }
 
-    private function createSnapshot(CostItem $costItem)
+    private function createSnapshot(CostItem $costItem, int $version, ServiceSnapshot $serviceSnapshot = null)
     {
-
-        $itemSnapshot = new ItemSnapshot($costItem);
-
+        $itemSnapshot = new ItemSnapshot($costItem, $version);
         $service = $costItem->getService();
-        $serviceSnapshot = $this->serviceSnapshotManager->getCurrentSnapshot($service);
+        $serviceSnapshot = $serviceSnapshot ?? $this->serviceSnapshotManager->getCurrentSnapshot($service);
         $itemSnapshot->setServiceSnapshot($serviceSnapshot);
 
         return $itemSnapshot;
-    }
-
-    private function getItemCurrentVersion(CostItem $costItem){
-
-        return $costItem->getUpdatedAt()->getTimestamp();
     }
 }

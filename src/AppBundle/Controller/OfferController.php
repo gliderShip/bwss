@@ -13,6 +13,7 @@ use AppBundle\Form\DataTransformer\ItemToNameTransformer;
 use AppBundle\Form\OfferType;
 use AppBundle\Model\Billable;
 use AppBundle\Repository\ServiceCategoryRepository;
+use AppBundle\Service\CategorySnapshotManager;
 use AppBundle\Service\ItemSnapshotManager;
 use AppBundle\Service\OfferManager;
 use AppBundle\Service\ServiceSnapshotManager;
@@ -104,23 +105,71 @@ class OfferController extends Controller
 
         $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
 
-        $offerItems = $offerManager->getOfferItems($service);
+        $offer = $offerManager->createOffer($serviceSnapshot);
+        $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
+        $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
 
-        $offer = new Offer($serviceSnapshot, $offerItems);
+//        $uri = $request->getUri();
 
-        $offerForm = $this->getForm($offer);
-
+        $offerForm = $this->getForm( $rentableOfferItems);
         $offerForm->handleRequest($request);
 
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
 
             $formData = $offerForm->getData();
-            foreach ($offerItems as $offerItem) {
-                $costItemSnapshot = $offerItem->getItemSnapshot();
-                if ($costItemSnapshot->isRentable()) {
+
+            foreach ($rentableOfferItems as $rentableItem) {
+                $costItemSnapshot = $rentableItem->getItemSnapshot();
                     // TODO: Validate Form. Contains all rentable items names and hours etc.
-                    $offerItem->setHours($formData[$costItemSnapshot->getName()]);
-                }
+                $rentableItem->setHours($formData[$costItemSnapshot->getName()]);
+            }
+
+            $this->em->persist($offer);
+            $this->em->flush();
+
+            return $this->redirectToRoute('offer_edit', ['offerId' => $offer->getId()]);
+        }
+
+        return $this->render('offer.html.twig', array(
+            'form' => $offerForm->createView(),
+            'offer' => $offer,
+            'singlePriceOfferItems' => $singlePriceOfferItems,
+            'rentableOfferItems' => $rentableOfferItems,
+        ));
+
+    }
+
+    /**
+     * @Route("/offer/{offerId}/edit", name="offer_edit", requirements={"offerId"="\d+"})
+     */
+    public function offerEditAction(Request $request, int $offerId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager)
+    {
+
+        $offerRepository = $this->em->getRepository(Offer::class);
+
+        /**
+         * @var Offer $offer
+         */
+        $offer = $offerRepository->findOneById($offerId);
+
+        if (!$offer) {
+            return $this->createNotFoundException("Service not found.");
+        }
+
+        $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
+        $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
+
+        $offerForm = $this->getForm( $rentableOfferItems);
+        $offerForm->handleRequest($request);
+
+        if ($offerForm->isSubmitted() && $offerForm->isValid()) {
+
+            $formData = $offerForm->getData();
+
+            foreach ($rentableOfferItems as $rentableItem) {
+                $costItemSnapshot = $rentableItem->getItemSnapshot();
+                // TODO: Validate Form. Contains all rentable items names and hours etc.
+                $rentableItem->setHours($formData[$costItemSnapshot->getName()]);
             }
 
             $this->em->persist($offer);
@@ -130,72 +179,88 @@ class OfferController extends Controller
         return $this->render('offer.html.twig', array(
             'form' => $offerForm->createView(),
             'offer' => $offer,
+            'singlePriceOfferItems' => $singlePriceOfferItems,
+            'rentableOfferItems' => $rentableOfferItems,
         ));
 
     }
 
 
-    /**
-     * @Route("/offer/services/{serviceId}", name="offer_service", requirements={"serviceId"="\d+"})
-     */
-//    public function getServiceAction(int $serviceId){
-//
-//        $serviceRepository =  $this->em->getRepository(Service::class);
-//
-//        $service = $serviceRepository->findOneById($serviceId);
-//
-//        if(!$service){
-//            return $this->createNotFoundException("Service category not found.");
-//        }
-//
-////        $services = $category->getServices();
-//
-//        return $this->render('_services.html.twig', array(
-//            'services' => $services
-//        ));
-//    }
 
-    private function getForm(Offer $offer)
+
+    private function getForm($rentableItems)
     {
+        $formData = array();
 
-        $offerId = $offer->getId();
-        $serviceSnapshotId = $offer->getServiceSnapshot()->getId();
-        $serviceId = $offer->getServiceSnapshot()->getService()->getId();
-        $rentableItems = array();
-
-        foreach ($offer->getItems() as $offerItem) {
-            $costItemSnapshot = $offerItem->getItemSnapshot();
-            if ($costItemSnapshot->isRentable()) {
-                $rentableItems[$costItemSnapshot->getName()] = $offerItem->getHours();
-            }
+        foreach ($rentableItems as $rentableItem){
+            $itemSnapshot = $rentableItem->getItemSnapshot();
+            $formData[$itemSnapshot->getName()] = $rentableItem->getHours();
         }
 
-        $form = $this->createFormBuilder($rentableItems);
+        $form = $this->createFormBuilder($formData);
+        foreach ($rentableItems as $rentableItem) {
 
-        foreach ($offer->getItems() as $offerItem) {
-
-            if ($offerItem->getItemSnapshot()->getPriceType() == Billable::BILLABLE_TYPES['HOURLY AMOUNT']) {
-
-                $itemSnapshot = $offerItem->getItemSnapshot();
-
-                $form->add($itemSnapshot->getName(), IntegerType::class, [
-                        'attr' => [
-                            'offerItem' => $offerItem->getId() ?? null,
-                            'itemSnapshot' => $itemSnapshot->getId() ?? null,
-                            'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
-                        ],
-                        'label' => false
-                    ]
-                );
-            }
-
+            $itemSnapshot = $rentableItem->getItemSnapshot();
+            $form->add($itemSnapshot->getName(), IntegerType::class, [
+                    'attr' => [
+                        'offerItem' => $rentableItem->getId() ?? null,
+                        'itemSnapshot' => $itemSnapshot->getId() ?? null,
+                        'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
+                    ],
+                    'label' => false
+                ]
+            );
         }
 
-        $form->setAction($this->generateUrl('offer_create', ['serviceId' => $serviceId]));
+//        $form->setAction($uri);
+//        $form->setMethod('POST');
         $form->add('save', SubmitType::class);
 
         return $form->getForm();
     }
+
+
+//    private function getForm(Offer $offer)
+//    {
+//
+//        $offerId = $offer->getId();
+//        $serviceSnapshotId = $offer->getServiceSnapshot()->getId();
+//        $serviceId = $offer->getServiceSnapshot()->getService()->getId();
+//        $rentableItems = array();
+//
+//        foreach ($offer->getItems() as $offerItem) {
+//            $costItemSnapshot = $offerItem->getItemSnapshot();
+//            if ($costItemSnapshot->isRentable()) {
+//                $rentableItems[$costItemSnapshot->getName()] = $offerItem->getHours();
+//            }
+//        }
+//
+//        $form = $this->createFormBuilder($rentableItems);
+//
+//        foreach ($offer->getItems() as $offerItem) {
+//
+//            if ($offerItem->getItemSnapshot()->getPriceType() == Billable::BILLABLE_TYPES['HOURLY AMOUNT']) {
+//
+//                $itemSnapshot = $offerItem->getItemSnapshot();
+//
+//                $form->add($itemSnapshot->getName(), IntegerType::class, [
+//                        'attr' => [
+//                            'offerItem' => $offerItem->getId() ?? null,
+//                            'itemSnapshot' => $itemSnapshot->getId() ?? null,
+//                            'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
+//                        ],
+//                        'label' => false
+//                    ]
+//                );
+//            }
+//
+//        }
+//
+//        $form->setAction($this->generateUrl('offer_create', ['serviceId' => $serviceId]));
+//        $form->add('save', SubmitType::class);
+//
+//        return $form->getForm();
+//    }
 
 
 }

@@ -30,7 +30,7 @@ class AbstractSnapshot
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=false)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     protected $name;
 
@@ -44,8 +44,10 @@ class AbstractSnapshot
         return $this->id;
     }
 
-    public function __construct()
+    public function __construct(int $version)
     {
+        $this->version = $version;
+
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
     }
@@ -88,16 +90,7 @@ class AbstractSnapshot
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
-        $this->version = $this->updatedAt->getTimestamp();
-    }
-
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
-    {
-        $this->version = $this->updatedAt->getTimestamp();
+//        $this->version = $this->updatedAt->getTimestamp();
     }
 
 }

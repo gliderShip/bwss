@@ -4,18 +4,6 @@
     {% dump offer %}
     {% dump form %}
 
-    {% set singleCostItemsSnapshots = [] %}
-    {% set hourlyCostItemsSnapshots = [] %}
-
-    {% for item in offer.items %}
-        {% if item.itemSnapshot.priceType == 'SINGLE AMOUNT' %}
-            {% set singleCostItemsSnapshots = singleCostItemsSnapshots|merge([item.itemSnapshot]) %}
-        {% endif %}
-        {% if item.itemSnapshot.priceType == 'HOURLY AMOUNT' %}
-            {% set hourlyCostItemsSnapshots = hourlyCostItemsSnapshots|merge([item.itemSnapshot]) %}
-        {% endif %}
-    {% endfor %}
-
 
     <h3>{{ offer.serviceSnapshot.name }} Service Offer</h3>
 
@@ -33,14 +21,14 @@
         </thead>
         <tbody>
 
-        {% for singleItem in singleCostItemsSnapshots %}
+        {% for singlePriceOfferItem in singlePriceOfferItems %}
             <tr>
                 <th scope="row">1</th>
-                <td>{{ singleItem.name }}</td>
-                <td>{{ singleItem.costItem.netPrice }}</td>
-                <td>{{ singleItem.costItem.grossPrice }}</td>
-                <td>{{ singleItem.currency }}</td>
-                <td>{{ singleItem.vat }}</td>
+                <td>{{ singlePriceOfferItem.itemSnapshot.name }}</td>
+                <td>{{ singlePriceOfferItem.itemSnapshot.netPrice }}</td>
+                <td>{{ singlePriceOfferItem.itemSnapshot.grossPrice }}</td>
+                <td>{{ singlePriceOfferItem.itemSnapshot.currency }}</td>
+                <td>{{ singlePriceOfferItem.itemSnapshot.vat }}</td>
             </tr>
         {% endfor %}
 
@@ -62,18 +50,16 @@
         </thead>
         <tbody>
 
-
-        {% for hourlyItem in hourlyCostItemsSnapshots %}
-        {% set name=hourlyItem.name %}
+        {% for rentableOfferItem in rentableOfferItems %}}
 
         <tr>
             <th scope="row">1</th>
-            <td>{{ hourlyItem.name }}</td>
-            <td>{{ hourlyItem.costItem.netPrice }}</td>
-            <td>{{ hourlyItem.costItem.grossPrice }}</td>
-            <td>{{ hourlyItem.currency }}</td>
-            <td>{{ hourlyItem.vat }}</td>
-            <td> {{ form_row(attribute(form, hourlyItem.costItem.name)) }} </td>
+            <td>{{ rentableOfferItem.itemSnapshot.name }}</td>
+            <td>{{ rentableOfferItem.itemSnapshot.netPrice }}</td>
+            <td>{{ rentableOfferItem.itemSnapshot.grossPrice }}</td>
+            <td>{{ rentableOfferItem.itemSnapshot.currency }}</td>
+            <td>{{ rentableOfferItem.itemSnapshot.vat }}</td>
+            <td> {{ form_row(attribute(form, rentableOfferItem.itemSnapshot.name)) }} </td>
         </tr>
         {% endfor %}
 

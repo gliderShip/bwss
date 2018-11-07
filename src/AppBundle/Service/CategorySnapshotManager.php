@@ -16,10 +16,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CategorySnapshotManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     private $em;
+
+    private $categoryManager;
 
     /**
      * @var CategorySnapshotRepository
@@ -27,35 +26,32 @@ class CategorySnapshotManager
     private $repository;
 
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, CategoryManager $categoryManager)
     {
         $this->em = $em;
+        $this->categoryManager = $categoryManager;
         $this->repository = $em->getRepository(CategorySnapshot::class);
     }
 
     public function getCurrentSnapshot(ServiceCategory $category)
     {
-        $version = $this->getCategoryCurrentVersion($category);
+        $version = $this->categoryManager->getCurrentVersion($category);
+
         $currentSnapshot = $this->repository->findOneByVersion($version);
 
         if (!$currentSnapshot) {
-            $currentSnapshot = $this->createSnapshot($category);
+            $currentSnapshot = $this->createSnapshot($category, $version);
         }
 
         return $currentSnapshot;
 
     }
 
-    private function createSnapshot(ServiceCategory $category)
+    private function createSnapshot(ServiceCategory $category, int $version)
     {
-            $categorySnapshot = new CategorySnapshot($category);
+            $categorySnapshot = new CategorySnapshot($category, $version);
 
             return $categorySnapshot;
-    }
-
-    private function getCategoryCurrentVersion(ServiceCategory $category){
-
-        return $category->getUpdatedAt()->getTimestamp();
     }
 
 }

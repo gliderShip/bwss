@@ -32,15 +32,15 @@ class Offer
     protected $serviceSnapshot;
 
     /**
-     * @var OfferItem[] $items
+     * @var OfferItem[] $offerItems
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\OfferItem", mappedBy="offer", cascade={"persist", "remove"})
      */
-    protected $items;
+    protected $offerItems;
 
-    public function __construct(ServiceSnapshot $serviceSnapshot, $items) {
+    public function __construct(ServiceSnapshot $serviceSnapshot, array $offerItems) {
 
         $this->serviceSnapshot = $serviceSnapshot;
-        $this->setItems($items);
+        $this->setOfferItems($offerItems);
 
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
@@ -73,21 +73,20 @@ class Offer
     /**
      * @return OfferItem[]
      */
-    public function getItems()
+    public function getOfferItems()
     {
-        return $this->items;
+        return $this->offerItems;
     }
 
     /**
-     * @param mixed $items
+     * @param mixed $offerItems
      */
-    public function setItems($items): void
+    public function setOfferItems($offerItems): void
     {
+        $this->offerItems = new ArrayCollection();
 
-        $this->items = new ArrayCollection();
-
-        foreach ($items as $item){
-            $this->items->add($item);
+        foreach ($offerItems as $item){
+            $this->offerItems->add($item);
             $item->setOffer($this);
         }
     }

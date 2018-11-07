@@ -40,7 +40,7 @@ class OfferItem
      * @Assert\GreaterThanOrEqual(0, message="This value should be positive")
      * @ORM\Column(name="hours", type="integer", options={"unsigned"=true}, nullable=false)
      */
-    protected $hours;
+    protected $hours = 0;
 
     /**
      * @var ItemSnapshot

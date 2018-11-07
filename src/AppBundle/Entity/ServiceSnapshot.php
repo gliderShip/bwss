@@ -31,9 +31,9 @@ class ServiceSnapshot extends AbstractSnapshot
     protected $categorySnapshot;
 
 
-    public function __construct(Service $service)
+    public function __construct(Service $service, int $version)
     {
-        parent::__construct();
+        parent::__construct($version);
 
         $this->service = $service;
         $this->setName($service->getName());

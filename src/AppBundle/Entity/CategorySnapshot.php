@@ -24,9 +24,9 @@ class CategorySnapshot extends AbstractSnapshot
     protected $category;
 
 
-    public function __construct(ServiceCategory $category)
+    public function __construct(ServiceCategory $category, int $version)
     {
-        parent::__construct();
+        parent::__construct($version);
 
         $this->category = $category;
         $this->setName($category->getName());

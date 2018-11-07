@@ -38,9 +38,9 @@ class ItemSnapshot extends AbstractSnapshot implements Billable
     protected $serviceSnapshot;
 
 
-    public function __construct(CostItem $costItem)
+    public function __construct(CostItem $costItem, int $version)
     {
-        parent::__construct();
+        parent::__construct($version);
 
         $this->costItem = $costItem;
 

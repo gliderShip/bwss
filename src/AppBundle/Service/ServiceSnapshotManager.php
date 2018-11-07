@@ -8,64 +8,56 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\CategorySnapshot;
 use AppBundle\Entity\Service;
+use AppBundle\Entity\ServiceCategory;
 use AppBundle\Entity\ServiceSnapshot;
 use AppBundle\Repository\ServiceSnapshotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceSnapshotManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     private $em;
+
+    private $categorySnapshotManager;
+
+    private $serviceManager;
 
     /**
      * @var ServiceSnapshotRepository
      */
     private $repository;
 
-    /**
-     * @var CategorySnapshotManager
-     */
-    private $categorySnapshotManager;
-
-
-    public function __construct(EntityManagerInterface $em, CategorySnapshotManager $categorySnapshotManager)
+    public function __construct(EntityManagerInterface $em, CategorySnapshotManager $categorySnapshotManager, ServiceManager $serviceManager)
     {
         $this->em = $em;
-        $this->repository = $em->getRepository(ServiceSnapshot::class);
         $this->categorySnapshotManager = $categorySnapshotManager;
+        $this->serviceManager = $serviceManager;
+        $this->repository = $em->getRepository(ServiceSnapshot::class);
     }
 
-    public function getCurrentSnapshot(Service $service)
+    public function getCurrentSnapshot(Service $service, CategorySnapshot $categorySnapshot = null)
     {
-        $version = $this->getServiceCurrentVersion($service);
+        $version = $this->serviceManager->getCurrentVersion($service);
 
         $currentSnapshot = $this->repository->findOneByVersion($version);
 
         if (!$currentSnapshot) {
-            $currentSnapshot = $this->createSnapshot($service);
+            $currentSnapshot = $this->createSnapshot($service, $version, $categorySnapshot);
         }
 
         return $currentSnapshot;
 
     }
 
-    private function createSnapshot(Service $service)
+    private function createSnapshot(Service $service, int $version,  CategorySnapshot $categorySnapshot = null)
     {
-            $serviceSnapshot = new ServiceSnapshot($service);
+            $serviceSnapshot = new ServiceSnapshot($service, $version);
             $serviceCategory = $service->getServiceCategory();
-            $categorySnapshot = $this->categorySnapshotManager->getCurrentSnapshot($serviceCategory);
+            $categorySnapshot = $categorySnapshot ?? $this->categorySnapshotManager->getCurrentSnapshot($serviceCategory);
             $serviceSnapshot->setCategorySnapshot($categorySnapshot);
 
             return $serviceSnapshot;
-    }
-
-
-    private function getServiceCurrentVersion(Service $service){
-
-        return $service->getUpdatedAt()->getTimestamp();
     }
 
 }

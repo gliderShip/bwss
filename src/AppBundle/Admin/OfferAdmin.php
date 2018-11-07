@@ -16,6 +16,8 @@ class OfferAdmin extends AbstractAdmin
             ->add('id')
             ->add('createdAt')
             ->add('updatedAt')
+            ->add('serviceSnapshot')
+            ->add('offerItems')
         ;
     }
 
@@ -25,6 +27,8 @@ class OfferAdmin extends AbstractAdmin
             ->add('id')
             ->add('createdAt')
             ->add('updatedAt')
+            ->add('serviceSnapshot')
+            ->add('offerItems')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -39,7 +43,7 @@ class OfferAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('serviceSnapshot')
-            ->add('items')
+            ->add('offerItems')
         ;
     }
 
@@ -49,6 +53,8 @@ class OfferAdmin extends AbstractAdmin
             ->add('id')
             ->add('createdAt')
             ->add('updatedAt')
+            ->add('serviceSnapshot')
+            ->add('offerItems')
         ;
     }
 }
