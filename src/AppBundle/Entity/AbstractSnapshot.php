@@ -47,9 +47,6 @@ class AbstractSnapshot
     public function __construct(int $version)
     {
         $this->version = $version;
-
-        $this->updatedAt = new \DateTime();
-        $this->createdAt = new \DateTime();
     }
     
     /**
@@ -90,7 +87,8 @@ class AbstractSnapshot
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
-//        $this->version = $this->updatedAt->getTimestamp();
+        // TODO Check if we should update the version here if Snapshots are not immutable
+        $this->version = $this->updatedAt->getTimestamp();
     }
 
 }

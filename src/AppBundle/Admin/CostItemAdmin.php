@@ -39,6 +39,9 @@ class CostItemAdmin extends AbstractAdmin
             ->add('name')
             ->add('service')
             ->add('price')
+            ->add('priceIncludesVat')
+            ->add('netPrice', MoneyType::class)
+            ->add('grossPrice', MoneyType::class)
             ->add('priceType', ChoiceType::class,
                 [
                     'choices' => Billable::BILLABLE_TYPES,
@@ -72,6 +75,13 @@ class CostItemAdmin extends AbstractAdmin
                     'choices' => Billable::BILLABLE_TYPES,
                 ]
             )
+            ->add('priceIncludesVat', null,
+                [
+                    'attr' => array('readonly' => true), // Frontend
+                    'disabled' => true,                     // Backend
+                    'required' => false,
+                ]
+            )
             ->add('currency', CurrencyType::class,
                 [
                     'attr' => array('readonly' => true), // Frontend
@@ -95,6 +105,9 @@ class CostItemAdmin extends AbstractAdmin
             ->add('name')
             ->add('service')
             ->add('price', MoneyType::class)
+            ->add('priceIncludesVat')
+            ->add('netPrice', MoneyType::class)
+            ->add('grossPrice', MoneyType::class)
             ->add('priceType')
             ->add('currency', CurrencyType::class)
             ->add('vat', PercentType::class);

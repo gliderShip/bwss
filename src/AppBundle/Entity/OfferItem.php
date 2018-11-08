@@ -15,8 +15,9 @@ use AppBundle\Entity\Offer;
  *
  * @ORM\Table(name="offer_item")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OfferItemRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class OfferItem
+class OfferItem implements Billable
 {
     use Timestampable;
 
@@ -52,8 +53,6 @@ class OfferItem
     public function __construct(ItemSnapshot $itemSnapshot)
     {
         $this->itemSnapshot = $itemSnapshot;
-        $this->updatedAt = new \DateTime();
-        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -123,14 +122,124 @@ class OfferItem
         } else {
             throw new \Exception('Undefined cost for this price type');
         }
-
     }
-
 
     public function __toString()
     {
 
         return $this->itemSnapshot->getName() ?? '';
+    }
+
+
+    /* Billable Interface */
+    public function getPrice($vatIncluded = true)
+    {
+
+        if ($vatIncluded) {
+            return $this->getGrossPrice();
+        }
+
+        return $this->getNetPrice();
+    }
+
+    public function getGrossPrice()
+    {
+
+        $itemSnapshotGrossPrice = $this->itemSnapshot->getGrossPrice();
+        if ($this->isRentable()) {
+            return $this->getHours() * $itemSnapshotGrossPrice;
+        }
+
+        return $itemSnapshotGrossPrice;
+    }
+
+    public function getNetPrice()
+    {
+        $itemSnapshotNetPrice = $this->itemSnapshot->getNetPrice();
+        if ($this->isRentable()) {
+            return $this->getHours() * $itemSnapshotNetPrice;
+        }
+
+        return $itemSnapshotNetPrice;
+    }
+
+    public function getPriceType()
+    {
+        return $this->itemSnapshot->getPriceType();
+    }
+
+    public function getCurrency()
+    {
+        return $this->itemSnapshot->getCurrency();
+    }
+
+    public function getVat(){
+        return $this->itemSnapshot->getVat();
+    }
+
+    public function getVatAmount(){
+
+        $itemSnapshotVatAmount = $this->itemSnapshot->getVatAmount();
+        if ($this->isRentable()) {
+            return $this->getHours() * $itemSnapshotVatAmount;
+        }
+
+        return $itemSnapshotVatAmount;
+    }
+
+    public function priceEquals($thatItem){
+        $thatItemSnapshot = $thatItem->getItemSnapshot();
+        if($this->itemSnapshot->priceEquals($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function priceEqualsNet($thatItem){
+        $thatItemSnapshot = $thatItem->getItemSnapshot();
+        if($this->itemSnapshot->priceEqualsNet($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function priceEqualsGross($thatItem){
+        $thatItemSnapshot = $thatItem->getItemSnapshot();
+        if($this->itemSnapshot->priceEqualsGross($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isRentable()
+    {
+        if ($this->itemSnapshot->isRentable()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
     }
 
 }

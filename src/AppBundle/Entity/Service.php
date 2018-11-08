@@ -50,9 +50,6 @@ class Service
     public function __construct() {
 
         $this->items = new ArrayCollection();
-
-        $this->updatedAt = new \DateTime();
-        $this->createdAt = new \DateTime();
     }
 
     /**

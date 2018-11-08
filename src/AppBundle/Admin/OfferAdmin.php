@@ -25,10 +25,13 @@ class OfferAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
+            ->add('subTotal')
+            ->add('grandTotal')
+            ->add('vatAmount')
+            ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
+            ->add('offerItems')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('serviceSnapshot')
-            ->add('offerItems')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -51,10 +54,13 @@ class OfferAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
+            ->add('subTotal')
+            ->add('grandTotal')
+            ->add('vatAmount')
+            ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
+            ->add('offerItems')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('serviceSnapshot')
-            ->add('offerItems')
         ;
     }
 }

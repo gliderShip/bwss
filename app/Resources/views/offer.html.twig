@@ -1,15 +1,16 @@
+<div class="container" id="replace">
 
     {{ form_start(form) }}
 
-    {% dump offer %}
-    {% dump form %}
+    {#{% dump offer %}#}
+    {#{% dump form %}#}
 
 
     <h3>{{ offer.serviceSnapshot.name }} Service Offer</h3>
 
     <table class="table table-bordered table-hover ">
         <caption>Fixed Price Items</caption>
-        <thead >
+        <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
@@ -23,10 +24,10 @@
 
         {% for singlePriceOfferItem in singlePriceOfferItems %}
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{ loop.index }}</th>
                 <td>{{ singlePriceOfferItem.itemSnapshot.name }}</td>
-                <td>{{ singlePriceOfferItem.itemSnapshot.netPrice }}</td>
-                <td>{{ singlePriceOfferItem.itemSnapshot.grossPrice }}</td>
+                <td class="netprice">{{ singlePriceOfferItem.itemSnapshot.netPrice }}</td>
+                <td class="grossprice">{{ singlePriceOfferItem.itemSnapshot.grossPrice }}</td>
                 <td>{{ singlePriceOfferItem.itemSnapshot.currency }}</td>
                 <td>{{ singlePriceOfferItem.itemSnapshot.vat }}</td>
             </tr>
@@ -37,12 +38,14 @@
 
     <table class="table table-bordered table-hover ">
         <caption>Hourly Priced {{ offer.serviceSnapshot.name }} Items. Please Provide the hours for each item</caption>
-        <thead >
+        <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Net Price</th>
-            <th scope="col">Gross Price</th>
+            <th scope="col">NetPrice/hr</th>
+            <th scope="col">GrossPrice/hr</th>
+            <th scope="col">NetPrice</th>
+            <th scope="col">GrossPrice</th>
             <th scope="col">Currency</th>
             <th scope="col">%VAT</th>
             <th scope="col">Billed Hours</th>
@@ -52,16 +55,44 @@
 
         {% for rentableOfferItem in rentableOfferItems %}}
 
-        <tr>
-            <th scope="row">1</th>
-            <td>{{ rentableOfferItem.itemSnapshot.name }}</td>
-            <td>{{ rentableOfferItem.itemSnapshot.netPrice }}</td>
-            <td>{{ rentableOfferItem.itemSnapshot.grossPrice }}</td>
-            <td>{{ rentableOfferItem.itemSnapshot.currency }}</td>
-            <td>{{ rentableOfferItem.itemSnapshot.vat }}</td>
-            <td> {{ form_row(attribute(form, rentableOfferItem.itemSnapshot.name)) }} </td>
-        </tr>
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ rentableOfferItem.itemSnapshot.name }}</td>
+                <td id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-net-price-hour">{{ rentableOfferItem.itemSnapshot.netPrice }}</td>
+                <td id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-gross-price-hour">{{ rentableOfferItem.itemSnapshot.grossPrice }}</td>
+                <td class="netprice" id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-net-price">{{ rentableOfferItem.netPrice }}</td>
+                <td class="grossprice" id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-gross-price">{{ rentableOfferItem.grossPrice }}</td>
+                <td>{{ rentableOfferItem.itemSnapshot.currency }}</td>
+                <td>{{ rentableOfferItem.itemSnapshot.vat }}</td>
+                <td> {{ form_row(attribute(form, rentableOfferItem.itemSnapshot.name)) }} </td>
+            </tr>
         {% endfor %}
+
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-hover ">
+        <caption>Offer Summary</caption>
+        <thead>
+        <tr class="info">
+            <th scope="col">Sub Total</th>
+            <th scope="col">Grand Total</th>
+            <th scope="col">VAT Amount</th>
+            <th scope="col">Total Items</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr class="warning">
+                <td id="subtotal">{{ offer.subTotal }}</td>
+                <td id="grandtotal">{{ offer.grandTotal }}</td>
+                <td id="vatAmount">{{ offer.vatAmount }}</td>
+                <td>{{ offer.offerItems|length }}</td>
+                <td>{{ offer.updatedAt is empty ? "New offer" : offer.updatedAt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ offer.createdAt is empty ? "New Offer" : offer.createdAt|date('Y-m-d H:i:s')  }}</td>
+            </tr>
 
         </tbody>
     </table>
@@ -69,5 +100,55 @@
     {#{% dump form.items %}#}
 
     {#{{ form_row(form.items) }}#}
+    {{ form_row(form.save, {'attr': {'class': 'querty'}}) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
+
+
+    {% for label, messages in app.flashes %}
+        <div class="well" id="flashes" style="margin-top: 15px" ic-remove-after="2s">
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+</div>
+
+<script>
+    $( ".time" ).change(function(e) {
+        var timeInputEl = e.target;
+        var hoursWorked = timeInputEl.value;
+        var costItemId = timeInputEl.getAttribute("costItem");
+        var hourlyGrossPrice = $(`#item-${costItemId}-gross-price-hour`).text();
+        var hourlyNetPrice = $(`#item-${costItemId}-net-price-hour`).text();
+
+        var offerItemGrossPrice = (hourlyGrossPrice * hoursWorked).toFixed(2);
+        var offerItemNetPrice = (hourlyNetPrice * hoursWorked).toFixed(2);
+
+        var offerItemGrossCell = $(`#item-${costItemId}-gross-price`);
+        offerItemGrossCell.text(offerItemGrossPrice);
+        offerItemGrossCell.effect("highlight", {}, 3000);
+
+        var offerItemNetCell = $(`#item-${costItemId}-net-price`);
+        offerItemNetCell.text(offerItemNetPrice);
+        offerItemNetCell.effect("highlight", {}, 3000);
+
+        var total = 0;
+        $( ".grossprice" ).each(function () {
+            total += parseFloat($(this).text());
+        });
+
+        total = total.toFixed(2);
+
+        $('#subtotal').text(total);
+        $('#subtotal').effect("highlight", {}, 3500)
+        $('#grandtotal').text(total);
+        $('#grandtotal').effect("highlight", {}, 3500)
+
+
+    });
+</script>

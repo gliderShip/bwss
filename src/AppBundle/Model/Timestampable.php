@@ -10,17 +10,16 @@ namespace AppBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 trait Timestampable
 {
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      * @var $createdAt \DateTime
      */
     protected $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      * @var $updatedAt \DateTime
      */
     protected $updatedAt;
@@ -55,14 +54,6 @@ trait Timestampable
     public function setUpdatedAt(\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
-        $this->updatedAt = new \DateTime();
     }
 
 }

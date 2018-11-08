@@ -26,6 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -111,7 +112,7 @@ class OfferController extends Controller
 
 //        $uri = $request->getUri();
 
-        $offerForm = $this->getForm( $rentableOfferItems);
+        $offerForm = $this->getForm($rentableOfferItems, $this->generateUrl('offer_create', ['serviceId'=>$serviceId]));
         $offerForm->handleRequest($request);
 
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
@@ -120,14 +121,20 @@ class OfferController extends Controller
 
             foreach ($rentableOfferItems as $rentableItem) {
                 $costItemSnapshot = $rentableItem->getItemSnapshot();
-                    // TODO: Validate Form. Contains all rentable items names and hours etc.
+                // TODO: Validate Form. Contains all rentable items names and hours etc.
                 $rentableItem->setHours($formData[$costItemSnapshot->getName()]);
             }
 
             $this->em->persist($offer);
             $this->em->flush();
 
-            return $this->redirectToRoute('offer_edit', ['offerId' => $offer->getId()]);
+            $this->addFlash(
+                'success',
+                'Order created successfully!'
+            );
+
+            return $this->forward('AppBundle:Offer:offerEdit', ['offerId' => $offer->getId()]);
+//            return $this->redirectToRoute('offer_edit', ['offerId' => $offer->getId()]);
         }
 
         return $this->render('offer.html.twig', array(
@@ -159,7 +166,7 @@ class OfferController extends Controller
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
 
-        $offerForm = $this->getForm( $rentableOfferItems);
+        $offerForm = $this->getForm($rentableOfferItems, $this->generateUrl('offer_edit', ['offerId'=>$offerId]));
         $offerForm->handleRequest($request);
 
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
@@ -174,6 +181,11 @@ class OfferController extends Controller
 
             $this->em->persist($offer);
             $this->em->flush();
+
+            $this->addFlash(
+                'success',
+                'Order edited successfully!'
+            );
         }
 
         return $this->render('offer.html.twig', array(
@@ -186,23 +198,29 @@ class OfferController extends Controller
     }
 
 
-
-
-    private function getForm($rentableItems)
+    private function getForm($rentableItems, $postUrl)
     {
         $formData = array();
 
-        foreach ($rentableItems as $rentableItem){
+        foreach ($rentableItems as $rentableItem) {
             $itemSnapshot = $rentableItem->getItemSnapshot();
             $formData[$itemSnapshot->getName()] = $rentableItem->getHours();
         }
 
-        $form = $this->createFormBuilder($formData);
+        $form = $this->createFormBuilder($formData,
+            [
+                'attr' => [
+                    'ic-post-to' => $postUrl,
+                    'ic-target' => '#replace'
+                ],
+            ]
+        );
         foreach ($rentableItems as $rentableItem) {
 
             $itemSnapshot = $rentableItem->getItemSnapshot();
             $form->add($itemSnapshot->getName(), IntegerType::class, [
                     'attr' => [
+                        'class' => 'time',
                         'offerItem' => $rentableItem->getId() ?? null,
                         'itemSnapshot' => $itemSnapshot->getId() ?? null,
                         'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
@@ -214,7 +232,12 @@ class OfferController extends Controller
 
 //        $form->setAction($uri);
 //        $form->setMethod('POST');
-        $form->add('save', SubmitType::class);
+
+        $form->add('save', SubmitType::class,
+            [
+                'attr' => ['id' => ''],
+            ]
+        );
 
         return $form->getForm();
     }

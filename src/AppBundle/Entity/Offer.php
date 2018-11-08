@@ -12,6 +12,7 @@ use AppBundle\Entity\Service;
  *
  * @ORM\Table(name="offer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OfferRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Offer
 {
@@ -37,13 +38,11 @@ class Offer
      */
     protected $offerItems;
 
-    public function __construct(ServiceSnapshot $serviceSnapshot, array $offerItems) {
+    public function __construct(ServiceSnapshot $serviceSnapshot, array $offerItems)
+    {
 
         $this->serviceSnapshot = $serviceSnapshot;
         $this->setOfferItems($offerItems);
-
-        $this->updatedAt = new \DateTime();
-        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -85,13 +84,55 @@ class Offer
     {
         $this->offerItems = new ArrayCollection();
 
-        foreach ($offerItems as $item){
+        foreach ($offerItems as $item) {
             $this->offerItems->add($item);
             $item->setOffer($this);
         }
     }
 
 
+    public function getSubTotal($vatIncluded = true)
+    {
+        $subTotal = 0;
+        foreach ($this->offerItems as $offerItem) {
+            $subTotal += $offerItem->getPrice($vatIncluded);
+        }
 
+        return $subTotal;
+    }
+
+    public function getGrandTotal($vatIncluded = true)
+    {
+        return $this->getSubTotal($vatIncluded);
+    }
+
+    public function getVatAmount()
+    {
+        $vatAmount = 0;
+
+        foreach ($this->offerItems as $offerItem) {
+            $vatAmount += $offerItem->getVatAmount();
+        }
+
+        return $vatAmount;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
 
 }

@@ -214,14 +214,14 @@ trait Priceable
     public function getVatAmount(): ?float
     {
         if($this->priceIncludesVat){
-            round($this->price - ($this->price / (1+$this->vat)), Billable::PRICE_SCALE);
+            return round($this->price - ($this->price / (1+$this->vat)), Billable::PRICE_SCALE);
         } else{
             return round($this->price * $this->vat , Billable::PRICE_SCALE);
         }
     }
 
 
-    public function priceEqualsGross(Billable $costItem){
+    public function priceEqualsGross($costItem){
         if( ($this->getGrossPrice() == $costItem->getGrossPrice())  and ($this->getCurrency() == $costItem->getCurrency()) ){
             return true;
         }
@@ -229,7 +229,7 @@ trait Priceable
         return false;
     }
 
-    public function priceEqualsNet(Billable $costItem){
+    public function priceEqualsNet($costItem){
         if( ($this->getNetPrice() == $costItem->getNetPrice()) and ($this->getCurrency() == $costItem->getCurrency()) ){
             return true;
         }
@@ -237,7 +237,7 @@ trait Priceable
         return false;
     }
 
-    public function priceEquals(Billable $costItem){
+    public function priceEquals($costItem){
         if( ($this->getNetPrice() == $costItem->getNetPrice())  and ($this->getVat() == $costItem->getVat()) and ($this->getCurrency() == $costItem->getCurrency()) ){
             return true;
         }

@@ -36,9 +36,10 @@ interface Billable
 
     public function getCurrency();
     public function getVat();
-    public function priceEquals(Billable $billable);
-    public function priceEqualsNet(Billable $billable);
-    public function priceEqualsGross(Billable $billable);
+    public function getVatAmount();
+    public function priceEquals($billable);
+    public function priceEqualsNet($billable);
+    public function priceEqualsGross($billable);
 
     public function isRentable();
 

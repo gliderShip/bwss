@@ -23,8 +23,6 @@ class CostItem extends Item implements Billable, Versionable
 
     public function __construct() {
 
-        $this->updatedAt = new \DateTime();
-        $this->createdAt = new \DateTime();
     }
 
 
