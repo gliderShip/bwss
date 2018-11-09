@@ -82,7 +82,7 @@ class ServiceCategory
     }
 
     /**
-     * @return ArrayCollection|null
+     * @return Service[]|null
      */
     public function getServices()
     {

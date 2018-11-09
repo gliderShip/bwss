@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\ServiceCategory;
+
 /**
  * ServiceRepository
  *
@@ -10,4 +12,11 @@ namespace AppBundle\Repository;
  */
 class ServiceCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return ServiceCategory|null
+     */
+    public function getDefaultCategory(){
+
+        return $this->findOneBy([], ['id'=>'DESC']);
+    }
 }
