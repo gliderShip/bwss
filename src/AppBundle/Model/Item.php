@@ -4,6 +4,7 @@ namespace AppBundle\Model;
 
 use AppBundle\Entity\Service;
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class Item

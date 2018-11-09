@@ -68,15 +68,15 @@ Offers
 Deliverables for Level 1:
 -------------------------
 
-- Provide a way to define a service.
-- Provide a way to define a subservice and assign it to an existing service.
-- Provide a way to define a costitem and assign it to a subservice.
-- Provide a view for all defined services.
-- Provide a view for all defined subservices of that service (you may group them within the same view with the services if you so desire)
-- Provide a view for all defined costitems for a selected subservice (you may group them in the same view with the subservice)
-- Provide functionality to edit and delete costitems.
-- Provide functionality to edit and delete subservices. When deleted, all costitems belonging to that subservice get deleted as well.
-- Provide functionality to edit and delete a service. When deleted, all subservices and respective costitems get deleted as well.
+- [x] Provide a way to define a service.
+- [x] Provide a way to define a subservice and assign it to an existing service.
+- [x] Provide a way to define a costitem and assign it to a subservice.
+- [x] Provide a view for all defined services.
+- [x] Provide a view for all defined subservices of that service (you may group them within the same view with the services if you so desire)
+- [x] Provide a view for all defined costitems for a selected subservice (you may group them in the same view with the subservice)
+- [x] Provide functionality to edit and delete costitems.
+- [x] Provide functionality to edit and delete subservices. When deleted, all costitems belonging to that subservice get deleted as well.
+- [x] Provide functionality to edit and delete a service. When deleted, all subservices and respective costitems get deleted as well.
 - Provide a multi-step form to create an offer.
 - Step 1: 
  - Chose the service and subservice for that offer.

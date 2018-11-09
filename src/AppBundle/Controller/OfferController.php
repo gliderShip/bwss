@@ -51,18 +51,6 @@ class OfferController extends Controller
         return $this->render('categories.html.twig', array(
             'categories' => $serviceCategories
         ));
-
-
-        $costItemRepository = $this->em->getRepository(CostItem::class);
-        $costItem = $costItemRepository->findAll()[0];
-        $itemSnapshot = $itemSnapshotManager->getCurrentSnapshot($costItem);
-        $this->em->persist($itemSnapshot);
-        $this->em->flush();
-
-        return $this->render('offer.html.twig', array(
-            'form' => $form->createView(),
-            'flow' => $flow,
-        ));
     }
 
     /**

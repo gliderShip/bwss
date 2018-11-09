@@ -124,6 +124,11 @@ class OfferItem implements Billable
         }
     }
 
+    public function getName()
+    {
+        return $this->itemSnapshot->getName();
+    }
+
     public function __toString()
     {
 
@@ -132,31 +137,29 @@ class OfferItem implements Billable
 
 
     /* Billable Interface */
-    public function getPrice($vatIncluded = true)
+    public function getPrice($vatIncluded = true, $unitPrice=false)
     {
-
         if ($vatIncluded) {
-            return $this->getGrossPrice();
+            return $this->getGrossPrice($unitPrice);
         }
 
-        return $this->getNetPrice();
+        return $this->getNetPrice($unitPrice);
     }
 
-    public function getGrossPrice()
+    public function getGrossPrice($unitPrice=false)
     {
-
         $itemSnapshotGrossPrice = $this->itemSnapshot->getGrossPrice();
-        if ($this->isRentable()) {
+        if ($this->isRentable() and !$unitPrice) {
             return $this->getHours() * $itemSnapshotGrossPrice;
         }
 
         return $itemSnapshotGrossPrice;
     }
 
-    public function getNetPrice()
+    public function getNetPrice($unitPrice=false)
     {
         $itemSnapshotNetPrice = $this->itemSnapshot->getNetPrice();
-        if ($this->isRentable()) {
+        if ($this->isRentable()  and !$unitPrice) {
             return $this->getHours() * $itemSnapshotNetPrice;
         }
 
@@ -177,38 +180,65 @@ class OfferItem implements Billable
         return $this->itemSnapshot->getVat();
     }
 
-    public function getVatAmount(){
+    public function getVatAmount($unitPrice=false){
 
         $itemSnapshotVatAmount = $this->itemSnapshot->getVatAmount();
-        if ($this->isRentable()) {
+        if ($this->isRentable() and !$unitPrice) {
             return $this->getHours() * $itemSnapshotVatAmount;
         }
 
         return $itemSnapshotVatAmount;
     }
 
-    public function priceEquals($thatItem){
+    public function priceEquals($thatItem, $unitPrice=false){
         $thatItemSnapshot = $thatItem->getItemSnapshot();
-        if($this->itemSnapshot->priceEquals($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
-            return true;
+
+        if($unitPrice){
+            if($this->itemSnapshot->priceEquals($thatItemSnapshot)){
+                return true;
+            } else{
+                return false;
+            }
+        } else{
+            if($this->itemSnapshot->priceEquals($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
+                return true;
+            }
         }
 
         return false;
     }
 
-    public function priceEqualsNet($thatItem){
+    public function priceEqualsNet($thatItem, $unitPrice=false){
         $thatItemSnapshot = $thatItem->getItemSnapshot();
-        if($this->itemSnapshot->priceEqualsNet($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
-            return true;
+
+        if($unitPrice){
+            if($this->itemSnapshot->priceEqualsNet($thatItemSnapshot)){
+                return true;
+            } else{
+                return false;
+            }
+        } else{
+            if($this->itemSnapshot->priceEqualsNet($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
+                return true;
+            }
         }
 
         return false;
     }
 
-    public function priceEqualsGross($thatItem){
+    public function priceEqualsGross($thatItem, $unitPrice=false){
         $thatItemSnapshot = $thatItem->getItemSnapshot();
-        if($this->itemSnapshot->priceEqualsGross($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
-            return true;
+
+        if($unitPrice){
+            if($this->itemSnapshot->priceEqualsGross($thatItemSnapshot)){
+                return true;
+            } else{
+                return false;
+            }
+        } else{
+            if($this->itemSnapshot->priceEqualsGross($thatItemSnapshot) and ($this->getHours() == $thatItem->getHours())){
+                return true;
+            }
         }
 
         return false;
