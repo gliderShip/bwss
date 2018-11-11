@@ -17,6 +17,6 @@ class ServiceCategoryRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getDefaultCategory(){
 
-        return $this->findOneBy([], ['id'=>'DESC']);
+        return $this->findOneBy([], ['id'=>'ASC']);
     }
 }

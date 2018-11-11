@@ -1,3 +1,8 @@
+{#{% form_theme form 'bootstrap_3_layout.html.twig' %}#}
+{% extends  "@SonataAdmin/standard_layout.html.twig" %}
+{% block sonata_admin_content %}
+<script src="https://intercoolerreleases-leaddynocom.netdna-ssl.com/intercooler-1.2.1.min.js"></script>
+
 <div class="container" id="replace">
 
     {{ form_start(form) }}
@@ -9,7 +14,7 @@
     <h3>{{ offer.serviceSnapshot.name }} Service Offer</h3>
 
     <table class="table table-bordered table-hover ">
-        <caption>Fixed Price Items</caption>
+        <caption><h4>Fixed Price Items</h4></caption>
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -39,7 +44,7 @@
     </table>
 
     <table class="table table-bordered table-hover ">
-        <caption>Hourly Priced {{ offer.serviceSnapshot.name }} Items. Please Provide the hours for each item</caption>
+        <caption><h4>Hourly Priced Items. Please Provide the hours for each item</h4></caption>
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -76,7 +81,7 @@
     </table>
 
     <table class="table table-bordered table-hover ">
-        <caption>Offer Summary</caption>
+        <caption><h4>Offer Summary</h4></caption>
         <thead>
         <tr class="info">
             <th scope="col">Sub Total</th>
@@ -101,9 +106,6 @@
         </tbody>
     </table>
 
-    {#{% dump form.items %}#}
-
-    {#{{ form_row(form.items) }}#}
     {{ form_row(form.save, {'attr': {'class': 'querty'}}) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
@@ -172,3 +174,5 @@
 
     });
 </script>
+
+{% endblock %}

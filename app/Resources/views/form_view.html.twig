@@ -1,9 +1,10 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
     <h4>Please pick a Service category:</h4>
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}
     {% set url = path('offer_categories') %}
     {{ form_row(form.category, {'attr': {"ic-post-to": url, "ic-target":"#replace" } }) }}
-    {{ form_row(form.services) }}
+    {#{{ form_row(form.category) }}#}
+    {{ form_row(form.service) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}

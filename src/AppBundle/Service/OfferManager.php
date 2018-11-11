@@ -70,6 +70,8 @@ class OfferManager
     {
         $snapshots = $this->getItemsSnapshots($service, $serviceSnapshot);
 
+        $offerItems = array();
+
         foreach ($snapshots as $snap) {
             $offerItems[] = new OfferItem($snap);
         }
