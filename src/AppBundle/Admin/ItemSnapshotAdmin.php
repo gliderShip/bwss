@@ -13,7 +13,6 @@ class ItemSnapshotAdmin extends AbstractAdmin
 {
     protected function configureRoutes(RouteCollection $collection)
     {
-//        $collection->remove('edit');
         $collection->clearExcept(array('list', 'show', 'delete'));
     }
 
@@ -59,22 +58,6 @@ class ItemSnapshotAdmin extends AbstractAdmin
             ])
         ;
     }
-
-//    protected function configureFormFields(FormMapper $formMapper)
-//    {
-//        $formMapper
-//            ->add('id')
-//            ->add('version')
-//            ->add('name')
-//            ->add('createdAt')
-//            ->add('updatedAt')
-//            ->add('priceIncludesVat')
-//            ->add('price')
-//            ->add('priceType')
-//            ->add('currency')
-//            ->add('vat')
-//        ;
-//    }
 
     protected function configureShowFields(ShowMapper $showMapper)
     {

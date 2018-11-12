@@ -1,0 +1,40 @@
+
+AppBundle\Entity\CostItem:
+
+  item_2_1:
+    name: "item_2_1"
+    price: 121
+    priceType: 'SINGLE AMOUNT'
+    service: "@service_2_1"
+
+  item_2_2_1:
+    name: "item_2_2_1"
+    price: 121
+    priceType: 'HOURLY AMOUNT'
+    service: "@service_2_2"
+  item_2_2_2:
+    name: "item_2_2_2"
+    price: 242
+    priceType: 'HOURLY AMOUNT'
+    service: "@service_2_2"
+
+  item_4_4_1:
+    name: "item_4_4_1"
+    price: 121
+    priceType: 'SINGLE AMOUNT'
+    service: "@service_4_4"
+  item_4_4_2:
+    name: "item_4_4_2"
+    price: 100
+    priceType: 'SINGLE AMOUNT'
+    service: "@service_4_4"
+  item_4_4_3:
+    name: "item_4_4_3"
+    price: 121
+    priceType: 'HOURLY AMOUNT'
+    service: "@service_4_4"
+  item_4_4_4:
+    name: "item_4_4_4"
+    price: 100
+    priceType: 'HOURLY AMOUNT'
+    service: "@service_4_4"

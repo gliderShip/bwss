@@ -135,4 +135,9 @@ class Offer
         $this->updatedAt = $now;
     }
 
+    public function __toString()
+    {
+        return $this->serviceSnapshot->getName() . ' Offer';
+    }
+
 }

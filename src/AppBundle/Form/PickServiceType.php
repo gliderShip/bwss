@@ -11,11 +11,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OfferType extends AbstractType
+class PickServiceType extends AbstractType
 {
-
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,7 +24,7 @@ class OfferType extends AbstractType
                 'class' => ServiceCategory::class,
                 'label' => 'Service Category',
                 'choice_label' => 'name',
-//                'placeholder' => '',
+                'placeholder' => '',
             ]
         );
 

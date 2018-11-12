@@ -16,7 +16,9 @@ use AppBundle\Entity\ServiceSnapshot;
 /**
  * CostItem
  *
- * @ORM\Table(name="item_snapshot")
+ * @ORM\Table(name="item_snapshot", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="version_unique", columns={"costItem_id", "version"})
+ * })
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ItemSnapshotRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -30,9 +32,8 @@ class ItemSnapshot extends AbstractSnapshot implements Billable
      */
     protected $costItem;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceSnapshot", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceSnapshot", inversedBy="itemSnapshots", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="serviceSnapshot_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $serviceSnapshot;
@@ -75,6 +76,24 @@ class ItemSnapshot extends AbstractSnapshot implements Billable
     public function getServiceSnapshot(): ?ServiceSnapshot
     {
         return $this->serviceSnapshot;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
     }
 
 }

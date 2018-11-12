@@ -41,7 +41,7 @@ class ItemSnapshotManager
     {
 
         $version = $this->itemManager->getCurrentVersion($costItem);
-        $currentSnapshot = $this->repository->findOneByVersion($version);
+        $currentSnapshot = $this->repository->getCurrent($costItem, $version);
 
         if (!$currentSnapshot) {
             $currentSnapshot = $this->createSnapshot($costItem, $version, $serviceSnapshot);
@@ -49,6 +49,11 @@ class ItemSnapshotManager
 
         return $currentSnapshot;
 
+    }
+
+    public function getServiceSnapshots(ServiceSnapshot $serviceSnapshot){
+
+        return $this->repository->findByServiceSnapshot($serviceSnapshot);
     }
 
     private function createSnapshot(CostItem $costItem, int $version, ServiceSnapshot $serviceSnapshot = null)

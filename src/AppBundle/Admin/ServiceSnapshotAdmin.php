@@ -13,7 +13,6 @@ class ServiceSnapshotAdmin extends AbstractAdmin
 {
     protected function configureRoutes(RouteCollection $collection)
     {
-//        $collection->remove('edit');
         $collection->clearExcept(array('list', 'show', 'delete'));
     }
 
@@ -25,6 +24,7 @@ class ServiceSnapshotAdmin extends AbstractAdmin
             ->add('name')
             ->add('service')
             ->add('categorySnapshot')
+            ->add('itemSnapshots')
             ->add('createdAt')
             ->add('updatedAt')
         ;
@@ -38,6 +38,7 @@ class ServiceSnapshotAdmin extends AbstractAdmin
             ->add('name')
             ->add('service', null, array('route'=>array('name'=>'show')))
             ->add('categorySnapshot', null, array('route'=>array('name'=>'show')))
+            ->add('itemSnapshots', null, array('route'=>array('name'=>'show')))
             ->add('createdAt')
             ->add('updatedAt')
             ->add('_action', null, [
@@ -50,19 +51,6 @@ class ServiceSnapshotAdmin extends AbstractAdmin
         ;
     }
 
-//    protected function configureFormFields(FormMapper $formMapper)
-//    {
-//        $formMapper
-//            ->add('id')
-//            ->add('version')
-//            ->add('name')
-//            ->add('service')
-//            ->add('categorySnapshot')
-//            ->add('createdAt')
-//            ->add('updatedAt')
-//        ;
-//    }
-
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -71,6 +59,7 @@ class ServiceSnapshotAdmin extends AbstractAdmin
             ->add('name')
             ->add('service', null, array('route'=>array('name'=>'show')))
             ->add('categorySnapshot', null, array('route'=>array('name'=>'show')))
+            ->add('itemSnapshots', null, array('route'=>array('name'=>'show')))
             ->add('createdAt')
             ->add('updatedAt')
         ;

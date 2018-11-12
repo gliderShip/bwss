@@ -9,16 +9,21 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class OfferItemAdmin extends AbstractAdmin
 {
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->clearExcept(array('list', 'show'));
+    }
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
             ->add('hours')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('offer')
         ;
     }
 
@@ -27,6 +32,7 @@ class OfferItemAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('hours')
+            ->add('offer', null, array('route'=>array('name'=>'show')))
             ->add('itemSnapshot', null, array('route'=>array('name'=>'show')))
 //            ->add('price', MoneyType::class)
             ->add('netPrice', MoneyType::class)
@@ -46,19 +52,20 @@ class OfferItemAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        $formMapper
-            ->add('itemSnapshot')
-            ->add('hours')
-        ;
-    }
+//    protected function configureFormFields(FormMapper $formMapper)
+//    {
+//        $formMapper
+//            ->add('itemSnapshot')
+//            ->add('hours')
+//        ;
+//    }
 
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->add('id')
             ->add('hours')
+            ->add('offer', null, array('route'=>array('name'=>'show')))
             ->add('itemSnapshot', null, array('route'=>array('name'=>'show')))
 //            ->add('price', MoneyType::class)
             ->add('netPrice', MoneyType::class)

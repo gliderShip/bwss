@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\CostItem;
+
 /**
  * CostItemRepository
  *
@@ -10,4 +12,8 @@ namespace AppBundle\Repository;
  */
 class ItemSnapshotRepository extends SnapshotRepository
 {
+    public function getCurrent(CostItem $item, int $version){
+
+        return $this->findOneBy(['costItem'=>$item, 'version' => $version]);
+    }
 }

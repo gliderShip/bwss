@@ -6,10 +6,16 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class OfferAdmin extends AbstractAdmin
 {
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->clearExcept(array('list', 'show'));
+    }
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -29,7 +35,7 @@ class OfferAdmin extends AbstractAdmin
             ->add('grandTotal')
             ->add('vatAmount')
             ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
-            ->add('offerItems')
+            ->add('offerItems', null, array('route'=>array('name'=>'show')))
             ->add('createdAt')
             ->add('updatedAt')
             ->add('_action', null, [
@@ -42,13 +48,13 @@ class OfferAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        $formMapper
-            ->add('serviceSnapshot')
-            ->add('offerItems')
-        ;
-    }
+//    protected function configureFormFields(FormMapper $formMapper)
+//    {
+//        $formMapper
+//            ->add('serviceSnapshot')
+//            ->add('offerItems')
+//        ;
+//    }
 
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -58,7 +64,7 @@ class OfferAdmin extends AbstractAdmin
             ->add('grandTotal')
             ->add('vatAmount')
             ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
-            ->add('offerItems')
+            ->add('offerItems', null, array('route'=>array('name'=>'show')))
             ->add('createdAt')
             ->add('updatedAt')
         ;

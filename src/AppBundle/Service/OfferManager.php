@@ -34,7 +34,7 @@ class OfferManager
     public function createOffer(ServiceSnapshot $serviceSnapshot){
 
         $service = $serviceSnapshot->getService();
-        $offerItems = $this->getOfferItems($service, $serviceSnapshot);
+        $offerItems = $this->getOfferItems($serviceSnapshot);
 
         return new Offer($serviceSnapshot, $offerItems);
     }
@@ -43,22 +43,22 @@ class OfferManager
 
         $offerItems = $offer->getOfferItems();
 
-        $items = $offerItems->filter(function($offerItem){
+        $rentableItems = $offerItems->filter(function($offerItem){
             return $offerItem->getItemSnapshot()->isRentable();
         })->toArray();
 
-        return $items;
+        return $rentableItems;
 
     }
 
     public function getSinglePriceOfferItems(Offer $offer){
         $offerItems = $offer->getOfferItems();
 
-        $items =  $offerItems->filter(function($offerItem){
+        $spItems =  $offerItems->filter(function($offerItem){
             return !$offerItem->getItemSnapshot()->isRentable();
         })->toArray();
 
-        return $items;
+        return $spItems;
     }
 
 
@@ -66,9 +66,9 @@ class OfferManager
      * @param Service $service
      * @return OfferItem[]
      */
-    private function getOfferItems(Service $service, ServiceSnapshot $serviceSnapshot = null)
+    private function getOfferItems(ServiceSnapshot $serviceSnapshot)
     {
-        $snapshots = $this->getItemsSnapshots($service, $serviceSnapshot);
+        $snapshots = $this->getItemsSnapshots($serviceSnapshot);
 
         $offerItems = array();
 
@@ -79,15 +79,9 @@ class OfferManager
         return $offerItems;
     }
 
-    private function getItemsSnapshots(Service $service, ServiceSnapshot $serviceSnapshot)
+    private function getItemsSnapshots(ServiceSnapshot $serviceSnapshot)
     {
-        $snapshots = array();
-
-        foreach ($service->getItems() as $item) {
-            $snapshots[] = $this->itemSnapshotManager->getCurrentSnapshot($item, $serviceSnapshot);
-        }
-
-        return $snapshots;
+        return $this->itemSnapshotManager->getServiceSnapshots($serviceSnapshot);
     }
 
 }

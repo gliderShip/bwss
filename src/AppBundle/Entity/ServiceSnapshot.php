@@ -12,7 +12,9 @@ use AppBundle\Entity\Service;
 /**
  * Service
  *
- * @ORM\Table(name="service_snapshot")
+ * @ORM\Table(name="service_snapshot", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="version_unique", columns={"service_id", "version"})
+ * })
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceSnapshotRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -29,6 +31,11 @@ class ServiceSnapshot extends AbstractSnapshot
      * @ORM\JoinColumn(name="categorySnapshot_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $categorySnapshot;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ItemSnapshot", mappedBy="serviceSnapshot", cascade={"persist", "remove"})
+     */
+    protected $itemSnapshots;
 
 
     public function __construct(Service $service, int $version)
@@ -63,10 +70,35 @@ class ServiceSnapshot extends AbstractSnapshot
         return $this->categorySnapshot;
     }
 
+    /**
+     * @return ItemSnapshot[] | null
+     */
+    public function getItemSnapshots()
+    {
+        return $this->itemSnapshots;
+    }
+
     public function __toString()
     {
         return $this->name . ' Snapshot';
     }
 
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
 }
 

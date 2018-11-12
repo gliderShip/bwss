@@ -104,7 +104,7 @@ class Service
     }
 
     /**
-     * @return mixed
+     * @return CostItem[] |null
      */
     public function getItems()
     {

@@ -47,18 +47,6 @@ class CategorySnapshotAdmin extends AbstractAdmin
         ;
     }
 
-//    protected function configureFormFields(FormMapper $formMapper)
-//    {
-//        $formMapper
-//            ->add('id')
-//            ->add('version')
-//            ->add('name')
-//            ->add('category')
-//            ->add('createdAt')
-//            ->add('updatedAt')
-//        ;
-//    }
-
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper

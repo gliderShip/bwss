@@ -11,7 +11,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * Service
  *
- * @ORM\Table(name="category_snapshot")
+ * @ORM\Table(name="category_snapshot", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="version_unique", columns={"category_id", "version"})
+ * })
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategorySnapshotRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -38,6 +40,24 @@ class CategorySnapshot extends AbstractSnapshot
     public function getCategory(): ?ServiceCategory
     {
         return $this->category;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
     }
 
 

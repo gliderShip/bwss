@@ -26,6 +26,9 @@ class AppKernel extends Kernel
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle(),
+            new Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle(),
+            new Hautelook\AliceBundle\HautelookAliceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

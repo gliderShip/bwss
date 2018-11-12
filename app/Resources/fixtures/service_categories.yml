@@ -1,0 +1,10 @@
+
+AppBundle\Entity\ServiceCategory:
+  category_0:
+    name: "Category_0"
+  category_1:
+    name: "Category_1"
+  category_2:
+    name: "Category_2"
+  category_4:
+    name: "Category_4"

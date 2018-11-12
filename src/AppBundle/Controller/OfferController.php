@@ -2,19 +2,23 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Offer;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
+use AppBundle\Entity\ServiceSnapshot;
 use AppBundle\Form\CreateOfferForm;
 use AppBundle\Form\DataTransformer\ItemToNameTransformer;
-use AppBundle\Form\OfferType;
+use AppBundle\Form\PickServiceType;
 use AppBundle\Service\ItemSnapshotManager;
 use AppBundle\Service\OfferManager;
 use AppBundle\Service\ServiceSnapshotManager;
 use AppBundle\Service\SnapshotManageruse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OfferController extends Controller
@@ -29,35 +33,55 @@ class OfferController extends Controller
     /**
      * @Route("/offer/categories", name="offer_categories")
      */
-    public function listCategoryAction(Request $request, ItemSnapshotManager $itemSnapshotManager)
+    public function listCategoryAction(Request $request, ItemSnapshotManager $itemSnapshotManager, ServiceSnapshotManager $serviceSnapshotManager)
     {
         $categoryRepository = $this->em->getRepository(ServiceCategory::class);
-        $category =  $categoryRepository->getDefaultCategory();
         $data = array();
 
-        $form = $this->createForm(OfferType::class, $data);
+        $form = $this->createForm(PickServiceType::class, $data);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
-            $category = $data['category'];
+            $data = $form->getData();
+            /**
+             * @var Service $service
+             */
             $service = $data['service'];
 
-            if($service){
-                return $this->redirectToRoute('offer_create', ['serviceId'=>$service->getId()]);
+            if ($service) {
+                /**
+                 * TODO: Snapshots must belong to a group of users through @owners attribute, many-to-many relationship. Required to lock "items to promised price"
+                 */
+                $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
+                $this->em->persist($serviceSnapshot);
+                $this->em->flush();
+
+                foreach ($service->getItems() as $costItem){
+                    dump($costItem);
+                    $itemSnapShot = $itemSnapshotManager->getCurrentSnapshot($costItem, $serviceSnapshot);
+                    $this->em->persist($itemSnapShot);
+                    $this->em->flush();
+                    dump($itemSnapShot);
+                }
+
+                dump($serviceSnapshot);
+                die;
+
+                return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId()]);
             }
 
+            $newForm = $this->createForm(PickServiceType::class, $data);
 
-            $newForm = $this->createForm(OfferType::class, $data);
-
-            return $this->render(
-                'form_view.html.twig',
-                array(
-                    'form' => $newForm->createView(),
-                )
-            );
+            if($request->isXmlHttpRequest()) {
+                return $this->render(
+                    'form_view.html.twig',
+                    array(
+                        'form' => $newForm->createView(),
+                    )
+                );
+            }
         }
 
         return $this->render(
@@ -67,34 +91,32 @@ class OfferController extends Controller
 
             )
         );
-
-
     }
 
 
     /**
-     * @Route("/offer/service/{serviceId}/create", name="offer_create", requirements={"serviceId"="\d+"})
+     * @Route("/offer/service/snapshot/{snapshotId}/create", name="offer_create", requirements={"snapshotId"="\d+"})
      */
-    public function offerCreateAction(Request $request, int $serviceId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager)
+    public function offerCreateAction(Request $request, int $snapshotId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager)
     {
         $serviceRepository = $this->em->getRepository(Service::class);
+        $serviceSnapshotRepository = $this->em->getRepository(ServiceSnapshot::class);
 
         /**
-         * @var Service $service
+         * @var ServiceSnapshot $serviceSnapshot
          */
-        $service = $serviceRepository->findOneById($serviceId);
+        $serviceSnapshot = $serviceSnapshotRepository->findOneById($snapshotId);
 
-        if (!$service) {
+        if (!$serviceSnapshot) {
             return $this->createNotFoundException("Service not found.");
         }
 
-        $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
         $offer = $offerManager->createOffer($serviceSnapshot);
 
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
 
-        $offerForm = $this->getForm($rentableOfferItems, $this->generateUrl('offer_create', ['serviceId'=>$serviceId]));
+        $offerForm = $this->getOfferForm($rentableOfferItems);
         $offerForm->handleRequest($request);
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
             $formData = $offerForm->getData();
@@ -109,8 +131,49 @@ class OfferController extends Controller
                 'success',
                 'Order created successfully!'
             );
-            return $this->forward('AppBundle:Offer:offerEdit', ['offerId' => $offer->getId()]);
-//            return $this->redirectToRoute('offer_edit', ['offerId' => $offer->getId()]);
+
+            return $this->redirectToRoute('offer_edit', ['offerId' => $offer->getId()]);
+        }
+        return $this->render('offer.html.twig', array(
+            'form' => $offerForm->createView(),
+            'offer' => $offer,
+            'singlePriceOfferItems' => $singlePriceOfferItems,
+            'rentableOfferItems' => $rentableOfferItems,
+        ));
+    }
+
+    /**
+     * @Route("/offer/{offerId}/edit", name="offer_edit", requirements={"offerId"="\d+"})
+     */
+    public function offerEditAction(Request $request, int $offerId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager)
+    {
+        $offerRepository = $this->em->getRepository(Offer::class);
+        /**
+         * @var Offer $offer
+         */
+        $offer = $offerRepository->findOneById($offerId);
+        if (!$offer) {
+            return $this->createNotFoundException("Offer not found.");
+        }
+
+        $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
+        $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
+        $offerForm = $this->getOfferForm($rentableOfferItems);
+        $offerForm->handleRequest($request);
+        if ($offerForm->isSubmitted() && $offerForm->isValid()) {
+            $formData = $offerForm->getData();
+            foreach ($rentableOfferItems as $rentableItem) {
+                $costItemSnapshot = $rentableItem->getItemSnapshot();
+                // TODO: Validate Form. Contains all rentable items names and hours etc.
+                $rentableItem->setHours($formData[$costItemSnapshot->getName()]);
+            }
+
+            $this->em->persist($offer);
+            $this->em->flush();
+            $this->addFlash(
+                'success',
+                'Order edited successfully!'
+            );
         }
         return $this->render('offer.html.twig', array(
             'form' => $offerForm->createView(),
@@ -121,21 +184,15 @@ class OfferController extends Controller
     }
 
 
-    private function getForm($rentableItems, $postUrl)
+    private function getOfferForm($rentableItems)
     {
         $formData = array();
         foreach ($rentableItems as $rentableItem) {
             $itemSnapshot = $rentableItem->getItemSnapshot();
             $formData[$itemSnapshot->getName()] = $rentableItem->getHours();
         }
-        $form = $this->createFormBuilder($formData,
-            [
-                'attr' => [
-                    'ic-post-to' => $postUrl,
-                    'ic-target' => '#replace'
-                ],
-            ]
-        );
+        $form = $this->createFormBuilder($formData);
+
         foreach ($rentableItems as $rentableItem) {
             $itemSnapshot = $rentableItem->getItemSnapshot();
             $form->add($itemSnapshot->getName(), IntegerType::class, [
@@ -149,16 +206,10 @@ class OfferController extends Controller
                 ]
             );
         }
-//        $form->setAction($uri);
-//        $form->setMethod('POST');
-        $form->add('save', SubmitType::class,
-            [
-                'attr' => ['id' => ''],
-            ]
-        );
+
+        $form->add('save', SubmitType::class);
         return $form->getForm();
     }
-
 
 
 }

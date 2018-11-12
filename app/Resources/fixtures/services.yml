@@ -1,0 +1,19 @@
+
+AppBundle\Entity\Service:
+
+  service_1_0:
+    name: "service_1_0"
+    serviceCategory: "@category_1"
+
+  service_2_1:
+    name: "service_2_1"
+    serviceCategory: "@category_2"
+
+  service_2_2:
+    name: "service_2_2"
+    serviceCategory: "@category_2"
+
+  service_4_4:
+    name: "service_4_4"
+    serviceCategory: "@category_4"
+

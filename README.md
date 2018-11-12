@@ -77,25 +77,25 @@ Deliverables for Level 1:
 - [x] Provide functionality to edit and delete costitems.
 - [x] Provide functionality to edit and delete subservices. When deleted, all costitems belonging to that subservice get deleted as well.
 - [x] Provide functionality to edit and delete a service. When deleted, all subservices and respective costitems get deleted as well.
-- Provide a multi-step form to create an offer.
+- [x] Provide a multi-step form to create an offer.
 - Step 1: 
- - Chose the service and subservice for that offer.
- - Have a "next" button taking you to the next step.
+- [x] Chose the service and subservice for that offer.
+- [x] Have a "next" button taking you to the next step.
 - Step 2: 
- - For each of the costitems in the selected subservice that has hourly billing, include a text box where you can enter the number of hours.
- - Have a "next" button taking you to the next step.
+- [x] For each of the costitems in the selected subservice that has hourly billing, include a text box where you can enter the number of hours.
+- [x] Have a "next" button taking you to the next step.
 - Step 3: 
- - Display an cverview containing the selected service, subservice and costitems.
- - For fixed-price costitems display the cost in EUR beside each costitem
- - For hourly-rated costitems, display the price per hour, number of hours
- - Display a section called "Totals", containing the subtotal, VAT amount and grand total in EUR.
- - Have a "save" button to finish the process.
- - The creation date and time of the offer is set automatically upon pressing the "save" button.
- - At the end of step 3, save this offer in the database, in a way that the contained service, subservice, and costitem specifications are a copy of the originals and do not reference the originals. This will allow the service/subservice/costitems specificaitons to change in the future without impacting the previous offers.
+- [x] Display an cverview containing the selected service, subservice and costitems.
+- [x] For fixed-price costitems display the cost in EUR beside each costitem
+- [x] For hourly-rated costitems, display the price per hour, number of hours
+- [x] Display a section called "Totals", containing the subtotal, VAT amount and grand total in EUR.
+- [x] Have a "save" button to finish the process.
+- [x] The creation date and time of the offer is set automatically upon pressing the "save" button.
+- [x] At the end of step 3, save this offer in the database, in a way that the contained service, subservice, and costitem specifications are a copy of the originals and do not reference the originals. This will allow the service/subservice/costitems specificaitons to change in the future without impacting the previous offers.
 
-- Provide a view of all saved offers.
-- Provide a way to delete an offer.
-- Provide a migration script (either in PHP or SQL) to create the neccessary database tables.
+- [x] Provide a view of all saved offers.
+- [x] Provide a way to delete an offer.
+- [ ] Provide a migration script (either in PHP or SQL) to create the neccessary database tables.
 
 Level 2
 =======

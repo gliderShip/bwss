@@ -23,7 +23,7 @@ class AbstractSnapshot
     /**
      * @var integer
      *
-     * @ORM\Column(name="version", type="integer", unique=true)
+     * @ORM\Column(name="version", type="integer", unique=false)
      */
     protected $version;
 

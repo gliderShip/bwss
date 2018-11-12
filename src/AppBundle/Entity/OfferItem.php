@@ -31,8 +31,8 @@ class OfferItem implements Billable
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Offer", inversedBy="items")
-     * @ORM\JoinColumn(name="offer_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Offer", inversedBy="offerItems")
+     * @ORM\JoinColumn(name="offer_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $offer;
 
