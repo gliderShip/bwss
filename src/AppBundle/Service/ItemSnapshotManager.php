@@ -37,15 +37,14 @@ class ItemSnapshotManager
         $this->itemManager = $itemManager;
     }
 
-    public function getCurrentSnapshot(CostItem $costItem, ServiceSnapshot $serviceSnapshot = null)
+    /**
+     * @return ItemSnapshot|null
+     */
+    public function getCurrentSnapshot(CostItem $costItem)
     {
 
         $version = $this->itemManager->getCurrentVersion($costItem);
         $currentSnapshot = $this->repository->getCurrent($costItem, $version);
-
-        if (!$currentSnapshot) {
-            $currentSnapshot = $this->createSnapshot($costItem, $version, $serviceSnapshot);
-        }
 
         return $currentSnapshot;
 
@@ -56,11 +55,15 @@ class ItemSnapshotManager
         return $this->repository->findByServiceSnapshot($serviceSnapshot);
     }
 
-    private function createSnapshot(CostItem $costItem, int $version, ServiceSnapshot $serviceSnapshot = null)
+    public function createSnapshot(CostItem $costItem, ServiceSnapshot $serviceSnapshot = null )
     {
+
+        if(!$serviceSnapshot){
+            $serviceSnapshot = $this->serviceSnapshotManager->getCurrentSnapshot($costItem->getService());
+        }
+
+        $version = $this->itemManager->getCurrentVersion($costItem);
         $itemSnapshot = new ItemSnapshot($costItem, $version);
-        $service = $costItem->getService();
-        $serviceSnapshot = $serviceSnapshot ?? $this->serviceSnapshotManager->getCurrentSnapshot($service);
         $itemSnapshot->setServiceSnapshot($serviceSnapshot);
 
         return $itemSnapshot;

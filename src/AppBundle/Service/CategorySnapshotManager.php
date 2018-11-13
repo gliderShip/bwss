@@ -37,7 +37,7 @@ class CategorySnapshotManager
     {
         $version = $this->categoryManager->getCurrentVersion($category);
 
-        $currentSnapshot = $this->repository->findOneByVersion($version);
+        $currentSnapshot = $this->repository->getCurrent($category, $version);
 
         if (!$currentSnapshot) {
             $currentSnapshot = $this->createSnapshot($category, $version);

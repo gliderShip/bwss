@@ -3,8 +3,6 @@
 {% block sonata_admin_content %}
     <script src="https://intercoolerreleases-leaddynocom.netdna-ssl.com/intercooler-1.2.1.min.js"></script>
 
-    {#<div class="container" id="replace">#}
-
         {% if offer.offerItems is not empty %}
 
         {{ form_start(form) }}
@@ -66,7 +64,7 @@
                 </thead>
                 <tbody>
 
-                {% for rentableOfferItem in rentableOfferItems %}}
+                {% for rentableOfferItem in rentableOfferItems %}
 
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
@@ -134,8 +132,6 @@
                 {% endfor %}
             </div>
         {% endfor %}
-
-    {#</div>#}
 
     <script>
         $(".time").change(function (e) {

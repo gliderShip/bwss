@@ -49,6 +49,8 @@ class CostItemAdmin extends AbstractAdmin
             )
             ->add('currency')
             ->add('vat')
+            ->add('createdAt')
+            ->add('updatedAt')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -110,6 +112,10 @@ class CostItemAdmin extends AbstractAdmin
             ->add('grossPrice', MoneyType::class)
             ->add('priceType')
             ->add('currency', CurrencyType::class)
-            ->add('vat', PercentType::class);
+            ->add('vat', PercentType::class)
+            ->add('createdAt')
+            ->add('updatedAt')
+        ;
+
     }
 }

@@ -27,21 +27,21 @@ services:
     class: AppBundle\Admin\ServiceCategoryAdmin
     arguments: [~, AppBundle\Entity\ServiceCategory, AppBundle:ServiceCategoryAdmin]
     tags:
-    - { name: sonata.admin, manager_type: orm, group: admin, label: Service Category }
+    - { name: sonata.admin, manager_type: orm, group: Services, label: Service Category }
     public: true
 
   app.admin.service:
     class: AppBundle\Admin\ServiceAdmin
     arguments: [~, AppBundle\Entity\Service, AppBundle:ServiceAdmin]
     tags:
-    - { name: sonata.admin, manager_type: orm, group: admin, label: Service }
+    - { name: sonata.admin, manager_type: orm, group: Services, label: Service }
     public: true
 
   app.admin.cost_item:
     class: AppBundle\Admin\CostItemAdmin
     arguments: [~, AppBundle\Entity\CostItem, AppBundle:CostItemAdmin]
     tags:
-    - { name: sonata.admin, manager_type: orm, group: admin, label: CostItem }
+    - { name: sonata.admin, manager_type: orm, group: Services, label: CostItem }
     public: true
 
   app.admin.offer_item:

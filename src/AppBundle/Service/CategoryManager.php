@@ -20,7 +20,12 @@ class CategoryManager
 
         $categoryVersion = $category->getUpdatedAt()->getTimestamp();
 
-        return $categoryVersion;
+        $versionDependence = [$categoryVersion];
+        foreach ($category->getServices() as $service){
+            $versionDependence[] = $service->getUpdatedAt()->getTimestamp();
+        }
+
+        return max($versionDependence);
     }
 
 }

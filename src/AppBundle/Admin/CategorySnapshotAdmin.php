@@ -23,6 +23,7 @@ class CategorySnapshotAdmin extends AbstractAdmin
             ->add('version')
             ->add('name')
             ->add('category')
+            ->add('serviceSnapshots')
             ->add('createdAt')
             ->add('updatedAt')
         ;
@@ -35,6 +36,7 @@ class CategorySnapshotAdmin extends AbstractAdmin
             ->add('version')
             ->add('name')
             ->add('category', null, array('route'=>array('name'=>'show')))
+            ->add('serviceSnapshots', null, array('route'=>array('name'=>'show')))
             ->add('createdAt')
             ->add('updatedAt')
             ->add('_action', null, [
@@ -54,6 +56,7 @@ class CategorySnapshotAdmin extends AbstractAdmin
             ->add('version')
             ->add('name')
             ->add('category', null, array('route'=>array('name'=>'show')))
+            ->add('serviceSnapshots', null, array('route'=>array('name'=>'show')))
             ->add('createdAt')
             ->add('updatedAt')
         ;

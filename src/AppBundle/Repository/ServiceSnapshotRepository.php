@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Service;
+
 /**
  * ServiceRepository
  *
@@ -10,4 +12,8 @@ namespace AppBundle\Repository;
  */
 class ServiceSnapshotRepository extends SnapshotRepository
 {
+    public function getCurrent(Service $service, int $version){
+
+        return $this->findOneBy(['service'=>$service, 'version' => $version]);
+    }
 }

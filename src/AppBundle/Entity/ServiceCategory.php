@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="service_category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceCategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ServiceCategory
 {
@@ -102,6 +103,24 @@ class ServiceCategory
         return (string) $this->getName();
     }
 
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
 
 }
 

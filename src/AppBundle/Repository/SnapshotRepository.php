@@ -10,12 +10,5 @@ namespace AppBundle\Repository;
  */
 abstract class SnapshotRepository extends \Doctrine\ORM\EntityRepository
 {
-    /**
-     * @param int $version
-     * @return mixed
-     */
-    public function findOneByVersion(int $version)
-    {
-        return parent::findOneByVersion($version);
-    }
+
 }

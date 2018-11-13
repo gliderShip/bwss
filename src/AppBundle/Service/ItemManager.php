@@ -27,9 +27,9 @@ class ItemManager
     public function getCurrentVersion(CostItem $item){
 
         $itemVersion = $item->getUpdatedAt()->getTimestamp();
-        $serviceVersion = $item->getService()->getUpdatedAt()->getTimestamp();
+        $serviceVersion = $this->serviceManager->getCurrentVersion($item->getService());
 
-        return $itemVersion > $serviceVersion ? $itemVersion : $serviceVersion;
+        return max($itemVersion, $serviceVersion);
     }
 
 }

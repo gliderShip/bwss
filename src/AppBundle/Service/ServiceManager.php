@@ -28,8 +28,12 @@ class ServiceManager
 
         $serviceVersion = $service->getUpdatedAt()->getTimestamp();
         $categoryVersion = $this->categoryManager->getCurrentVersion($service->getServiceCategory());
+        $versionDependence = [$serviceVersion, $categoryVersion];
+        foreach ($service->getItems() as $item){
+            $versionDependence[] = $item->getUpdatedAt()->getTimestamp();
+        }
 
-        return $serviceVersion > $categoryVersion ? $serviceVersion : $categoryVersion;
+        return max($versionDependence);
     }
 
 }

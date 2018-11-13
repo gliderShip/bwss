@@ -27,7 +27,7 @@ class ServiceSnapshot extends AbstractSnapshot
     protected $service;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CategorySnapshot", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CategorySnapshot", inversedBy="serviceSnapshots", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="categorySnapshot_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $categorySnapshot;

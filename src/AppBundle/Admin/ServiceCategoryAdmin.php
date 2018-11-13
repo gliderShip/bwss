@@ -25,6 +25,8 @@ class ServiceCategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('services')
+            ->add('createdAt')
+            ->add('updatedAt')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -49,6 +51,8 @@ class ServiceCategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('services')
+            ->add('createdAt')
+            ->add('updatedAt')
         ;
     }
 }

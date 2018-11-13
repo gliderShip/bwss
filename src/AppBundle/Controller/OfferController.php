@@ -55,19 +55,25 @@ class OfferController extends Controller
                  * TODO: Snapshots must belong to a group of users through @owners attribute, many-to-many relationship. Required to lock "items to promised price"
                  */
                 $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
-                $this->em->persist($serviceSnapshot);
-                $this->em->flush();
-
-                foreach ($service->getItems() as $costItem){
-                    dump($costItem);
-                    $itemSnapShot = $itemSnapshotManager->getCurrentSnapshot($costItem, $serviceSnapshot);
-                    $this->em->persist($itemSnapShot);
-                    $this->em->flush();
-                    dump($itemSnapShot);
+                if (!$serviceSnapshot) {
+                    $serviceSnapshot = $serviceSnapshotManager->createSnapshot($service);
+                    $this->em->persist($serviceSnapshot);
                 }
 
+                foreach ($service->getItems() as $costItem){
+                    $itemSnapShot = $itemSnapshotManager->getCurrentSnapshot($costItem);
+                    if (!$itemSnapShot or $itemSnapShot->getServiceSnapshot() != $serviceSnapshot) {
+                        $itemSnapShot = $itemSnapshotManager->createSnapshot($costItem, $serviceSnapshot);
+                        $this->em->persist($itemSnapShot);
+                    }
+                }
+
+
+                $this->em->flush();
                 dump($serviceSnapshot);
-                die;
+                $this->em->refresh($serviceSnapshot);
+                dump($serviceSnapshot);
+//                die;
 
                 return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId()]);
             }
