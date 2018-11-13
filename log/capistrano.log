@@ -1,0 +1,62 @@
+# Logfile created on 2018-11-13 16:41:34 +0100 by logger.rb/61378
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-11-13 16:41:34 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [659528c5] Running /usr/bin/env mkdir -p /tmp/bwss as deploy@104.248.249.221
+ DEBUG [659528c5] Command: /usr/bin/env mkdir -p /tmp/bwss
+  INFO [d164a33a] Finished in 1.717 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/bwss/git-ssh-bwss-production-Glider.sh 0.0%
+  INFO Uploading /tmp/bwss/git-ssh-bwss-production-Glider.sh 100.0%
+  INFO [285f764c] Running /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-Glider.sh as deploy@104.248.249.221
+ DEBUG [285f764c] Command: /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-Glider.sh
+  INFO [085a6ff1] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [3321e51f] Running /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD as deploy@104.248.249.221
+ DEBUG [3321e51f] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD )
+ DEBUG [a3c3649c] 	Warning: Permanently added 'github.com,192.30.253.112' (RSA) to the list of known hosts.
+ DEBUG [a3c3649c] 	0db024f5b972572f9d413f26caa5c2a626758c39	HEAD
+  INFO [a3c3649c] Finished in 1.564 seconds with exit status 0 (successful).
+  INFO [ee3cab61] Running /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases as deploy@104.248.249.221
+ DEBUG [ee3cab61] Command: /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases
+  INFO [5531841e] Finished in 0.192 seconds with exit status 0 (successful).
+  INFO [c73c1885] Running /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media as deploy@104.248.249.221
+ DEBUG [c73c1885] Command: /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media
+  INFO [f23d9043] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [608287e9] Running /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared as deploy@104.248.249.221
+ DEBUG [608287e9] Command: /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared
+  INFO [01c371db] Finished in 0.232 seconds with exit status 0 (successful).
+ DEBUG [88975f64] Running [ -f /var/www/bwss/shared/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [88975f64] Command: [ -f /var/www/bwss/shared/app/config/parameters.yml ]
+ DEBUG [7a0ab533] Finished in 0.232 seconds with exit status 1 (failed).
+ ERROR linked file /var/www/bwss/shared/app/config/parameters.yml does not exist on 104.248.249.221
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-11-13 16:44:46 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [82c46f23] Running /usr/bin/env mkdir -p /tmp/bwss as deploy@104.248.249.221
+ DEBUG [82c46f23] Command: /usr/bin/env mkdir -p /tmp/bwss
+  INFO [aecee652] Finished in 1.111 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/bwss/git-ssh-bwss-production-Glider.sh 0.0%
+  INFO Uploading /tmp/bwss/git-ssh-bwss-production-Glider.sh 100.0%
+  INFO [c65658cb] Running /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-Glider.sh as deploy@104.248.249.221
+ DEBUG [c65658cb] Command: /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-Glider.sh
+  INFO [8af6c581] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [902bbcaf] Running /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD as deploy@104.248.249.221
+ DEBUG [902bbcaf] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD )
+ DEBUG [5c83ba09] 	Warning: Permanently added the RSA host key for IP address '192.30.253.113' to the list of known hosts.
+ DEBUG [5c83ba09] 	0db024f5b972572f9d413f26caa5c2a626758c39	HEAD
+  INFO [5c83ba09] Finished in 1.432 seconds with exit status 0 (successful).
+  INFO [e442b7ba] Running /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases as deploy@104.248.249.221
+ DEBUG [e442b7ba] Command: /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases
+  INFO [d9db28aa] Finished in 0.193 seconds with exit status 0 (successful).
+  INFO [b3081a76] Running /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media as deploy@104.248.249.221
+ DEBUG [b3081a76] Command: /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media
+  INFO [bf706ebf] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [73066a89] Running /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared as deploy@104.248.249.221
+ DEBUG [73066a89] Command: /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared
+  INFO [90747115] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [c39a7ee2] Running [ -f /var/www/bwss/shared/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [c39a7ee2] Command: [ -f /var/www/bwss/shared/app/config/parameters.yml ]
+ DEBUG [372702fb] Finished in 0.232 seconds with exit status 0 (successful).
+ DEBUG [d5070346] Running [ -f /var/www/bwss/shared/.env ] as deploy@104.248.249.221
+ DEBUG [d5070346] Command: [ -f /var/www/bwss/shared/.env ]
+ DEBUG [5a50bd66] Finished in 0.231 seconds with exit status 1 (failed).
+ ERROR linked file /var/www/bwss/shared/.env does not exist on 104.248.249.221
