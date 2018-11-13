@@ -38,9 +38,9 @@ class ServiceSnapshotManager
 
     public function getCurrentSnapshot(Service $service)
     {
-        $version = $this->serviceManager->getCurrentVersion($service);
+        $serviceVersion = $this->serviceManager->getCurrentVersion($service);
 
-        $currentSnapshot = $this->repository->getCurrent($service, $version);
+        $currentSnapshot = $this->repository->getCurrent($service, $serviceVersion);
 
         return $currentSnapshot;
 
@@ -54,7 +54,7 @@ class ServiceSnapshotManager
 
             $serviceSnapshot = new ServiceSnapshot($service, $version);
             $serviceCategory = $service->getServiceCategory();
-            $categorySnapshot = $categorySnapshot ?? $this->categorySnapshotManager->getCurrentSnapshot($serviceCategory);
+            $categorySnapshot = $this->categorySnapshotManager->createSnapshot( $serviceCategory, $version);
             $serviceSnapshot->setCategorySnapshot($categorySnapshot);
 
             return $serviceSnapshot;

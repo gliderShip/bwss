@@ -2450,3 +2450,618 @@
   INFO [b2a199c8] Running /usr/bin/env echo "Branch 2level (at 03f0e7c0c6f93176160afb015ef1a72d88c3bc10) deployed as release 20181113193538 by glider" >> /var/www/bwss/revisions.log as deploy@104.248.249.221
  DEBUG [b2a199c8] Command: cd /var/www/bwss/releases && ( export SYMFONY_ENV="prod" ; /usr/bin/env echo "Branch 2level (at 03f0e7c0c6f93176160afb015ef1a72d88c3bc10) deployed as release 20181113193538 by glider" >> /var/www/bwss/revisions.log )
   INFO [876a9329] Finished in 0.177 seconds with exit status 0 (successful).
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-11-13 20:42:47 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [995afab2] Running /usr/bin/env mkdir -p /tmp/bwss as deploy@104.248.249.221
+ DEBUG [995afab2] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /tmp/bwss )
+  INFO [368caeeb] Finished in 0.699 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/bwss/git-ssh-bwss-production-glider.sh 0.0%
+  INFO Uploading /tmp/bwss/git-ssh-bwss-production-glider.sh 100.0%
+  INFO [c46892aa] Running /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-glider.sh as deploy@104.248.249.221
+ DEBUG [c46892aa] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-glider.sh )
+  INFO [2bbd5591] Finished in 0.189 seconds with exit status 0 (successful).
+  INFO [6944eaa0] Running /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD as deploy@104.248.249.221
+ DEBUG [6944eaa0] Command: ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-glider.sh" ; /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD )
+ DEBUG [6610c22c] 	0db024f5b972572f9d413f26caa5c2a626758c39	HEAD
+  INFO [6610c22c] Finished in 1.410 seconds with exit status 0 (successful).
+  INFO [5c546fca] Running /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases as deploy@104.248.249.221
+ DEBUG [5c546fca] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases )
+  INFO [3e6a3789] Finished in 0.123 seconds with exit status 0 (successful).
+  INFO [a65c0d6e] Running /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media as deploy@104.248.249.221
+ DEBUG [a65c0d6e] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media )
+  INFO [ff8c2586] Finished in 0.182 seconds with exit status 0 (successful).
+  INFO [3c35aea7] Running /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared as deploy@104.248.249.221
+ DEBUG [3c35aea7] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared )
+  INFO [26ed1503] Finished in 0.170 seconds with exit status 0 (successful).
+ DEBUG [180a43f1] Running [ -f /var/www/bwss/shared/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [180a43f1] Command: [ -f /var/www/bwss/shared/app/config/parameters.yml ]
+ DEBUG [6af5d1aa] Finished in 0.153 seconds with exit status 0 (successful).
+ DEBUG [ebcd9e6b] Running [ -f /var/www/bwss/shared/.env ] as deploy@104.248.249.221
+ DEBUG [ebcd9e6b] Command: [ -f /var/www/bwss/shared/.env ]
+ DEBUG [af97a923] Finished in 0.168 seconds with exit status 0 (successful).
+ DEBUG [30e6bb2a] Running [ -f /var/www/bwss/current/REVISION ] as deploy@104.248.249.221
+ DEBUG [30e6bb2a] Command: [ -f /var/www/bwss/current/REVISION ]
+ DEBUG [03e56db8] Finished in 0.164 seconds with exit status 0 (successful).
+ DEBUG [0e2dbc5c] Running /usr/bin/env cat /var/www/bwss/current/REVISION 2>/dev/null as deploy@104.248.249.221
+ DEBUG [0e2dbc5c] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env cat /var/www/bwss/current/REVISION 2>/dev/null )
+ DEBUG [dc25b053] 	03f0e7c0c6f93176160afb015ef1a72d88c3bc10
+ DEBUG [dc25b053] Finished in 0.171 seconds with exit status 0 (successful).
+ DEBUG [d3cc4f41] Running [ -f /var/www/bwss/repo/HEAD ] as deploy@104.248.249.221
+ DEBUG [d3cc4f41] Command: [ -f /var/www/bwss/repo/HEAD ]
+ DEBUG [1a8d56e5] Finished in 0.161 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/bwss/repo
+ DEBUG [705a22f2] Running if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [705a22f2] Command: if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi
+ DEBUG [471897e1] Finished in 0.173 seconds with exit status 0 (successful).
+  INFO [4f493c65] Running /usr/bin/env git remote set-url origin git@github.com:gliderShip/bwss.git as deploy@104.248.249.221
+ DEBUG [4f493c65] Command: cd /var/www/bwss/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-glider.sh" ; /usr/bin/env git remote set-url origin git@github.com:gliderShip/bwss.git )
+  INFO [3d890d47] Finished in 0.176 seconds with exit status 0 (successful).
+  INFO [484a668e] Running /usr/bin/env git remote update --prune as deploy@104.248.249.221
+ DEBUG [484a668e] Command: cd /var/www/bwss/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-glider.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [e24a5aed] 	Fetching origin
+ DEBUG [e24a5aed] 	From github.com:gliderShip/bwss
+   03f0e7c..cdd150e  2level     -> 2level
+  INFO [e24a5aed] Finished in 1.719 seconds with exit status 0 (successful).
+ DEBUG [3335fcee] Running if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [3335fcee] Command: if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi
+ DEBUG [30dd2843] Finished in 0.115 seconds with exit status 0 (successful).
+  INFO [f34a02c5] Running /usr/bin/env mkdir -p /var/www/bwss/releases/20181113194252 as deploy@104.248.249.221
+ DEBUG [f34a02c5] Command: cd /var/www/bwss/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-glider.sh" ; /usr/bin/env mkdir -p /var/www/bwss/releases/20181113194252 )
+  INFO [958ca58e] Finished in 0.159 seconds with exit status 0 (successful).
+  INFO [99cd85fc] Running /usr/bin/env git archive 2level | /usr/bin/env tar -x -f - -C /var/www/bwss/releases/20181113194252 as deploy@104.248.249.221
+ DEBUG [99cd85fc] Command: cd /var/www/bwss/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-glider.sh" ; /usr/bin/env git archive 2level | /usr/bin/env tar -x -f - -C /var/www/bwss/releases/20181113194252 )
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	.env: time stamp 2018-11-13 20:42:30 is 244.98047744 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	.gitignore: time stamp 2018-11-13 20:42:30 is 244.979698521 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	Capfile: time stamp 2018-11-13 20:42:30 is 244.979378624 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	Gemfile: time stamp 2018-11-13 20:42:30 is 244.979097622 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	Gemfile.lock: time stamp 2018-11-13 20:42:30 is 244.978867086 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	LICENSE: time stamp 2018-11-13 20:42:30 is 244.978586106 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	README.md: time stamp 2018-11-13 20:42:30 is 244.977677642 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/.htaccess: time stamp 2018-11-13 20:42:30 is 244.97735361 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/AppCache.php: time stamp 2018-11-13 20:42:30 is 244.977086057 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/AppKernel.php: time stamp 2018-11-13 20:42:30 is 244.976868196 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/SonataAdminBundle/views/standard_layout.html.twig: time stamp 2018-11-13 20:42:30 is 244.976228046 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/SonataAdminBundle/views: time stamp 2018-11-13 20:42:30 is 244.975919621 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/SonataAdminBundle: time stamp 2018-11-13 20:42:30 is 244.975738014 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/fixtures/cost_items.yml: time stamp 2018-11-13 20:42:30 is 244.975484192 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/fixtures/service_categories.yml: time stamp 2018-11-13 20:42:30 is 244.975190774 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/fixtures/services.yml: time stamp 2018-11-13 20:42:30 is 244.974933151 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/fixtures: time stamp 2018-11-13 20:42:30 is 244.974673694 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/_services.html.twig: time stamp 2018-11-13 20:42:30 is 244.974408999 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/base.html.twig: time stamp 2018-11-13 20:42:30 is 244.974171564 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/categories.html.twig: time stamp 2018-11-13 20:42:30 is 244.972659462 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/default/index.html.twig: time stamp 2018-11-13 20:42:30 is 244.97238119 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/default: time stamp 2018-11-13 20:42:30 is 244.972265717 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/form_view.html.twig: time stamp 2018-11-13 20:42:30 is 244.972159256 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views/offer.html.twig: time stamp 2018-11-13 20:42:30 is 244.972047829 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources/views: time stamp 2018-11-13 20:42:30 is 244.971929255 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/Resources: time stamp 2018-11-13 20:42:30 is 244.971850851 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/bundles_config/hautelook_alice.yml: time stamp 2018-11-13 20:42:30 is 244.971721401 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/bundles_config/sonata/sonata_admin.yml: time stamp 2018-11-13 20:42:30 is 244.97156875 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/bundles_config/sonata: time stamp 2018-11-13 20:42:30 is 244.971480735 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/bundles_config: time stamp 2018-11-13 20:42:30 is 244.971384924 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/config.yml: time stamp 2018-11-13 20:42:30 is 244.97127881 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/config_dev.yml: time stamp 2018-11-13 20:42:30 is 244.971178843 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/config_prod.yml: time stamp 2018-11-13 20:42:30 is 244.9710772 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/config_test.yml: time stamp 2018-11-13 20:42:30 is 244.970979123 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/parameters.yml.dist: time stamp 2018-11-13 20:42:30 is 244.97088035 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	app/config/routing.yml: time stamp 2018-11-13 20:42:30 is 244.970774966 s in the future
+ DEBUG [11038533] 	
+tar: app/config/routing_dev.yml: time stamp 2018-11-13 20:42:30 is 244.970696241 s in the future
+tar: app/config/security.yml: time stamp 2018-11-13 20:42:30 is 244.970670222 s in the future
+tar: app/config/services.yml: time stamp 2018-11-13 20:42:30 is 244.970645941 s in the future
+tar: app/config: time stamp 2018-11-13 20:42:30 is 244.970633086 s in the future
+tar: app: time stamp 2018-11-13 20:42:30 is 244.970623818 s in the future
+tar: bin/console: time stamp 2018-11-13 20:42:30 is 244.970585227 s in the future
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	bin/symfony_requirements: time stamp 2018-11-13 20:42:30 is 244.969778838 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	bin: time stamp 2018-11-13 20:42:30 is 244.969679982 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	composer.json: time stamp 2018-11-13 20:42:30 is 244.969580182 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	composer.lock: time stamp 2018-11-13 20:42:30 is 244.967920313 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	config/deploy.rb: time stamp 2018-11-13 20:42:30 is 244.967711509 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	config/deploy/production.rb: time stamp 2018-11-13 20:42:30 is 244.96754071 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	config/deploy/staging.rb: time stamp 2018-11-13 20:42:30 is 244.967387087 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	config/deploy: time stamp 2018-11-13 20:42:30 is 244.967273145 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	config: time stamp 2018-11-13 20:42:30 is 244.967173896 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	log/capistrano.log: time stamp 2018-11-13 20:42:30 is 244.966186416 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	log: time stamp 2018-11-13 20:42:30 is 244.966057174 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	phpunit.xml.dist: time stamp 2018-11-13 20:42:30 is 244.965920447 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/.htaccess: time stamp 2018-11-13 20:42:30 is 244.965792475 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/CategorySnapshotAdmin.php: time stamp 2018-11-13 20:42:30 is 244.965662713 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/CostItemAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964902183 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/ItemSnapshotAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964752681 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/OfferAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964618048 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/OfferItemAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964495418 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/PriceAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964394295 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/ServiceAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964296647 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/ServiceCategoryAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964198883 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin/ServiceSnapshotAdmin.php: time stamp 2018-11-13 20:42:30 is 244.964089463 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Admin: time stamp 2018-11-13 20:42:30 is 244.963976861 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/AppBundle.php: time stamp 2018-11-13 20:42:30 is 244.963863936 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/CategorySnapshotAdminController.php: time stamp 2018-11-13 20:42:30 is 244.963732987 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/CostItemAdminController.php: time stamp 2018-11-13 20:42:30 is 244.963633476 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/DefaultController.php: time stamp 2018-11-13 20:42:30 is 244.963536156 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/ItemSnapshotAdminController.php: time stamp 2018-11-13 20:42:30 is 244.963438157 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/OfferAdminController.php: time stamp 2018-11-13 20:42:30 is 244.963323411 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/OfferController.php: time stamp 2018-11-13 20:42:30 is 244.963216436 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/OfferItemAdminController.php: time stamp 2018-11-13 20:42:30 is 244.963119267 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/PriceAdminController.php: time stamp 2018-11-13 20:42:30 is 244.963022046 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/ServiceAdminController.php: time stamp 2018-11-13 20:42:30 is 244.962925262 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/ServiceCategoryAdminController.php: time stamp 2018-11-13 20:42:30 is 244.962786704 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller/ServiceSnapshotAdminController.php: time stamp 2018-11-13 20:42:30 is 244.962682685 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Controller: time stamp 2018-11-13 20:42:30 is 244.962598108 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/AbstractSnapshot.php: time stamp 2018-11-13 20:42:30 is 244.962486433 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/CategorySnapshot.php: time stamp 2018-11-13 20:42:30 is 244.96153448 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/CostItem.php: time stamp 2018-11-13 20:42:30 is 244.961427001 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/ItemSnapshot.php: time stamp 2018-11-13 20:42:30 is 244.961335008 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/Offer.php: time stamp 2018-11-13 20:42:30 is 244.961245645 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/OfferItem.php: time stamp 2018-11-13 20:42:30 is 244.961155809 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/Service.php: time stamp 2018-11-13 20:42:30 is 244.961072692 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/ServiceCategory.php: time stamp 2018-11-13 20:42:30 is 244.96098928 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity/ServiceSnapshot.php: time stamp 2018-11-13 20:42:30 is 244.960902648 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Entity: time stamp 2018-11-13 20:42:30 is 244.960830891 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Form/OfferItemType.php: time stamp 2018-11-13 20:42:30 is 244.960733235 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Form/PickServiceType.php: time stamp 2018-11-13 20:42:30 is 244.960648398 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Form: time stamp 2018-11-13 20:42:30 is 244.960577415 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Model/Billable.php: time stamp 2018-11-13 20:42:30 is 244.960483023 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Model/Item.php: time stamp 2018-11-13 20:42:30 is 244.960396838 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Model/Priceable.php: time stamp 2018-11-13 20:42:30 is 244.960311282 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Model/Timestampable.php: time stamp 2018-11-13 20:42:30 is 244.960229106 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Model/Versionable.php: time stamp 2018-11-13 20:42:30 is 244.960142915 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Model: time stamp 2018-11-13 20:42:30 is 244.960071876 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/CategorySnapshotRepository.php: time stamp 2018-11-13 20:42:30 is 244.959943577 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/CostItemRepository.php: time stamp 2018-11-13 20:42:30 is 244.959858357 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/ItemSnapshotRepository.php: time stamp 2018-11-13 20:42:30 is 244.959338213 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/OfferItemRepository.php: time stamp 2018-11-13 20:42:30 is 244.959249 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/OfferRepository.php: time stamp 2018-11-13 20:42:30 is 244.959163173 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/PriceRepository.php: time stamp 2018-11-13 20:42:30 is 244.959080267 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/ServiceCategoryRepository.php: time stamp 2018-11-13 20:42:30 is 244.958983638 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/ServiceRepository.php: time stamp 2018-11-13 20:42:30 is 244.958901238 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/ServiceSnapshotRepository.php: time stamp 2018-11-13 20:42:30 is 244.958814043 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository/SnapshotRepository.php: time stamp 2018-11-13 20:42:30 is 244.958712904 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Repository: time stamp 2018-11-13 20:42:30 is 244.958638307 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/CategoryManager.php: time stamp 2018-11-13 20:42:30 is 244.958420011 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/CategorySnapshotManager.php: time stamp 2018-11-13 20:42:30 is 244.958314103 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/ItemManager.php: time stamp 2018-11-13 20:42:30 is 244.958224074 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/ItemSnapshotManager.php: time stamp 2018-11-13 20:42:30 is 244.95814086 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/OfferManager.php: time stamp 2018-11-13 20:42:30 is 244.95804992 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/ServiceManager.php: time stamp 2018-11-13 20:42:30 is 244.957961516 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/ServiceSnapshotManager.php: time stamp 2018-11-13 20:42:30 is 244.957878211 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service/SnapshotManager.php: time stamp 2018-11-13 20:42:30 is 244.957796354 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle/Service: time stamp 2018-11-13 20:42:30 is 244.957725021 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src/AppBundle: time stamp 2018-11-13 20:42:30 is 244.957658864 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	src: time stamp 2018-11-13 20:42:30 is 244.957594343 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	tests/AppBundle/Controller/DefaultControllerTest.php: time stamp 2018-11-13 20:42:30 is 244.957465068 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	tests/AppBundle/Controller: time stamp 2018-11-13 20:42:30 is 244.957329009 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	tests/AppBundle: time stamp 2018-11-13 20:42:30 is 244.957263511 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	tests: time stamp 2018-11-13 20:42:30 is 244.957198913 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/SymfonyRequirements.php: time stamp 2018-11-13 20:42:30 is 244.957062196 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/cache/.gitkeep: time stamp 2018-11-13 20:42:30 is 244.956656235 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/cache: time stamp 2018-11-13 20:42:30 is 244.956581263 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/logs/.gitkeep: time stamp 2018-11-13 20:42:30 is 244.956491312 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/logs: time stamp 2018-11-13 20:42:30 is 244.95642013 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/sessions/.gitkeep: time stamp 2018-11-13 20:42:30 is 244.956332688 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var/sessions: time stamp 2018-11-13 20:42:30 is 244.956261241 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	var: time stamp 2018-11-13 20:42:30 is 244.956196607 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/.htaccess: time stamp 2018-11-13 20:42:30 is 244.956059348 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/app.php: time stamp 2018-11-13 20:42:30 is 244.955916653 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/app_dev.php: time stamp 2018-11-13 20:42:30 is 244.955832458 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/apple-touch-icon.png: time stamp 2018-11-13 20:42:30 is 244.955749515 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/bwss.png: time stamp 2018-11-13 20:42:30 is 244.955657952 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/config.php: time stamp 2018-11-13 20:42:30 is 244.955552118 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/favicon.ico: time stamp 2018-11-13 20:42:30 is 244.955462431 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/info.php: time stamp 2018-11-13 20:42:30 is 244.955368304 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web/robots.txt: time stamp 2018-11-13 20:42:30 is 244.955285983 s in the future
+ DEBUG [11038533] 	
+ DEBUG [11038533] 	tar: 
+ DEBUG [11038533] 	web: time stamp 2018-11-13 20:42:30 is 244.955209721 s in the future
+ DEBUG [11038533] 	
+  INFO [11038533] Finished in 0.301 seconds with exit status 0 (successful).
+ DEBUG [b45c4478] Running if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [b45c4478] Command: if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi
+ DEBUG [8cec8510] Finished in 0.179 seconds with exit status 0 (successful).
+ DEBUG [e5413fb1] Running /usr/bin/env git rev-list --max-count=1 2level as deploy@104.248.249.221
+ DEBUG [e5413fb1] Command: cd /var/www/bwss/repo && ( export SYMFONY_ENV="prod" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-glider.sh" ; /usr/bin/env git rev-list --max-count=1 2level )
+ DEBUG [659e7adb] 	cdd150e96ce599c9fb85f92cf1754e9c7d751ae4
+ DEBUG [659e7adb] Finished in 0.196 seconds with exit status 0 (successful).
+ DEBUG [5bfc694e] Running if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [5bfc694e] Command: if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi
+ DEBUG [8c310270] Finished in 0.159 seconds with exit status 0 (successful).
+  INFO [8981d3ef] Running /usr/bin/env echo "cdd150e96ce599c9fb85f92cf1754e9c7d751ae4" > REVISION as deploy@104.248.249.221
+ DEBUG [8981d3ef] Command: cd /var/www/bwss/releases/20181113194252 && ( export SYMFONY_ENV="prod" ; /usr/bin/env echo "cdd150e96ce599c9fb85f92cf1754e9c7d751ae4" > REVISION )
+  INFO [ad8c038e] Finished in 0.176 seconds with exit status 0 (successful).
+  INFO [7aa173e8] Running /usr/bin/env mkdir -p /var/www/bwss/releases/20181113194252/app/config /var/www/bwss/releases/20181113194252 as deploy@104.248.249.221
+ DEBUG [7aa173e8] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/bwss/releases/20181113194252/app/config /var/www/bwss/releases/20181113194252 )
+  INFO [baf45344] Finished in 0.158 seconds with exit status 0 (successful).
+ DEBUG [45f6a3e2] Running [ -L /var/www/bwss/releases/20181113194252/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [45f6a3e2] Command: [ -L /var/www/bwss/releases/20181113194252/app/config/parameters.yml ]
+ DEBUG [ce7f0ad8] Finished in 0.173 seconds with exit status 1 (failed).
+ DEBUG [4949fb92] Running [ -f /var/www/bwss/releases/20181113194252/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [4949fb92] Command: [ -f /var/www/bwss/releases/20181113194252/app/config/parameters.yml ]
+ DEBUG [56be9a30] Finished in 0.156 seconds with exit status 1 (failed).
+  INFO [67cb69d3] Running /usr/bin/env ln -s /var/www/bwss/shared/app/config/parameters.yml /var/www/bwss/releases/20181113194252/app/config/parameters.yml as deploy@104.248.249.221
+ DEBUG [67cb69d3] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env ln -s /var/www/bwss/shared/app/config/parameters.yml /var/www/bwss/releases/20181113194252/app/config/parameters.yml )
+  INFO [da713a11] Finished in 0.174 seconds with exit status 0 (successful).
+ DEBUG [98fe6bf6] Running [ -L /var/www/bwss/releases/20181113194252/.env ] as deploy@104.248.249.221
+ DEBUG [98fe6bf6] Command: [ -L /var/www/bwss/releases/20181113194252/.env ]
+ DEBUG [4870cf66] Finished in 0.165 seconds with exit status 1 (failed).
+ DEBUG [b66ef17a] Running [ -f /var/www/bwss/releases/20181113194252/.env ] as deploy@104.248.249.221
+ DEBUG [b66ef17a] Command: [ -f /var/www/bwss/releases/20181113194252/.env ]
+ DEBUG [bedf0e9e] Finished in 0.156 seconds with exit status 0 (successful).
+  INFO [7856d0ee] Running /usr/bin/env rm /var/www/bwss/releases/20181113194252/.env as deploy@104.248.249.221
+ DEBUG [7856d0ee] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env rm /var/www/bwss/releases/20181113194252/.env )
+  INFO [4c918879] Finished in 0.163 seconds with exit status 0 (successful).
+  INFO [e6e29e5d] Running /usr/bin/env ln -s /var/www/bwss/shared/.env /var/www/bwss/releases/20181113194252/.env as deploy@104.248.249.221
+ DEBUG [e6e29e5d] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env ln -s /var/www/bwss/shared/.env /var/www/bwss/releases/20181113194252/.env )
+  INFO [b153eafa] Finished in 0.176 seconds with exit status 0 (successful).
+  INFO [06d63961] Running /usr/bin/env mkdir -p /var/www/bwss/releases/20181113194252/var /var/www/bwss/releases/20181113194252/web/uploads as deploy@104.248.249.221
+ DEBUG [06d63961] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -p /var/www/bwss/releases/20181113194252/var /var/www/bwss/releases/20181113194252/web/uploads )
+  INFO [f68a9cde] Finished in 0.158 seconds with exit status 0 (successful).
+ DEBUG [2c276e87] Running [ -L /var/www/bwss/releases/20181113194252/var/logs ] as deploy@104.248.249.221
+ DEBUG [2c276e87] Command: [ -L /var/www/bwss/releases/20181113194252/var/logs ]
+ DEBUG [2d0d4c39] Finished in 0.166 seconds with exit status 1 (failed).
+ DEBUG [0f08e6d2] Running [ -d /var/www/bwss/releases/20181113194252/var/logs ] as deploy@104.248.249.221
+ DEBUG [0f08e6d2] Command: [ -d /var/www/bwss/releases/20181113194252/var/logs ]
+ DEBUG [5150c43b] Finished in 0.153 seconds with exit status 0 (successful).
+  INFO [8533649f] Running /usr/bin/env rm -rf /var/www/bwss/releases/20181113194252/var/logs as deploy@104.248.249.221
+ DEBUG [8533649f] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env rm -rf /var/www/bwss/releases/20181113194252/var/logs )
+  INFO [39a593cd] Finished in 0.160 seconds with exit status 0 (successful).
+  INFO [c81ef826] Running /usr/bin/env ln -s /var/www/bwss/shared/var/logs /var/www/bwss/releases/20181113194252/var/logs as deploy@104.248.249.221
+ DEBUG [c81ef826] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env ln -s /var/www/bwss/shared/var/logs /var/www/bwss/releases/20181113194252/var/logs )
+  INFO [77785dc6] Finished in 0.165 seconds with exit status 0 (successful).
+ DEBUG [ee357f59] Running [ -L /var/www/bwss/releases/20181113194252/web/uploads/media ] as deploy@104.248.249.221
+ DEBUG [ee357f59] Command: [ -L /var/www/bwss/releases/20181113194252/web/uploads/media ]
+ DEBUG [edbe62ac] Finished in 0.174 seconds with exit status 1 (failed).
+ DEBUG [b5c0960f] Running [ -d /var/www/bwss/releases/20181113194252/web/uploads/media ] as deploy@104.248.249.221
+ DEBUG [b5c0960f] Command: [ -d /var/www/bwss/releases/20181113194252/web/uploads/media ]
+ DEBUG [4507f070] Finished in 0.152 seconds with exit status 1 (failed).
+  INFO [d6a1aab4] Running /usr/bin/env ln -s /var/www/bwss/shared/web/uploads/media /var/www/bwss/releases/20181113194252/web/uploads/media as deploy@104.248.249.221
+ DEBUG [d6a1aab4] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env ln -s /var/www/bwss/shared/web/uploads/media /var/www/bwss/releases/20181113194252/web/uploads/media )
+  INFO [4a094930] Finished in 0.190 seconds with exit status 0 (successful).
+ DEBUG [0c6ca4fa] Running if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [0c6ca4fa] Command: if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi
+ DEBUG [5beb6eb4] Finished in 0.166 seconds with exit status 0 (successful).
+ DEBUG [bedb5775] Running [ -d /var/www/bwss/releases/20181113194252/var/cache ] as deploy@104.248.249.221
+ DEBUG [bedb5775] Command: [ -d /var/www/bwss/releases/20181113194252/var/cache ]
+ DEBUG [5847c5b3] Finished in 0.157 seconds with exit status 0 (successful).
+  INFO [7f0b0324] Running /usr/bin/env rm -rf /var/www/bwss/releases/20181113194252/var/cache as deploy@104.248.249.221
+ DEBUG [7f0b0324] Command: cd /var/www/bwss/releases/20181113194252 && ( export SYMFONY_ENV="prod" ; /usr/bin/env rm -rf /var/www/bwss/releases/20181113194252/var/cache )
+  INFO [11ac1401] Finished in 0.168 seconds with exit status 0 (successful).
+  INFO [bf266a80] Running /usr/bin/env mkdir -pv var/cache as deploy@104.248.249.221
+ DEBUG [bf266a80] Command: cd /var/www/bwss/releases/20181113194252 && ( export SYMFONY_ENV="prod" ; /usr/bin/env mkdir -pv var/cache )
+ DEBUG [3c2897f0] 	mkdir: created directory 'var/cache'
+  INFO [3c2897f0] Finished in 0.165 seconds with exit status 0 (successful).
+ DEBUG [5c16f9d8] Running [ -d /var/www/bwss/releases/20181113194252/var ] as deploy@104.248.249.221
+ DEBUG [5c16f9d8] Command: [ -d /var/www/bwss/releases/20181113194252/var ]
+ DEBUG [7e69869a] Finished in 0.149 seconds with exit status 0 (successful).
+  INFO [8adb97c5] Running /usr/bin/env setfacl -Rn -m u:deploy:rwX -m u:www-data:rwX -m u:deploy:rwX /var/www/bwss/releases/20181113194252/var as deploy@104.248.249.221
+ DEBUG [8adb97c5] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env setfacl -Rn -m u:deploy:rwX -m u:www-data:rwX -m u:deploy:rwX /var/www/bwss/releases/20181113194252/var )
+  INFO [b7f95be0] Finished in 0.159 seconds with exit status 0 (successful).
+  INFO [28e96a6d] Running /usr/bin/env setfacl -dRn -m u:deploy:rwX -m u:www-data:rwX -m u:deploy:rwX /var/www/bwss/releases/20181113194252/var as deploy@104.248.249.221
+ DEBUG [28e96a6d] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env setfacl -dRn -m u:deploy:rwX -m u:www-data:rwX -m u:deploy:rwX /var/www/bwss/releases/20181113194252/var )
+  INFO [15fe4205] Finished in 0.154 seconds with exit status 0 (successful).
+ DEBUG [efcea10f] Running if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [efcea10f] Command: if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi
+ DEBUG [af0cb91c] Finished in 0.154 seconds with exit status 0 (successful).
+  INFO [b2636295] Running /usr/bin/env chmod 755 bin/console as deploy@104.248.249.221
+ DEBUG [b2636295] Command: cd /var/www/bwss/releases/20181113194252 && ( export SYMFONY_ENV="prod" ; /usr/bin/env chmod 755 bin/console )
+  INFO [03177404] Finished in 0.159 seconds with exit status 0 (successful).
+ DEBUG [fe8ca9b2] Running if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [fe8ca9b2] Command: if test ! -d /var/www/bwss/releases/20181113194252; then echo "Directory does not exist '/var/www/bwss/releases/20181113194252'" 1>&2; false; fi
+ DEBUG [74f0f76e] Finished in 0.183 seconds with exit status 0 (successful).
+  INFO [49057cfd] Running /usr/bin/env composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader as deploy@104.248.249.221
+ DEBUG [49057cfd] Command: cd /var/www/bwss/releases/20181113194252 && ( export SYMFONY_ENV="prod" ; /usr/bin/env composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader )
+  INFO [ca464196] Finished in 5.977 seconds with exit status 0 (successful).
+  INFO [74cb2282] Running /usr/bin/env php /var/www/bwss/releases/20181113194252/bin/console cache:warmup  --no-debug as deploy@104.248.249.221
+ DEBUG [74cb2282] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env php /var/www/bwss/releases/20181113194252/bin/console cache:warmup  --no-debug )
+ DEBUG [a1ff6dfd] 	
+ DEBUG [a1ff6dfd] 	 // Warming up the cache for the prod environment with debug                    
+ DEBUG [a1ff6dfd] 	 // false                                                                       
+ DEBUG [a1ff6dfd] 	
+ DEBUG [a1ff6dfd] 	 [OK] Cache for the "prod" environment (debug=false) was successfully warmed.   
+ DEBUG [a1ff6dfd] 	
+  INFO [a1ff6dfd] Finished in 2.878 seconds with exit status 0 (successful).
+  INFO [a1a11983] Running /usr/bin/env ln -s /var/www/bwss/releases/20181113194252 /var/www/bwss/releases/current as deploy@104.248.249.221
+ DEBUG [a1a11983] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env ln -s /var/www/bwss/releases/20181113194252 /var/www/bwss/releases/current )
+  INFO [e43ad0cc] Finished in 0.166 seconds with exit status 0 (successful).
+  INFO [8929737e] Running /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss as deploy@104.248.249.221
+ DEBUG [8929737e] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss )
+  INFO [d422e1a6] Finished in 0.197 seconds with exit status 0 (successful).
+  INFO [08d6e1ed] Running /usr/bin/env php /var/www/bwss/releases/20181113194252/bin/console doctrine:schema:update --force --no-debug as deploy@104.248.249.221
+ DEBUG [08d6e1ed] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env php /var/www/bwss/releases/20181113194252/bin/console doctrine:schema:update --force --no-debug )
+ DEBUG [8a3293a6] 	
+ DEBUG [8a3293a6] 	 [OK] Nothing to update - your database is already in sync with the current     
+ DEBUG [8a3293a6] 	      entity metadata.                                                          
+ DEBUG [8a3293a6] 	
+  INFO [8a3293a6] Finished in 0.407 seconds with exit status 0 (successful).
+  INFO [afc873c7] Running /usr/bin/env php /var/www/bwss/releases/20181113194252/bin/console hautelook:fixtures:load --purge-with-truncate --no-debug as deploy@104.248.249.221
+ DEBUG [afc873c7] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env php /var/www/bwss/releases/20181113194252/bin/console hautelook:fixtures:load --purge-with-truncate --no-debug )
+  INFO [5631e809] Finished in 0.733 seconds with exit status 0 (successful).
+ DEBUG [57d863a1] Running /usr/bin/env ls -x /var/www/bwss/releases as deploy@104.248.249.221
+ DEBUG [57d863a1] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env ls -x /var/www/bwss/releases )
+ DEBUG [73d363c5] 	20181113192340	20181113192443	20181113192525	20181113193004	20181113193538
+20181113194252
+ DEBUG [73d363c5] Finished in 0.153 seconds with exit status 0 (successful).
+  INFO Keeping 5 of 6 deployed releases on 104.248.249.221
+ DEBUG [2141895d] Running [ -d /var/www/bwss/current ] as deploy@104.248.249.221
+ DEBUG [2141895d] Command: [ -d /var/www/bwss/current ]
+ DEBUG [96797cdb] Finished in 0.175 seconds with exit status 0 (successful).
+ DEBUG [10300967] Running /usr/bin/env readlink /var/www/bwss/current as deploy@104.248.249.221
+ DEBUG [10300967] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env readlink /var/www/bwss/current )
+ DEBUG [b41b806e] 	/var/www/bwss/releases/20181113194252
+ DEBUG [b41b806e] Finished in 0.168 seconds with exit status 0 (successful).
+  INFO [91ebb228] Running /usr/bin/env rm -rf /var/www/bwss/releases/20181113192340 as deploy@104.248.249.221
+ DEBUG [91ebb228] Command: ( export SYMFONY_ENV="prod" ; /usr/bin/env rm -rf /var/www/bwss/releases/20181113192340 )
+  INFO [b7828bb0] Finished in 0.182 seconds with exit status 0 (successful).
+ DEBUG [25479bdb] Running if test ! -d /var/www/bwss/releases; then echo "Directory does not exist '/var/www/bwss/releases'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [25479bdb] Command: if test ! -d /var/www/bwss/releases; then echo "Directory does not exist '/var/www/bwss/releases'" 1>&2; false; fi
+ DEBUG [e48e1025] Finished in 0.179 seconds with exit status 0 (successful).
+  INFO [894f8877] Running /usr/bin/env echo "Branch 2level (at cdd150e96ce599c9fb85f92cf1754e9c7d751ae4) deployed as release 20181113194252 by glider" >> /var/www/bwss/revisions.log as deploy@104.248.249.221
+ DEBUG [894f8877] Command: cd /var/www/bwss/releases && ( export SYMFONY_ENV="prod" ; /usr/bin/env echo "Branch 2level (at cdd150e96ce599c9fb85f92cf1754e9c7d751ae4) deployed as release 20181113194252 by glider" >> /var/www/bwss/revisions.log )
+  INFO [0fbdcf23] Finished in 0.181 seconds with exit status 0 (successful).

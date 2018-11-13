@@ -75,10 +75,9 @@ class AbstractSnapshot
         return $this->name;
     }
 
-
     public function __toString()
     {
-        return $this->name;
+        return $this->name .'  ['. $this->id.']';
     }
 
     /**

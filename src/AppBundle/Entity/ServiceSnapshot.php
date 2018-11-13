@@ -78,11 +78,6 @@ class ServiceSnapshot extends AbstractSnapshot
         return $this->itemSnapshots;
     }
 
-    public function __toString()
-    {
-        return $this->name . ' Snapshot';
-    }
-
     /**
      * @ORM\PreUpdate
      */

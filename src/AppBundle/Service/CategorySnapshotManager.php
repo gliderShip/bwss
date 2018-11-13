@@ -47,7 +47,7 @@ class CategorySnapshotManager
 
     }
 
-    private function createSnapshot(ServiceCategory $category, int $version)
+    public function createSnapshot(ServiceCategory $category, int $version)
     {
             $categorySnapshot = new CategorySnapshot($category, $version);
 
