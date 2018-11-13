@@ -447,3 +447,8 @@
   INFO [a687443e] Running /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss as deploy@104.248.249.221
  DEBUG [a687443e] Command: /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss
   INFO [46ab4c2a] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-11-13 20:00:42 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [ef3a4065] Running /usr/bin/env mkdir -p /tmp/bwss as deploy@104.248.249.221
+ DEBUG [ef3a4065] Command: /usr/bin/env mkdir -p /tmp/bwss
