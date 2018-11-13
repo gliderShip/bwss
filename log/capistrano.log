@@ -318,3 +318,132 @@
   INFO [0b5463b4] Running /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss as deploy@104.248.249.221
  DEBUG [0b5463b4] Command: /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss
   INFO [a192c8fa] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-11-13 17:04:12 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [9e748076] Running /usr/bin/env mkdir -p /tmp/bwss as deploy@104.248.249.221
+ DEBUG [9e748076] Command: /usr/bin/env mkdir -p /tmp/bwss
+  INFO [c543210d] Finished in 1.221 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/bwss/git-ssh-bwss-production-Glider.sh 0.0%
+  INFO Uploading /tmp/bwss/git-ssh-bwss-production-Glider.sh 100.0%
+  INFO [0526c59d] Running /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-Glider.sh as deploy@104.248.249.221
+ DEBUG [0526c59d] Command: /usr/bin/env chmod 700 /tmp/bwss/git-ssh-bwss-production-Glider.sh
+  INFO [7d873928] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [3a3416b2] Running /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD as deploy@104.248.249.221
+ DEBUG [3a3416b2] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git ls-remote git@github.com:gliderShip/bwss.git HEAD )
+ DEBUG [1690c306] 	0db024f5b972572f9d413f26caa5c2a626758c39	HEAD
+  INFO [1690c306] Finished in 1.652 seconds with exit status 0 (successful).
+  INFO [7a4b845a] Running /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases as deploy@104.248.249.221
+ DEBUG [7a4b845a] Command: /usr/bin/env mkdir -p /var/www/bwss/shared /var/www/bwss/releases
+  INFO [80301f44] Finished in 0.192 seconds with exit status 0 (successful).
+  INFO [beb913d7] Running /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media as deploy@104.248.249.221
+ DEBUG [beb913d7] Command: /usr/bin/env mkdir -p /var/www/bwss/shared/var/logs /var/www/bwss/shared/web/uploads/media
+  INFO [dbeffd3e] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [002b8162] Running /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared as deploy@104.248.249.221
+ DEBUG [002b8162] Command: /usr/bin/env mkdir -p /var/www/bwss/shared/app/config /var/www/bwss/shared
+  INFO [0a451b7d] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [89b6a73e] Running [ -f /var/www/bwss/shared/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [89b6a73e] Command: [ -f /var/www/bwss/shared/app/config/parameters.yml ]
+ DEBUG [adcb649b] Finished in 0.232 seconds with exit status 0 (successful).
+ DEBUG [64d936b8] Running [ -f /var/www/bwss/shared/.env ] as deploy@104.248.249.221
+ DEBUG [64d936b8] Command: [ -f /var/www/bwss/shared/.env ]
+ DEBUG [975fa336] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [16135e3f] Running [ -f /var/www/bwss/current/REVISION ] as deploy@104.248.249.221
+ DEBUG [16135e3f] Command: [ -f /var/www/bwss/current/REVISION ]
+ DEBUG [59a50b29] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [751a31db] Running /usr/bin/env cat /var/www/bwss/current/REVISION 2>/dev/null as deploy@104.248.249.221
+ DEBUG [751a31db] Command: /usr/bin/env cat /var/www/bwss/current/REVISION 2>/dev/null
+ DEBUG [ed99c02a] 	40d4ca020cba0c7c78650634262d0b42fb0c9f17
+ DEBUG [ed99c02a] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [6c39d753] Running [ -f /var/www/bwss/repo/HEAD ] as deploy@104.248.249.221
+ DEBUG [6c39d753] Command: [ -f /var/www/bwss/repo/HEAD ]
+ DEBUG [16c332f6] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /var/www/bwss/repo
+ DEBUG [4ee4e26e] Running if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [4ee4e26e] Command: if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi
+ DEBUG [b8698c51] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [81492fe8] Running /usr/bin/env git remote set-url origin git@github.com:gliderShip/bwss.git as deploy@104.248.249.221
+ DEBUG [81492fe8] Command: cd /var/www/bwss/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git remote set-url origin git@github.com:gliderShip/bwss.git )
+  INFO [cb4c6255] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [aff568c5] Running /usr/bin/env git remote update --prune as deploy@104.248.249.221
+ DEBUG [aff568c5] Command: cd /var/www/bwss/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [30946dd5] 	Fetching origin
+ DEBUG [30946dd5] 	From github.com:gliderShip/bwss
+   40d4ca0..c51524b  2level     -> 2level
+  INFO [30946dd5] Finished in 1.823 seconds with exit status 0 (successful).
+ DEBUG [f0bfb93c] Running if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [f0bfb93c] Command: if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi
+ DEBUG [fc38902c] Finished in 0.192 seconds with exit status 0 (successful).
+  INFO [ecd5f99c] Running /usr/bin/env mkdir -p /var/www/bwss/releases/20181113160417 as deploy@104.248.249.221
+ DEBUG [ecd5f99c] Command: cd /var/www/bwss/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env mkdir -p /var/www/bwss/releases/20181113160417 )
+  INFO [60d75e65] Finished in 0.232 seconds with exit status 0 (successful).
+  INFO [2331f275] Running /usr/bin/env git archive 2level | /usr/bin/env tar -x -f - -C /var/www/bwss/releases/20181113160417 as deploy@104.248.249.221
+ DEBUG [2331f275] Command: cd /var/www/bwss/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git archive 2level | /usr/bin/env tar -x -f - -C /var/www/bwss/releases/20181113160417 )
+  INFO [6cdd58d7] Finished in 0.250 seconds with exit status 0 (successful).
+ DEBUG [f3f742e3] Running if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [f3f742e3] Command: if test ! -d /var/www/bwss/repo; then echo "Directory does not exist '/var/www/bwss/repo'" 1>&2; false; fi
+ DEBUG [6e06d43c] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [f4f5e64f] Running /usr/bin/env git rev-list --max-count=1 2level as deploy@104.248.249.221
+ DEBUG [f4f5e64f] Command: cd /var/www/bwss/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/bwss/git-ssh-bwss-production-Glider.sh" ; /usr/bin/env git rev-list --max-count=1 2level )
+ DEBUG [0def5be2] 	c51524b895f3687d316aea9a890fa0a49f29f8cd
+ DEBUG [0def5be2] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [cf1d54c4] Running if test ! -d /var/www/bwss/releases/20181113160417; then echo "Directory does not exist '/var/www/bwss/releases/20181113160417'" 1>&2; false; fi as deploy@104.248.249.221
+ DEBUG [cf1d54c4] Command: if test ! -d /var/www/bwss/releases/20181113160417; then echo "Directory does not exist '/var/www/bwss/releases/20181113160417'" 1>&2; false; fi
+ DEBUG [354fa932] Finished in 0.233 seconds with exit status 0 (successful).
+  INFO [8960f4f0] Running /usr/bin/env echo "c51524b895f3687d316aea9a890fa0a49f29f8cd" > REVISION as deploy@104.248.249.221
+ DEBUG [8960f4f0] Command: cd /var/www/bwss/releases/20181113160417 && /usr/bin/env echo "c51524b895f3687d316aea9a890fa0a49f29f8cd" > REVISION
+  INFO [b71f7cfa] Finished in 0.232 seconds with exit status 0 (successful).
+  INFO [69d5a06b] Running /usr/bin/env mkdir -p /var/www/bwss/releases/20181113160417/app/config /var/www/bwss/releases/20181113160417 as deploy@104.248.249.221
+ DEBUG [69d5a06b] Command: /usr/bin/env mkdir -p /var/www/bwss/releases/20181113160417/app/config /var/www/bwss/releases/20181113160417
+  INFO [a04d6be0] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [a21a0179] Running [ -L /var/www/bwss/releases/20181113160417/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [a21a0179] Command: [ -L /var/www/bwss/releases/20181113160417/app/config/parameters.yml ]
+ DEBUG [c2643970] Finished in 0.232 seconds with exit status 1 (failed).
+ DEBUG [79dbf5cd] Running [ -f /var/www/bwss/releases/20181113160417/app/config/parameters.yml ] as deploy@104.248.249.221
+ DEBUG [79dbf5cd] Command: [ -f /var/www/bwss/releases/20181113160417/app/config/parameters.yml ]
+ DEBUG [d09cb71e] Finished in 0.231 seconds with exit status 1 (failed).
+  INFO [f69200e9] Running /usr/bin/env ln -s /var/www/bwss/shared/app/config/parameters.yml /var/www/bwss/releases/20181113160417/app/config/parameters.yml as deploy@104.248.249.221
+ DEBUG [f69200e9] Command: /usr/bin/env ln -s /var/www/bwss/shared/app/config/parameters.yml /var/www/bwss/releases/20181113160417/app/config/parameters.yml
+  INFO [29bb9335] Finished in 0.232 seconds with exit status 0 (successful).
+ DEBUG [5f9476fd] Running [ -L /var/www/bwss/releases/20181113160417/.env ] as deploy@104.248.249.221
+ DEBUG [5f9476fd] Command: [ -L /var/www/bwss/releases/20181113160417/.env ]
+ DEBUG [22c1cffb] Finished in 0.232 seconds with exit status 1 (failed).
+ DEBUG [13ccbad5] Running [ -f /var/www/bwss/releases/20181113160417/.env ] as deploy@104.248.249.221
+ DEBUG [13ccbad5] Command: [ -f /var/www/bwss/releases/20181113160417/.env ]
+ DEBUG [910f98fc] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [af366f5e] Running /usr/bin/env rm /var/www/bwss/releases/20181113160417/.env as deploy@104.248.249.221
+ DEBUG [af366f5e] Command: /usr/bin/env rm /var/www/bwss/releases/20181113160417/.env
+  INFO [a47b000b] Finished in 0.232 seconds with exit status 0 (successful).
+  INFO [f93782ed] Running /usr/bin/env ln -s /var/www/bwss/shared/.env /var/www/bwss/releases/20181113160417/.env as deploy@104.248.249.221
+ DEBUG [f93782ed] Command: /usr/bin/env ln -s /var/www/bwss/shared/.env /var/www/bwss/releases/20181113160417/.env
+  INFO [3ba52826] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [807b5346] Running /usr/bin/env mkdir -p /var/www/bwss/releases/20181113160417/var /var/www/bwss/releases/20181113160417/web/uploads as deploy@104.248.249.221
+ DEBUG [807b5346] Command: /usr/bin/env mkdir -p /var/www/bwss/releases/20181113160417/var /var/www/bwss/releases/20181113160417/web/uploads
+  INFO [a4f37c69] Finished in 0.231 seconds with exit status 0 (successful).
+ DEBUG [9c5cbbdd] Running [ -L /var/www/bwss/releases/20181113160417/var/logs ] as deploy@104.248.249.221
+ DEBUG [9c5cbbdd] Command: [ -L /var/www/bwss/releases/20181113160417/var/logs ]
+ DEBUG [9500c346] Finished in 0.232 seconds with exit status 1 (failed).
+ DEBUG [a13f3e28] Running [ -d /var/www/bwss/releases/20181113160417/var/logs ] as deploy@104.248.249.221
+ DEBUG [a13f3e28] Command: [ -d /var/www/bwss/releases/20181113160417/var/logs ]
+ DEBUG [9a7969c8] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [f8bde05a] Running /usr/bin/env rm -rf /var/www/bwss/releases/20181113160417/var/logs as deploy@104.248.249.221
+ DEBUG [f8bde05a] Command: /usr/bin/env rm -rf /var/www/bwss/releases/20181113160417/var/logs
+  INFO [7e9ebe10] Finished in 0.231 seconds with exit status 0 (successful).
+  INFO [003ea205] Running /usr/bin/env ln -s /var/www/bwss/shared/var/logs /var/www/bwss/releases/20181113160417/var/logs as deploy@104.248.249.221
+ DEBUG [003ea205] Command: /usr/bin/env ln -s /var/www/bwss/shared/var/logs /var/www/bwss/releases/20181113160417/var/logs
+  INFO [be29f7b7] Finished in 0.232 seconds with exit status 0 (successful).
+ DEBUG [7f10fb45] Running [ -L /var/www/bwss/releases/20181113160417/web/uploads/media ] as deploy@104.248.249.221
+ DEBUG [7f10fb45] Command: [ -L /var/www/bwss/releases/20181113160417/web/uploads/media ]
+ DEBUG [19aac8bf] Finished in 0.232 seconds with exit status 1 (failed).
+ DEBUG [d14a98ab] Running [ -d /var/www/bwss/releases/20181113160417/web/uploads/media ] as deploy@104.248.249.221
+ DEBUG [d14a98ab] Command: [ -d /var/www/bwss/releases/20181113160417/web/uploads/media ]
+ DEBUG [c423afe1] Finished in 0.231 seconds with exit status 1 (failed).
+  INFO [5d7ba455] Running /usr/bin/env ln -s /var/www/bwss/shared/web/uploads/media /var/www/bwss/releases/20181113160417/web/uploads/media as deploy@104.248.249.221
+ DEBUG [5d7ba455] Command: /usr/bin/env ln -s /var/www/bwss/shared/web/uploads/media /var/www/bwss/releases/20181113160417/web/uploads/media
+  INFO [75ee2ddb] Finished in 0.232 seconds with exit status 0 (successful).
+  INFO [1d35d802] Running /usr/bin/env ln -s /var/www/bwss/releases/20181113160417 /var/www/bwss/releases/current as deploy@104.248.249.221
+ DEBUG [1d35d802] Command: /usr/bin/env ln -s /var/www/bwss/releases/20181113160417 /var/www/bwss/releases/current
+  INFO [6f8801a9] Finished in 0.232 seconds with exit status 0 (successful).
+  INFO [a687443e] Running /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss as deploy@104.248.249.221
+ DEBUG [a687443e] Command: /usr/bin/env mv /var/www/bwss/releases/current /var/www/bwss
+  INFO [46ab4c2a] Finished in 0.231 seconds with exit status 0 (successful).
