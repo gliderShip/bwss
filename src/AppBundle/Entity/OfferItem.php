@@ -132,7 +132,7 @@ class OfferItem implements Billable
     public function __toString()
     {
 
-        return $this->itemSnapshot->getName() ?? '';
+        return 'Oitem '.$this->itemSnapshot->getName() . ' ['.$this->getId().']';
     }
 
 
@@ -252,7 +252,6 @@ class OfferItem implements Billable
 
         return false;
     }
-
 
     /**
      * @ORM\PreUpdate

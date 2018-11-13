@@ -137,7 +137,7 @@ class Offer
 
     public function __toString()
     {
-        return $this->serviceSnapshot->getName() . ' Offer';
+        return 'Offer '.$this->serviceSnapshot->getName() . ' ['.$this->getId().']';
     }
 
 }
