@@ -17,7 +17,6 @@ class OfferItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        dump($builder->getData());
         $builder->add('hours', NumberType::class);
 //        $builder->add('itemSnapshot', null, ['by_reference'=>false]);
 //        $builder->add('itemSnapshot', HiddenType::class,

@@ -70,10 +70,7 @@ class OfferController extends Controller
 
 
                 $this->em->flush();
-                dump($serviceSnapshot);
                 $this->em->refresh($serviceSnapshot);
-                dump($serviceSnapshot);
-//                die;
 
                 return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId()]);
             }

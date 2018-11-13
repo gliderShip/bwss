@@ -92,7 +92,7 @@ namespace :deploy do
   desc "DROP DATABASE SCHEMA"
   task :drop_schema do
     on roles(:db) do
-      invoke 'symfony:console', :'doctrine:schema:drop --force'
+      symfony_console('doctrine:schema:drop', '--force')
     end
   end
 end
@@ -102,19 +102,17 @@ namespace :deploy do
   desc "UPDATE DATABASE SCHEMA"
   task :update_schema do
     on roles(:db) do
-      invoke 'symfony:console', :'doctrine:schema:update --force'
-#       symfony_console('hautelook:fixtures:load', '--purge-with-truncate')
+        symfony_console('doctrine:schema:update', '--force')
     end
   end
 end
 
 # reload database with fixtures
 namespace :deploy do
-  desc "DESTROY DATABASE AND RELOAD FIXTURES"
+  desc "LOAD FIXTURES"
   task :load_fixtures do
     on roles(:db) do
-      invoke 'symfony:console', :'hautelook:fixtures:load --purge-with-truncate'
-#       symfony_console('hautelook:fixtures:load', '--purge-with-truncate')
+       symfony_console('hautelook:fixtures:load', '--purge-with-truncate')
     end
   end
 end
@@ -124,13 +122,14 @@ namespace :deploy do
   desc "APPEND DOCTRINE FIXTURES"
   task :append_doctrine_fixtures do
     on roles(:db) do
-      invoke 'symfony:console', :'d:f:l --append'
+#      invoke 'symfony:console', :'d:f:l --append'
+        symfony_console('d:f:l', '--append')
     end
   end
 end
 
 #DROP DATABASE SCHEMA
-after 'deploy:published', 'deploy:drop_schema'
+#after 'deploy:published', 'deploy:drop_schema'
 
 #UPDATE DATABASE SCHEMA
 after 'deploy:published', 'deploy:update_schema'
@@ -138,8 +137,3 @@ after 'deploy:published', 'deploy:update_schema'
 #Reload Fixtures
 after 'deploy:published', 'deploy:load_fixtures'
 
-#Append Doctrine Fixtures
-after 'deploy:published', 'deploy:append_doctrine_fixtures'
-
-# Restart Supervisor
-# after 'deploy:published', 'supervisord:reload'

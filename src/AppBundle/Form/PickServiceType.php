@@ -53,9 +53,6 @@ class PickServiceType extends AbstractType
                 $data = $event->getData();
                 $form = $event->getForm();
 
-//                dump($data);
-//                die;
-
                 $category = $data['category'] ?? null;
                 $services = $category ? $category->getServices() : array();
 
