@@ -95,7 +95,7 @@ Deliverables for Level 1:
 
 - [x] Provide a view of all saved offers.
 - [x] Provide a way to delete an offer.
-- [ ] Provide a migration script (either in PHP or SQL) to create the neccessary database tables.
+- [x] Provide a migration script (either in PHP or SQL) to create the neccessary database tables.
 
 Level 2
 =======
