@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Service;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Offer;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * OfferItem
