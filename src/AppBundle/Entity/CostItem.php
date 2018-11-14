@@ -22,10 +22,10 @@ class CostItem extends Item implements Billable, Versionable
 {
     use Priceable, Timestampable;
 
-    public function __construct() {
+    public function __construct()
+    {
 
     }
-
 
     /**
      * @ORM\PreUpdate

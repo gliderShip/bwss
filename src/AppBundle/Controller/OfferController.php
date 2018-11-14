@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class OfferController extends Controller
 {
@@ -57,7 +58,7 @@ class OfferController extends Controller
                  */
                 $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
 
-                foreach ($service->getItems() as $costItem){
+                foreach ($service->getItems() as $costItem) {
                     $itemSnapShot = $itemSnapshotManager->getCurrentSnapshot($costItem);
                     if (!$itemSnapShot or $itemSnapShot->getServiceSnapshot() != $serviceSnapshot) {
                         $itemSnapShot = $itemSnapshotManager->createSnapshot($costItem, $serviceSnapshot);
@@ -74,7 +75,7 @@ class OfferController extends Controller
 
             $newForm = $this->createForm(PickServiceType::class, $data);
 
-            if($request->isXmlHttpRequest()) {
+            if ($request->isXmlHttpRequest()) {
                 return $this->render(
                     'form_view.html.twig',
                     array(
@@ -158,7 +159,7 @@ class OfferController extends Controller
 
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
-        $offerForm = $this->getOfferForm($rentableOfferItems);
+        $offerForm = $this->getOfferForm($rentableOfferItems, 'Update');
         $offerForm->handleRequest($request);
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
             $formData = $offerForm->getData();
@@ -184,7 +185,7 @@ class OfferController extends Controller
     }
 
 
-    private function getOfferForm($rentableItems)
+    private function getOfferForm($rentableItems, $actionLabel = 'Create')
     {
         $formData = array();
         foreach ($rentableItems as $rentableItem) {
@@ -202,12 +203,16 @@ class OfferController extends Controller
                         'itemSnapshot' => $itemSnapshot->getId() ?? null,
                         'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
                     ],
+                    'constraints' => [
+                        new Assert\GreaterThanOrEqual(['value' => 1]),
+                    ],
                     'label' => false
                 ]
+
             );
         }
 
-        $form->add('save', SubmitType::class);
+        $form->add('save', SubmitType::class, ['label'=>$actionLabel]);
         return $form->getForm();
     }
 

@@ -6,6 +6,7 @@ use AppBundle\Model\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Service;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Offer
@@ -34,7 +35,9 @@ class Offer
 
     /**
      * @var OfferItem[] $offerItems
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\OfferItem", mappedBy="offer", cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     protected $offerItems;
 

@@ -56,6 +56,20 @@ class OfferItem implements Billable
     }
 
     /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if($this->hours == 0 and $this->itemSnapshot->getPriceType() != Billable::BILLABLE_TYPES['SINGLE AMOUNT'])
+        {
+            $context->buildViolation('Please provide the hours billed. Min=1')
+                ->atPath('hours')
+                ->addViolation();
+        }
+
+    }
+
+    /**
      * @return int
      */
     public function getId(): ?int

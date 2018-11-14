@@ -79,7 +79,12 @@
                         <td>{{ rentableOfferItem.vat }}</td>
                         <td class="vat-amount"
                             id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-vat-amount">{{ rentableOfferItem.vatAmount }}</td>
-                        <td> {{ form_row(attribute(form, rentableOfferItem.itemSnapshot.name)) }} </td>
+                        <td><div class="form-group">
+                                <span class="text-danger">{{ form_errors(attribute(form, rentableOfferItem.itemSnapshot.name)) }}</span>
+                            {{ form_widget(attribute(form, rentableOfferItem.itemSnapshot.name)) }}
+                            {#{{ form_row(attribute(form, rentableOfferItem.itemSnapshot.name)) }}#}
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
 
