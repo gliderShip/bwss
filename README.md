@@ -1,3 +1,32 @@
+## Preface
+- Please note that throughout the code the `Services as general "umbrella" categories ` are refered 
+to as `Service Categories` and sometimes just `Categories`.
+- `Subservices` are refered to as `Services`.
+- - [x] Completed deliverables are marked with a tick.
+
+### Installing the application
+___
+- You can find a demo version here [http://104.248.249.221/](http://104.248.249.221/). Feel free to test / break the demo app.
+
+* #### Local Instalation
+    Download the source code, composer
+    ```sh
+       composer install     #install the dependencies
+     ```  
+    ```sh
+       bin/console d:d:c     #create the database (bin/console d:d:d --force #to drop the database)
+     ```  
+    ```sh
+       bin/console d:s:c     #create the schema (bin/console d:s:d --force #to drop the schema)
+     ```  
+    ```sh
+       bin/console h:f:l     #optional: upload fixtures [notice: deletes current data]
+     ```  
+  
+     ![fixtures](https://raw.githubusercontent.com/gliderShip/bwss/master/web/fixtures.png)
+
+
+
 BWSS Test project - Offer and Invoice tool
 ==========================================
 
