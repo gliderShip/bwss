@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\Billable;
+use AppBundle\Model\Priceable;
 use AppBundle\Model\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,14 +14,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Service
  *
- * @ORM\Table(name="service_category")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceCategoryRepository")
+ * @ORM\Table(name="extra")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ExtraRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("name")
  */
-class ServiceCategory
+class Extra implements Billable
 {
-    use Timestampable;
+    use Priceable, Timestampable;
 
     /**
      * @var int
@@ -38,22 +40,16 @@ class ServiceCategory
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="serviceCategory", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceCategory", inversedBy="extras")
+     * @ORM\JoinColumn(name="serviceCategory_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    protected $services;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Extra", mappedBy="serviceCategory", cascade={"persist", "remove"})
-     */
-    protected $extras;
+    protected $serviceCategory;
 
 
     public function __construct() {
-
-        $this->services = new ArrayCollection();
-        $this->extras = new ArrayCollection();
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
+        $this->priceType = Billable::BILLABLE_TYPES['SINGLE AMOUNT'];
     }
 
     /**
@@ -66,14 +62,7 @@ class ServiceCategory
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Service
-     */
-    public function setName($name): ServiceCategory
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -91,20 +80,24 @@ class ServiceCategory
     }
 
     /**
-     * @return Service[]|null
+     * @param $serviceCategory
+     * @return $this
      */
-    public function getServices()
+    public function setServiceCategory(ServiceCategory $serviceCategory)
     {
-        return $this->services;
+        $this->serviceCategory = $serviceCategory;
+
+        return $this;
     }
 
     /**
-     * @return Extra[]|null
+     * @return ServiceCategory
      */
-    public function getExtras()
+    public function getServiceCategory(): ?ServiceCategory
     {
-        return $this->extras;
+        return $this->serviceCategory;
     }
+
 
     public function __toString()
     {

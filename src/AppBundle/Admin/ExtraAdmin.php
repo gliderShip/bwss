@@ -13,24 +13,26 @@ use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
-class CostItemAdmin extends AbstractAdmin
+class ExtraAdmin extends AbstractAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('discountable', null, ['label' => 'Benefits Disounts'])
-            ->add('service')
+            ->add('serviceCategory')
             ->add('price')
             ->add('priceType',null, ['field_type' => ChoiceType::class, 'field_options' =>
-                [
-                    'choices' => Billable::BILLABLE_TYPES,
-                ]
+                    [
+                        'choices' => Billable::BILLABLE_TYPES,
                     ]
+                ]
             )
             ->add('currency')
-            ->add('vat');
+            ->add('vat')
+            ->add('createdAt')
+            ->add('updatedAt')
+        ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -38,8 +40,7 @@ class CostItemAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('discountable', null, ['label' => 'Benefits Disounts'])
-            ->add('service')
+            ->add('serviceCategory')
             ->add('price')
             ->add('priceIncludesVat')
             ->add('netPrice', MoneyType::class)
@@ -59,15 +60,15 @@ class CostItemAdmin extends AbstractAdmin
                     'edit' => [],
                     'delete' => [],
                 ],
-            ]);
+            ])
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', null, ['required' => true])
-            ->add('discountable', null, ['label' => 'Benefits Disounts'])
-            ->add('service')
+            ->add('name')
+            ->add('serviceCategory')
             ->add('price', MoneyType::class,
                 [
                     'required' => true,
@@ -79,9 +80,18 @@ class CostItemAdmin extends AbstractAdmin
             ->add('priceType', ChoiceType::class,
                 [
                     'choices' => Billable::BILLABLE_TYPES,
+                    'attr' => array('readonly' => true), // Frontend
+                    'disabled' => true,                     // Backend
+                    'required' => false,
                 ]
             )
-            ->add('priceIncludesVat')
+            ->add('priceIncludesVat', null,
+                [
+                    'attr' => array('readonly' => true), // Frontend
+                    'disabled' => true,                     // Backend
+                    'required' => false,
+                ]
+            )
             ->add('currency', CurrencyType::class,
                 [
                     'attr' => array('readonly' => true), // Frontend
@@ -96,6 +106,7 @@ class CostItemAdmin extends AbstractAdmin
                     'required' => false,
                 ]
             );
+        ;
     }
 
     protected function configureShowFields(ShowMapper $showMapper)
@@ -103,8 +114,7 @@ class CostItemAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('discountable', null, ['label' => 'Benefits Disounts'])
-            ->add('service')
+            ->add('serviceCategory')
             ->add('price', MoneyType::class)
             ->add('priceIncludesVat')
             ->add('netPrice', MoneyType::class)
@@ -115,6 +125,5 @@ class CostItemAdmin extends AbstractAdmin
             ->add('createdAt')
             ->add('updatedAt')
         ;
-
     }
 }

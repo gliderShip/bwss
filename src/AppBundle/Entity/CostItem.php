@@ -28,6 +28,28 @@ class CostItem extends Item implements Billable, Versionable
     }
 
     /**
+     * @var boolean
+     * @ORM\Column(name="discountable", type="boolean", nullable=false)
+     */
+    private $discountable = false;
+
+    /**
+     * @return boolean
+     */
+    public function isDiscountable(): bool
+    {
+        return $this->discountable;
+    }
+
+    /**
+     * @param boolean $discountable
+     */
+    public function setDiscountable(bool $discountable = false): void
+    {
+        $this->discountable = $discountable;
+    }
+
+    /**
      * @ORM\PreUpdate
      */
     public function preUpdate()
