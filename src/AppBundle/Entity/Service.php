@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use AppBundle\Model\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Service
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="service")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("name")
  */
 class Service
 {
@@ -28,7 +31,7 @@ class Service
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     protected $name;

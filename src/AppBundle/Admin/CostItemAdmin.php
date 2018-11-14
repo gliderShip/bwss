@@ -63,10 +63,11 @@ class CostItemAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
+            ->add('name', null, ['required' => true])
             ->add('service')
             ->add('price', MoneyType::class,
                 [
+                    'required' => true,
                     'help' => 'Price must include VAT',
                     "currency" => false,
                     "scale" => 2

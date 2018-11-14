@@ -6,7 +6,12 @@ use AppBundle\Entity\Service;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
+/**
+ * @UniqueEntity("name")
+ */
 abstract class Item
 {
     /**
@@ -22,6 +27,7 @@ abstract class Item
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     protected $name;
 

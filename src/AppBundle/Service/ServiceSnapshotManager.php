@@ -42,6 +42,11 @@ class ServiceSnapshotManager
 
         $currentSnapshot = $this->repository->getCurrent($service, $serviceVersion);
 
+        if (!$currentSnapshot) {
+            $currentSnapshot = $this->createSnapshot($service);
+            $this->em->persist($currentSnapshot);
+        }
+
         return $currentSnapshot;
 
     }
@@ -54,7 +59,7 @@ class ServiceSnapshotManager
 
             $serviceSnapshot = new ServiceSnapshot($service, $version);
             $serviceCategory = $service->getServiceCategory();
-            $categorySnapshot = $this->categorySnapshotManager->createSnapshot( $serviceCategory, $version);
+            $categorySnapshot = $this->categorySnapshotManager->getCurrentSnapshot( $serviceCategory, $version);
             $serviceSnapshot->setCategorySnapshot($categorySnapshot);
 
             return $serviceSnapshot;

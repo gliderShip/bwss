@@ -22,6 +22,7 @@ trait Priceable
     /**
      * @var float
      * @Assert\GreaterThan(0)
+     * @Assert\NotBlank()
      * @Assert\LessThanOrEqual(9999999, message="This value should be less than or equal to {{ compared_value }}.")
      * @ORM\Column(name="price", type="decimal", precision=Billable::PRICE_PRECISION, scale=Billable::PRICE_SCALE, options={"unsigned"=true})
      */

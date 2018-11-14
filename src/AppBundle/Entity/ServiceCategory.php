@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Service
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="service_category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceCategoryRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("name")
  */
 class ServiceCategory
 {
@@ -30,7 +32,7 @@ class ServiceCategory
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     protected $name;
