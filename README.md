@@ -23,7 +23,7 @@ ___
        bin/console h:f:l     #optional: upload fixtures [notice: deletes current data]
      ```  
   
-     ![fixtures](https://raw.githubusercontent.com/gliderShip/bwss/master/web/fixtures.png)
+     ![fixtures](https://github.com/gliderShip/bwss/blob/master/web/fixtures.png)
 
 
 
