@@ -30,7 +30,9 @@ class CostItemAdmin extends AbstractAdmin
                     ]
             )
             ->add('currency')
-            ->add('vat');
+            ->add('vat')
+            ->add('discounts')
+        ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -51,8 +53,9 @@ class CostItemAdmin extends AbstractAdmin
             )
             ->add('currency')
             ->add('vat')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('discounts', null, array('route'=>array('name'=>'show')))
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -73,7 +76,7 @@ class CostItemAdmin extends AbstractAdmin
                     'required' => true,
                     'help' => 'Price must include VAT',
                     "currency" => false,
-                    "scale" => 2
+                    "scale" => Billable::PRICE_SCALE,
                 ]
             )
             ->add('priceType', ChoiceType::class,
@@ -112,8 +115,9 @@ class CostItemAdmin extends AbstractAdmin
             ->add('priceType')
             ->add('currency', CurrencyType::class)
             ->add('vat', PercentType::class)
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('discounts', null, array('route'=>array('name'=>'show')))
         ;
 
     }

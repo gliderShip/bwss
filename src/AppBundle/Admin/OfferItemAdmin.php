@@ -40,8 +40,8 @@ class OfferItemAdmin extends AbstractAdmin
             ->add('priceType')
             ->add('currency', CurrencyType::class)
             ->add('vat', PercentType::class)
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -73,8 +73,8 @@ class OfferItemAdmin extends AbstractAdmin
             ->add('priceType')
             ->add('currency', CurrencyType::class)
             ->add('vat', PercentType::class)
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
         ;
     }
 }

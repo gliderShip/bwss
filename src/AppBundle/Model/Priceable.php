@@ -23,7 +23,7 @@ trait Priceable
      * @var float
      * @Assert\GreaterThan(0)
      * @Assert\NotBlank()
-     * @Assert\LessThanOrEqual(9999999, message="This value should be less than or equal to {{ compared_value }}.")
+     * @Assert\LessThanOrEqual(Billable::MAX_PRICE, message="This value should be less than or equal to {{ compared_value }}.")
      * @ORM\Column(name="price", type="decimal", precision=Billable::PRICE_PRECISION, scale=Billable::PRICE_SCALE, options={"unsigned"=true})
      */
     private $price;
@@ -37,6 +37,7 @@ trait Priceable
 
     /**
      * @var string 3-letter ISO 4217 currencies
+     * @Assert\Currency()
      * @ORM\Column(name="currency", type="string", length=3)
      */
     private $currency = Billable::DEFAULT_CURRENCY;
@@ -167,7 +168,7 @@ trait Priceable
 
     /**
      * Set currency
-     * @param string $currency
+     * @param string 3-letter ISO 4217 currencies
      */
     public function setCurrency($currency = Billable::DEFAULT_CURRENCY)
     {

@@ -30,8 +30,8 @@ class ServiceAdmin extends AbstractAdmin
             ->add('name')
             ->add('serviceCategory')
             ->add('items')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -60,8 +60,8 @@ class ServiceAdmin extends AbstractAdmin
             ->add('name')
             ->add('serviceCategory')
             ->add('items')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
 //            ->add('children')
         ;
     }

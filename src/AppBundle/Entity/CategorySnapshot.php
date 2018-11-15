@@ -30,6 +30,11 @@ class CategorySnapshot extends AbstractSnapshot
      */
     protected $serviceSnapshots;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ExtraSnapshot", mappedBy="categorySnapshot", cascade={"persist", "remove"})
+     */
+    protected $extraSnapshots;
+
 
     public function __construct(ServiceCategory $category, int $version)
     {
@@ -53,6 +58,14 @@ class CategorySnapshot extends AbstractSnapshot
     public function getServiceSnapshots()
     {
         return $this->serviceSnapshots;
+    }
+
+    /**
+     * @return ExtraSnapshot[] | null
+     */
+    public function getExtraSnapshots()
+    {
+        return $this->extraSnapshots;
     }
 
     /**

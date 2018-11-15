@@ -7,6 +7,7 @@ use AppBundle\Model\Item;
 use AppBundle\Model\Priceable;
 use AppBundle\Model\Timestampable;
 use AppBundle\Model\Versionable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Service;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,16 +23,23 @@ class CostItem extends Item implements Billable, Versionable
 {
     use Priceable, Timestampable;
 
-    public function __construct()
-    {
-
-    }
-
     /**
      * @var boolean
      * @ORM\Column(name="discountable", type="boolean", nullable=false)
      */
     private $discountable = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Discount", mappedBy="costItems")
+     * @ORM\JoinTable(name="item_discounts")
+     */
+    protected $discounts;
+
+
+    public function __construct()
+    {
+        $this->discounts = new ArrayCollection();
+    }
 
     /**
      * @return boolean
@@ -47,6 +55,22 @@ class CostItem extends Item implements Billable, Versionable
     public function setDiscountable(bool $discountable = false): void
     {
         $this->discountable = $discountable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiscounts()
+    {
+        return $this->discounts;
+    }
+
+    /**
+     * @param mixed $discounts
+     */
+    public function addDiscount(Discount $discount): void
+    {
+        $this->discounts[] = $discount;
     }
 
     /**

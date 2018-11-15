@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 
 class OfferAdmin extends AbstractAdmin
 {
@@ -20,8 +21,20 @@ class OfferAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt',
+                'doctrine_orm_datetime',
+                array(
+                    'field_type' => DateTimePickerType::class,
+                    'field_options' => array('format' => 'yyyy/MM/dd H:mm:ss'),
+                )
+            )
+            ->add('updatedAt',
+                'doctrine_orm_datetime',
+                array(
+                    'field_type' => DateTimePickerType::class,
+                    'field_options' => array('format' => 'yyyy/MM/dd H:mm:ss'),
+                )
+            )
             ->add('serviceSnapshot')
             ->add('offerItems')
         ;
@@ -36,8 +49,8 @@ class OfferAdmin extends AbstractAdmin
             ->add('vatAmount')
             ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
             ->add('offerItems', null, array('route'=>array('name'=>'show')))
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -65,8 +78,8 @@ class OfferAdmin extends AbstractAdmin
             ->add('vatAmount')
             ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
             ->add('offerItems', null, array('route'=>array('name'=>'show')))
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
         ;
     }
 }

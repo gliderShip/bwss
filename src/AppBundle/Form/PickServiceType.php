@@ -2,10 +2,12 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Extra;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -32,6 +34,7 @@ class PickServiceType extends AbstractType
         $formModifier = function (FormInterface $form, ServiceCategory $category = null) {
 
             $services = $category ? $category->getServices() : array();
+            $extras = $category ? $category->getExtras() : array();
 
             $form->add(
                 'service',
@@ -42,6 +45,21 @@ class PickServiceType extends AbstractType
                     'placeholder' => '',
                     'choice_label' => 'name',
                     'choices' => $services,
+                ]
+            );
+
+            $form->add(
+                'extras',
+                EntityType::class,
+                [
+                    'class' => Extra::class,
+                    'multiple' => true,
+                    'expanded' => true,
+                    'label' => false,
+                    'placeholder' => '',
+                    'choice_label' => 'name',
+                    'choices' => $extras,
+                    'required' => false,
                 ]
             );
         };
@@ -61,7 +79,7 @@ class PickServiceType extends AbstractType
             }
         );
 
-        
+
         $builder->get('category')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {

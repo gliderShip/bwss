@@ -25,6 +25,8 @@ interface Billable
     const VAT_PRECISION = 3;
     const VAT_SCALE = 2;
 
+    const MAX_PRICE = 9999999;
+
     public function getPrice($vatIncluded = true);
     public function getPriceType();
     public function getGrossPrice();

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Extra;
 use AppBundle\Entity\Offer;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
@@ -9,6 +10,7 @@ use AppBundle\Entity\ServiceSnapshot;
 use AppBundle\Form\CreateOfferForm;
 use AppBundle\Form\DataTransformer\ItemToNameTransformer;
 use AppBundle\Form\PickServiceType;
+use AppBundle\Service\ExtraManager;
 use AppBundle\Service\ItemSnapshotManager;
 use AppBundle\Service\OfferManager;
 use AppBundle\Service\ServiceSnapshotManager;
@@ -43,7 +45,10 @@ class OfferController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                return $this->render('form_view.html.twig', array('form' => $form->createView(),));
+            }
 
             $data = $form->getData();
 
@@ -66,39 +71,35 @@ class OfferController extends Controller
                     }
                 }
 
+                /**
+                 * @var Extra[] $extras
+                 */
+                $extras = $data['extras'];
+                $extrasIds = array();
+                foreach ($extras as $extra){
+                    $extrasIds[] = $extra->getId();
+                }
 
                 $this->em->flush();
-                $this->em->refresh($serviceSnapshot);
 
-                return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId()]);
+                return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId(), 'extras' => json_encode($extrasIds)]);
             }
 
             $newForm = $this->createForm(PickServiceType::class, $data);
 
             if ($request->isXmlHttpRequest()) {
-                return $this->render(
-                    'form_view.html.twig',
-                    array(
-                        'form' => $newForm->createView(),
-                    )
-                );
+                return $this->render('form_view.html.twig', ['form' => $newForm->createView()]);
             }
         }
 
-        return $this->render(
-            'categories.html.twig',
-            array(
-                'form' => $form->createView(),
-
-            )
-        );
+        return $this->render('categories.html.twig', ['form' => $form->createView()]);
     }
 
 
     /**
      * @Route("/offer/service/snapshot/{snapshotId}/create", name="offer_create", requirements={"snapshotId"="\d+"})
      */
-    public function offerCreateAction(Request $request, int $snapshotId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager)
+    public function offerCreateAction(Request $request, int $snapshotId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager, ExtraManager $extraManager)
     {
         $serviceRepository = $this->em->getRepository(Service::class);
         $serviceSnapshotRepository = $this->em->getRepository(ServiceSnapshot::class);
@@ -112,7 +113,10 @@ class OfferController extends Controller
             return $this->createNotFoundException("Service not found.");
         }
 
-        $offer = $offerManager->createOffer($serviceSnapshot);
+        $jsonExtras = $request->query->get('extras');
+        $extras =  $extraManager->getExtras($jsonExtras, $serviceSnapshot->getCategorySnapshot());
+
+        $offer = $offerManager->createOffer($serviceSnapshot, $extras);
 
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
@@ -128,10 +132,7 @@ class OfferController extends Controller
             }
             $this->em->persist($offer);
             $this->em->flush();
-            $this->addFlash(
-                'success',
-                'Order created successfully!'
-            );
+            $this->addFlash('success', 'Order created successfully!');
 
             return $this->redirectToRoute('offer_edit', ['offerId' => $offer->getId()]);
         }
@@ -171,11 +172,9 @@ class OfferController extends Controller
 
             $this->em->persist($offer);
             $this->em->flush();
-            $this->addFlash(
-                'success',
-                'Order edited successfully!'
-            );
+            $this->addFlash('success','Order edited successfully!');
         }
+
         return $this->render('offer.html.twig', array(
             'form' => $offerForm->createView(),
             'offer' => $offer,
@@ -212,7 +211,7 @@ class OfferController extends Controller
             );
         }
 
-        $form->add('save', SubmitType::class, ['label'=>$actionLabel]);
+        $form->add('save', SubmitType::class, ['label' => $actionLabel]);
         return $form->getForm();
     }
 

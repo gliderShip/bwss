@@ -1,11 +1,23 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-    <h4>Please pick a Service category:</h4>
-    {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}
-    {% set url = path('offer_categories') %}
-    {{ form_row(form.category, {'attr': {"ic-post-to": url, "ic-target":"#replace", "ic-indicator":"#spinner" } }) }}
-    <i id="spinner" class="fa fa-spinner fa-spin" style="display:none"></i>
-    {#{{ form_row(form.category) }}#}
-    {{ form_row(form.service) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+<h4>Please pick a Service category:</h4>
+{{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }}
+
+{% set url = path('offer_categories') %}
+
+{{ form_row(form.category, {'attr': {"ic-post-to": url, "ic-target":"#replace", "ic-indicator":"#spinner" } }) }}
+
+<i id="spinner" class="fa fa-spinner fa-spin" style="display:none"></i>
+
+{{ form_row(form.service) }}
+
+
+{% if form.extras is defined and form.extras is not empty %}
+    Add optional extras:
+    <div class="extras" style="padding-left: 2em">
+        {{ form_row(form.extras) }}
+    </div>
+{% endif %}
+
+{{ form_widget(form) }}
+{{ form_end(form) }}

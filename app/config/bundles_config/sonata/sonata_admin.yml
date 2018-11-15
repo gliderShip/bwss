@@ -86,6 +86,13 @@ services:
     - { name: sonata.admin, manager_type: orm, group: Services, label: Extra }
     public: true
 
+  app.admin.discount:
+    class: AppBundle\Admin\DiscountAdmin
+    arguments: [~, AppBundle\Entity\Discount, AppBundle:DiscountAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Services, label: Discount }
+    public: true
+
 #  app.admin.price:
 #    class: AppBundle\Admin\PriceAdmin
 #    arguments: [~, AppBundle\Entity\Price, AppBundle:PriceAdmin]

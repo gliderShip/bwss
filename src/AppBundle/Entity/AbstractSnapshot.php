@@ -83,12 +83,7 @@ class AbstractSnapshot
     /**
      * @ORM\PreUpdate
      */
-    public function preUpdate()
-    {
-        $this->updatedAt = new \DateTime();
-        // TODO Check if we should update the version here if Snapshots are not immutable
-        $this->version = $this->updatedAt->getTimestamp();
-    }
+    abstract public function preUpdate();
 
 }
 
