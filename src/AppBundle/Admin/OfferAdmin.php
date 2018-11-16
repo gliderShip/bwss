@@ -37,6 +37,7 @@ class OfferAdmin extends AbstractAdmin
             )
             ->add('serviceSnapshot')
             ->add('offerItems')
+            ->add('extraSnapshots')
         ;
     }
 
@@ -49,6 +50,7 @@ class OfferAdmin extends AbstractAdmin
             ->add('vatAmount')
             ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
             ->add('offerItems', null, array('route'=>array('name'=>'show')))
+            ->add('extraSnapshots', null, array('route'=>array('name'=>'show')))
             ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('_action', null, [
@@ -61,14 +63,6 @@ class OfferAdmin extends AbstractAdmin
         ;
     }
 
-//    protected function configureFormFields(FormMapper $formMapper)
-//    {
-//        $formMapper
-//            ->add('serviceSnapshot')
-//            ->add('offerItems')
-//        ;
-//    }
-
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -78,6 +72,7 @@ class OfferAdmin extends AbstractAdmin
             ->add('vatAmount')
             ->add('serviceSnapshot', null, array('route'=>array('name'=>'show')))
             ->add('offerItems', null, array('route'=>array('name'=>'show')))
+            ->add('extraSnapshots', null, array('route'=>array('name'=>'show')))
             ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
         ;

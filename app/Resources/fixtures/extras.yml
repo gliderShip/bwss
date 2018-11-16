@@ -1,0 +1,23 @@
+
+AppBundle\Entity\Extra:
+
+  extra_0:
+    name: "extra_0"
+    category: "@category_0"
+    price: 10
+
+  extra_1:
+    name: "extra_1"
+    category: "@category_1"
+    price: 20
+
+  extra_2_1:
+    name: "extra_2_1"
+    category: "@category_2"
+    price: 21
+
+  extra_2_2:
+    name: "extra_2_2"
+    category: "@category_2"
+    price: 22
+

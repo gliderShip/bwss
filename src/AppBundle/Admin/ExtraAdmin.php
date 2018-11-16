@@ -21,7 +21,7 @@ class ExtraAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('serviceCategory')
+            ->add('category')
             ->add('price')
             ->add('priceType',null, ['field_type' => ChoiceType::class, 'field_options' =>
                     [
@@ -53,7 +53,7 @@ class ExtraAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('serviceCategory')
+            ->add('category')
             ->add('price')
             ->add('priceIncludesVat')
             ->add('netPrice', MoneyType::class)
@@ -81,7 +81,7 @@ class ExtraAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('name')
-            ->add('serviceCategory')
+            ->add('category')
             ->add('price', MoneyType::class,
                 [
                     'required' => true,
@@ -127,7 +127,7 @@ class ExtraAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('serviceCategory')
+            ->add('category')
             ->add('price', MoneyType::class)
             ->add('priceIncludesVat')
             ->add('netPrice', MoneyType::class)

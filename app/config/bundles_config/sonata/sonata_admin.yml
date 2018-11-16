@@ -93,6 +93,13 @@ services:
     - { name: sonata.admin, manager_type: orm, group: Services, label: Discount }
     public: true
 
+  app.admin.extra_snapshot:
+    class: AppBundle\Admin\ExtraSnapshotAdmin
+    arguments: [~, AppBundle\Entity\ExtraSnapshot, AppBundle:ExtraSnapshotAdmin]
+    tags:
+    - { name: sonata.admin, manager_type: orm, group: Snapshots, label: ExtraSnapshot }
+    public: true
+
 #  app.admin.price:
 #    class: AppBundle\Admin\PriceAdmin
 #    arguments: [~, AppBundle\Entity\Price, AppBundle:PriceAdmin]

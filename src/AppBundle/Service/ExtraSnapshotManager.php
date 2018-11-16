@@ -37,27 +37,43 @@ class ExtraSnapshotManager
         $this->extraManager = $extraManager;
     }
 
+    public function getRequestSextras(string $jsonIds, CategorySnapshot $categorySnapshot){
+
+        $selectedSextras = array();
+
+        $extrasArrayIds = json_decode($jsonIds, false, 2 );
+        $snapshotExtras = $categorySnapshot->getExtraSnapshots();
+        foreach ($snapshotExtras as $snapshotExtra) {
+            if(in_array($snapshotExtra->getId(), $extrasArrayIds)){
+                $selectedSextras[] = $snapshotExtra;
+            }
+        }
+
+        return $selectedSextras;
+    }
+
     /**
      * @return ExtraSnapshot|null
      */
-    public function getCurrentSnapshot(Extra $extra)
+    public function getCurrentSnapshot(Extra $extra, CategorySnapshot $categorySnapshot)
     {
         $version = $this->extraManager->getCurrentVersion($extra);
         $currentSnapshot = $this->repository->getCurrent($extra, $version);
+
+        if (!$currentSnapshot) {
+            $currentSnapshot = $this->createSnapshot($extra, $categorySnapshot);
+            $this->em->persist($currentSnapshot);
+        }
 
         return $currentSnapshot;
 
     }
 
-    public function getCategorySnapshots(CategorySnapshot $categorySnapshot){
 
-        return $this->repository->findByCategorySnapshot($categorySnapshot);
-    }
-
-    public function createSnapshot(Extra $extra, CategorySnapshot $categorySnapshot = null )
+    public function createSnapshot(Extra $extra, CategorySnapshot $categorySnapshot, int $version = null )
     {
-        if(!$categorySnapshot){
-            $categorySnapshot = $this->categorySnapshotManager->getCurrentSnapshot($extra->getCategory());
+        if(!$version){
+            $version = $this->extraManager->getCurrentVersion($extra);
         }
 
         $version = $this->extraManager->getCurrentVersion($extra);

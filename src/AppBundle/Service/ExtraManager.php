@@ -6,7 +6,7 @@
  * Time: 5:45 PM
  */
 
-namespace AppBundle\Category;
+namespace AppBundle\Service;
 
 use AppBundle\Entity\CategorySnapshot;
 use AppBundle\Entity\Extra;
@@ -22,16 +22,6 @@ class ExtraManager
         $this->categoryManager = $categoryManager;
     }
 
-
-    public function getExtras(string $jsonIds, CategorySnapshot $categorySnapshot){
-
-        dump($jsonIds);
-        $extrasArrayIds = json_decode($jsonIds, false, 2 );
-
-        return $categorySnapshot->getCategory()->getExtras();
-
-    }
-
     /**
      * @param Extra $extra
      * @return int version
@@ -39,7 +29,7 @@ class ExtraManager
     public function getCurrentVersion(Extra $extra){
 
         $extraVersion = $extra->getUpdatedAt()->getTimestamp();
-        $categoryVersion = $this->categoryManager->getCurrentVersion($extra->getService());
+        $categoryVersion = $this->categoryManager->getCurrentVersion($extra->getCategory());
 
         return max($extraVersion, $categoryVersion);
     }

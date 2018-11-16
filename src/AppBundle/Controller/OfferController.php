@@ -11,6 +11,7 @@ use AppBundle\Form\CreateOfferForm;
 use AppBundle\Form\DataTransformer\ItemToNameTransformer;
 use AppBundle\Form\PickServiceType;
 use AppBundle\Service\ExtraManager;
+use AppBundle\Service\ExtraSnapshotManager;
 use AppBundle\Service\ItemSnapshotManager;
 use AppBundle\Service\OfferManager;
 use AppBundle\Service\ServiceSnapshotManager;
@@ -36,53 +37,43 @@ class OfferController extends Controller
     /**
      * @Route("/offer/categories", name="offer_categories")
      */
-    public function listCategoryAction(Request $request, ItemSnapshotManager $itemSnapshotManager, ServiceSnapshotManager $serviceSnapshotManager)
+    public function listCategoryAction(Request $request, ItemSnapshotManager $itemSnapshotManager, ServiceSnapshotManager $serviceSnapshotManager, ExtraSnapshotManager $extraSnapshotManager)
     {
-        $categoryRepository = $this->em->getRepository(ServiceCategory::class);
-        $data = array();
-
-        $form = $this->createForm(PickServiceType::class, $data);
+        $form = $this->createForm(PickServiceType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+
             if (!$form->isValid()) {
                 return $this->render('form_view.html.twig', array('form' => $form->createView(),));
             }
 
             $data = $form->getData();
 
-            /**
-             * @var Service $service
-             */
+            /** @var Service $service */
             $service = $data['service'];
 
             if ($service) {
-                /**
-                 * TODO: Snapshots must belong to a group of users through @owners attribute, many-to-many relationship. Required to lock "items to promised price"
-                 */
-                $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);
+                $serviceSnapshot = $serviceSnapshotManager->getCurrentSnapshot($service);  /** TODO: Snapshots must belong to a group of users through @owners attribute, many-to-many relationship. Required to lock "items to promised price" */
+                $itemSnapshotManager->generateItemSnapshots($service, $serviceSnapshot);
 
-                foreach ($service->getItems() as $costItem) {
-                    $itemSnapShot = $itemSnapshotManager->getCurrentSnapshot($costItem);
-                    if (!$itemSnapShot or $itemSnapShot->getServiceSnapshot() != $serviceSnapshot) {
-                        $itemSnapShot = $itemSnapshotManager->createSnapshot($costItem, $serviceSnapshot);
-                        $this->em->persist($itemSnapShot);
-                    }
-                }
-
-                /**
-                 * @var Extra[] $extras
-                 */
+                /** @var Extra[] $extras */
                 $extras = $data['extras'];
-                $extrasIds = array();
+                $sExtras = array();
+
                 foreach ($extras as $extra){
-                    $extrasIds[] = $extra->getId();
+                    $sExtras[] = $extraSnapshotManager->getCurrentSnapshot($extra, $serviceSnapshot->getCategorySnapshot());
                 }
 
                 $this->em->flush();
 
-                return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId(), 'extras' => json_encode($extrasIds)]);
+                $sExtrasIds = array();
+                foreach ($sExtras as $sExtra){
+                    $sExtrasIds[] = $sExtra->getId();
+                }
+
+                return $this->redirectToRoute('offer_create', ['snapshotId' => $serviceSnapshot->getId(), 'extras' => json_encode($sExtrasIds)]);
             }
 
             $newForm = $this->createForm(PickServiceType::class, $data);
@@ -99,24 +90,22 @@ class OfferController extends Controller
     /**
      * @Route("/offer/service/snapshot/{snapshotId}/create", name="offer_create", requirements={"snapshotId"="\d+"})
      */
-    public function offerCreateAction(Request $request, int $snapshotId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager, ExtraManager $extraManager)
+    public function offerCreateAction(Request $request, int $snapshotId, OfferManager $offerManager, ServiceSnapshotManager $serviceSnapshotManager, ExtraSnapshotManager $sExtraManager)
     {
         $serviceRepository = $this->em->getRepository(Service::class);
         $serviceSnapshotRepository = $this->em->getRepository(ServiceSnapshot::class);
 
-        /**
-         * @var ServiceSnapshot $serviceSnapshot
-         */
+        /** @var ServiceSnapshot $serviceSnapshot */
         $serviceSnapshot = $serviceSnapshotRepository->findOneById($snapshotId);
 
         if (!$serviceSnapshot) {
             return $this->createNotFoundException("Service not found.");
         }
 
-        $jsonExtras = $request->query->get('extras');
-        $extras =  $extraManager->getExtras($jsonExtras, $serviceSnapshot->getCategorySnapshot());
+        $jsonSelectedSextras = $request->query->get('extras');
+        $selectedSextras =  $sExtraManager->getRequestSextras($jsonSelectedSextras, $serviceSnapshot->getCategorySnapshot());
 
-        $offer = $offerManager->createOffer($serviceSnapshot, $extras);
+        $offer = $offerManager->createOffer($serviceSnapshot, $selectedSextras);
 
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);

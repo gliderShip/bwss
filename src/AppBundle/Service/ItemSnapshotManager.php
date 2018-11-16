@@ -11,6 +11,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\CostItem;
 use AppBundle\Entity\ItemSnapshot;
+use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceSnapshot;
 use AppBundle\Repository\ItemSnapshotRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +36,16 @@ class ItemSnapshotManager
         $this->repository = $em->getRepository(ItemSnapshot::class);
         $this->serviceSnapshotManager = $serviceSnapshotManager;
         $this->itemManager = $itemManager;
+    }
+
+    public function generateItemSnapshots(Service $service, $serviceSnapshot){
+        foreach ($service->getItems() as $costItem) {
+            $itemSnapShot = $this->getCurrentSnapshot($costItem);
+            if (!$itemSnapShot or $itemSnapShot->getServiceSnapshot() != $serviceSnapshot) {
+                $itemSnapShot = $this->createSnapshot($costItem, $serviceSnapshot);
+                $this->em->persist($itemSnapShot);
+            }
+        }
     }
 
     /**

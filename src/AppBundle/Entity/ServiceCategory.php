@@ -43,7 +43,7 @@ class ServiceCategory
     protected $services;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Extra", mappedBy="serviceCategory", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Extra", mappedBy="category", cascade={"persist", "remove"})
      */
     protected $extras;
 

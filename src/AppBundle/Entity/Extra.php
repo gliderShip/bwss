@@ -41,9 +41,9 @@ class Extra implements Billable
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ServiceCategory", inversedBy="extras")
-     * @ORM\JoinColumn(name="serviceCategory_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    protected $serviceCategory;
+    protected $category;
 
 
     public function __construct() {
@@ -83,9 +83,9 @@ class Extra implements Billable
      * @param $serviceCategory
      * @return $this
      */
-    public function setServiceCategory(ServiceCategory $serviceCategory)
+    public function setCategory(ServiceCategory $category)
     {
-        $this->serviceCategory = $serviceCategory;
+        $this->category = $category;
 
         return $this;
     }
@@ -93,9 +93,9 @@ class Extra implements Billable
     /**
      * @return ServiceCategory
      */
-    public function getServiceCategory(): ?ServiceCategory
+    public function getCategory(): ?ServiceCategory
     {
-        return $this->serviceCategory;
+        return $this->category;
     }
 
 

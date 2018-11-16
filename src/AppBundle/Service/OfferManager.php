@@ -9,6 +9,7 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\Entity\ExtraSnapshot;
 use AppBundle\Entity\OfferItem;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\Offer;
@@ -31,12 +32,11 @@ class OfferManager
     /**
      * @return Offer
      */
-    public function createOffer(ServiceSnapshot $serviceSnapshot){
+    public function createOffer(ServiceSnapshot $serviceSnapshot, array $sExtras){
 
-        $service = $serviceSnapshot->getService();
         $offerItems = $this->getOfferItems($serviceSnapshot);
 
-        return new Offer($serviceSnapshot, $offerItems);
+        return new Offer($serviceSnapshot, $offerItems, $sExtras);
     }
 
     public function getRentableOfferItems(Offer $offer){

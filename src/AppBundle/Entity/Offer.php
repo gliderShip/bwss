@@ -41,11 +41,21 @@ class Offer
      */
     protected $offerItems;
 
-    public function __construct(ServiceSnapshot $serviceSnapshot, array $offerItems)
-    {
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ExtraSnapshot", cascade={"persist"})
+     * @ORM\JoinTable(name="offer_extras",
+     *      joinColumns={@ORM\JoinColumn(name="offer_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="sExtra_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $extraSnapshots;
 
+    public function __construct(ServiceSnapshot $serviceSnapshot, array $offerItems, $sExtras)
+    {
         $this->serviceSnapshot = $serviceSnapshot;
         $this->setOfferItems($offerItems);
+        $this->setExtraSnapshots($sExtras);
+
     }
 
     /**
@@ -92,6 +102,23 @@ class Offer
             $item->setOffer($this);
         }
     }
+
+    public function addExtraSnapshot(ExtraSnapshot $sExtra)
+    {
+        $this->extraSnapshots[] = $sExtra;
+    }
+
+    public function setExtraSnapshots($sExtras)
+    {
+        $this->extraSnapshots = new ArrayCollection();
+
+        foreach ($sExtras as $sExtra){
+            $this->extraSnapshots->add($sExtra);
+        }
+
+    }
+
+
 
 
     public function getSubTotal($vatIncluded = true)

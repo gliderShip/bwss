@@ -9,25 +9,11 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class CategorySnapshotAdmin extends AbstractAdmin
+class ExtraSnapshotAdmin extends AbstractAdmin
 {
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->clearExcept(array('list', 'show', 'delete'));
-    }
-
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('id')
-            ->add('version')
-            ->add('name')
-            ->add('category')
-            ->add('serviceSnapshots')
-            ->add('extraSnapshots')
-            ->add('createdAt')
-            ->add('updatedAt')
-        ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -36,11 +22,9 @@ class CategorySnapshotAdmin extends AbstractAdmin
             ->add('id')
             ->add('version')
             ->add('name')
-            ->add('category', null, array('route'=>array('name'=>'show')))
-            ->add('serviceSnapshots', null, array('route'=>array('name'=>'show')))
-            ->add('extraSnapshots', null, array('route'=>array('name'=>'show')))
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('categorySnapshot', null, array('route'=>array('name'=>'show')))
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -57,11 +41,9 @@ class CategorySnapshotAdmin extends AbstractAdmin
             ->add('id')
             ->add('version')
             ->add('name')
-            ->add('category', null, array('route'=>array('name'=>'show')))
-            ->add('serviceSnapshots', null, array('route'=>array('name'=>'show')))
-            ->add('extraSnapshots', null, array('route'=>array('name'=>'show')))
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('categorySnapshot', null, array('route'=>array('name'=>'show')))
+            ->add('createdAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
+            ->add('updatedAt', 'datetime', array('format' => 'Y/m/d H:i:s'))
         ;
     }
 }

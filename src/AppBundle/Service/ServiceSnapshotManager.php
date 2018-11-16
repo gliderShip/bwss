@@ -51,7 +51,7 @@ class ServiceSnapshotManager
 
     }
 
-    public function createSnapshot(Service $service, CategorySnapshot $categorySnapshot = null, int $version = null)
+    public function createSnapshot(Service $service, int $version = null)
     {
             if(!$version){
                 $version = $this->serviceManager->getCurrentVersion($service);
