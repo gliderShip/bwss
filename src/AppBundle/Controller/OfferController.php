@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Discount;
 use AppBundle\Entity\Extra;
 use AppBundle\Entity\Offer;
+use AppBundle\Entity\OfferItem;
 use AppBundle\Entity\Service;
 use AppBundle\Entity\ServiceCategory;
 use AppBundle\Entity\ServiceSnapshot;
@@ -117,10 +119,11 @@ class OfferController extends Controller
 
         $offer = $offerManager->createOffer($serviceSnapshot, $selectedSextras);
 
+        $offerItems = $offer->getOfferItems();
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
 
-        $offerForm = $this->getOfferForm($rentableOfferItems);
+        $offerForm = $this->getOfferForm($offerItems, $rentableOfferItems);
         $offerForm->handleRequest($request);
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
             $formData = $offerForm->getData();
@@ -161,6 +164,7 @@ class OfferController extends Controller
         }
 
         $selectedSextras = $offer->getExtraSnapshots();
+        $offerItems = $offer->getOfferItems();
         $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
         $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
         $offerForm = $this->getOfferForm($rentableOfferItems, 'Update');
@@ -188,13 +192,14 @@ class OfferController extends Controller
     }
 
 
-    private function getOfferForm($rentableItems, $actionLabel = 'Create')
+    private function getOfferForm($offerItems, $rentableItems, $actionLabel = 'Create')
     {
         $formData = array();
         foreach ($rentableItems as $rentableItem) {
             $itemSnapshot = $rentableItem->getItemSnapshot();
             $formData[$itemSnapshot->getName()] = $rentableItem->getHours();
         }
+
         $form = $this->createFormBuilder($formData);
 
         foreach ($rentableItems as $rentableItem) {
@@ -214,6 +219,32 @@ class OfferController extends Controller
 
             );
         }
+
+        /** @var OfferItem $offerItem */
+        foreach ($offerItems as $offerItem){
+            $ci = $offerItem->getItemSnapshot()->getCostItem();
+            if($ci->isDiscountable()){
+                $discounts = $ci->getDiscounts();
+                foreach ($discounts as $ds){
+
+                    $form->add(
+                        'discount',
+                        EntityType::class,
+                        [
+                            'class' => Discount::class,
+                            'label' => 'Pick a discount',
+                            'placeholder' => '',
+                            'choice_label' => 'price',
+                            'choices' => $discounts,
+                        ]
+                    );
+
+                }
+            }
+        }
+
+        dump($form);
+        die;
 
         $form->add('save', SubmitType::class, ['label' => $actionLabel]);
         return $form->getForm();
