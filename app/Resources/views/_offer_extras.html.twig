@@ -1,0 +1,31 @@
+{% if selectedSextras is not empty %}
+    <table class="table table-bordered table-hover bg-danger">
+        <caption><h4>Selected Extras</h4></caption>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Net Price</th>
+            <th scope="col">Gross Price</th>
+            <th scope="col">Currency</th>
+            <th scope="col">%VAT</th>
+            <th scope="col">Vat Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for sExtra in selectedSextras %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ sExtra.name }}</td>
+                <td class="netprice">{{ sExtra.netPrice }}</td>
+                <td class="grossprice">{{ sExtra.grossPrice }}</td>
+                <td>{{ sExtra.currency }}</td>
+                <td>{{ sExtra.vat }}</td>
+                <td class="vat-amount">{{ sExtra.vatAmount }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endif %}

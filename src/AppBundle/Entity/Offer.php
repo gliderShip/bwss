@@ -42,6 +42,8 @@ class Offer
     protected $offerItems;
 
     /**
+     * @var ExtraSnapshot[] $extraSnapshots
+     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ExtraSnapshot", cascade={"persist"})
      * @ORM\JoinTable(name="offer_extras",
      *      joinColumns={@ORM\JoinColumn(name="offer_id", referencedColumnName="id")},
@@ -103,6 +105,15 @@ class Offer
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getExtraSnapshots()
+    {
+        return $this->extraSnapshots;
+    }
+
+
     public function addExtraSnapshot(ExtraSnapshot $sExtra)
     {
         $this->extraSnapshots[] = $sExtra;
@@ -111,24 +122,34 @@ class Offer
     public function setExtraSnapshots($sExtras)
     {
         $this->extraSnapshots = new ArrayCollection();
-
         foreach ($sExtras as $sExtra){
             $this->extraSnapshots->add($sExtra);
         }
-
     }
 
+    public function getItemsTotal($vatIncluded = true)
+    {
+        $itemsTotal = 0;
+        foreach ($this->offerItems as $offerItem) {
+            $itemsTotal += $offerItem->getPrice($vatIncluded);
+        }
 
+        return $itemsTotal;
+    }
 
+    public function getExtrasTotal($vatIncluded = true)
+    {
+        $extrasTotal = 0;
+        foreach ($this->extraSnapshots as $extraSnapshot) {
+            $extrasTotal += $extraSnapshot->getPrice($vatIncluded);
+        }
+
+        return $extrasTotal;
+    }
 
     public function getSubTotal($vatIncluded = true)
     {
-        $subTotal = 0;
-        foreach ($this->offerItems as $offerItem) {
-            $subTotal += $offerItem->getPrice($vatIncluded);
-        }
-
-        return $subTotal;
+        return $this->getItemsTotal($vatIncluded) + $this->getExtrasTotal();
     }
 
     public function getGrandTotal($vatIncluded = true)
@@ -136,7 +157,7 @@ class Offer
         return $this->getSubTotal($vatIncluded);
     }
 
-    public function getVatAmount()
+    public function getItemsVatAmount()
     {
         $vatAmount = 0;
 
@@ -145,6 +166,22 @@ class Offer
         }
 
         return $vatAmount;
+    }
+
+    public function getExtrasVatAmount()
+    {
+        $vatAmount = 0;
+
+        foreach ($this->extraSnapshots as $extraSnapshot) {
+            $vatAmount += $extraSnapshot->getVatAmount();
+        }
+
+        return $vatAmount;
+    }
+
+    public function getVatAmount()
+    {
+        return $this->getItemsVatAmount() + $this->getExtrasVatAmount();
     }
 
     /**

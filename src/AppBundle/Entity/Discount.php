@@ -254,13 +254,14 @@ class Discount
         return $this->costItems;
     }
 
-//    /**
-//     * @param mixed $costItems
-//     */
-//    public function setCostItems($costItems): void
-//    {
-//        $this->costItems = $costItems;
-//    }
+    public function setCostItems($costItems): void
+    {
+        $this->costItems = new ArrayCollection();
+
+        foreach ($costItems as $ci){
+            $this->addCostItem($ci);
+        }
+    }
 
     public function __toString()
     {

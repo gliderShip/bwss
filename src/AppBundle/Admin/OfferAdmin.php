@@ -14,7 +14,7 @@ class OfferAdmin extends AbstractAdmin
 {
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->clearExcept(array('list', 'show'));
+        $collection->clearExcept(array('list', 'show', 'edit'));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

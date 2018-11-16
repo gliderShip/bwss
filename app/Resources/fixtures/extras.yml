@@ -21,3 +21,8 @@ AppBundle\Entity\Extra:
     category: "@category_2"
     price: 22
 
+  extra_4:
+    name: "extra_4"
+    category: "@category_4"
+    price: 121
+

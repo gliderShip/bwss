@@ -1,0 +1,47 @@
+{% if rentableOfferItems is not empty %}
+    <table class="table table-bordered table-hover bg-success">
+        <caption><h4>Hourly Priced Items. Please Provide the hours for each item</h4></caption>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">NetPrice/hr</th>
+            <th scope="col">GrossPrice/hr</th>
+            <th scope="col">NetPrice</th>
+            <th scope="col">GrossPrice</th>
+            <th scope="col">Currency</th>
+            <th scope="col">%VAT</th>
+            <th scope="col">Vat Amount</th>
+            <th scope="col">Billed Hours</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for rentableOfferItem in rentableOfferItems %}
+
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ rentableOfferItem.name }}</td>
+                <td id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-net-price-hour">{{ rentableOfferItem.getNetPrice(true) }}</td>
+                <td id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-gross-price-hour">{{ rentableOfferItem.getGrossPrice(true) }}</td>
+                <td class="netprice"
+                    id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-net-price">{{ rentableOfferItem.netPrice }}</td>
+                <td class="grossprice"
+                    id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-gross-price">{{ rentableOfferItem.grossPrice }}</td>
+                <td>{{ rentableOfferItem.currency }}</td>
+                <td>{{ rentableOfferItem.vat }}</td>
+                <td class="vat-amount"
+                    id="item-{{ rentableOfferItem.itemSnapshot.costItem.id }}-vat-amount">{{ rentableOfferItem.vatAmount }}</td>
+                <td>
+                    <div class="form-group">
+                        <span class="text-danger">{{ form_errors(attribute(form, rentableOfferItem.itemSnapshot.name)) }}</span>
+                        {{ form_widget(attribute(form, rentableOfferItem.itemSnapshot.name)) }}
+                        {#{{ form_row(attribute(form, rentableOfferItem.itemSnapshot.name)) }}#}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endif %}

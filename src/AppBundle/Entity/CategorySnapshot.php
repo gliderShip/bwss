@@ -36,13 +36,13 @@ class CategorySnapshot extends AbstractSnapshot
     protected $extraSnapshots;
 
 
-    public function __construct(ServiceCategory $category, int $version, ExtraSnapshot ...$extraSnapshots)
+    public function __construct(ServiceCategory $category, int $version)
     {
         parent::__construct($version);
 
         $this->category = $category;
-        $this->extraSnapshots = $extraSnapshots;
         $this->setName($category->getName());
+        $this->extraSnapshots = new ArrayCollection();
     }
 
     /**
@@ -67,6 +67,24 @@ class CategorySnapshot extends AbstractSnapshot
     public function getExtraSnapshots()
     {
         return $this->extraSnapshots;
+    }
+
+    public function setExtraSnapshots($extraSnapshots)
+    {
+        $this->extraSnapshots = new ArrayCollection();
+
+        foreach ($extraSnapshots as $es){
+            $this->addExtraSnapshot($es);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function addExtraSnapshot( ExtraSnapshot $extraSnapshot)
+    {
+        $extraSnapshot->setCategorySnapshot($this);
+        $this->extraSnapshots[] = $extraSnapshot;
     }
 
     /**

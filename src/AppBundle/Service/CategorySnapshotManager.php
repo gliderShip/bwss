@@ -33,9 +33,9 @@ class CategorySnapshotManager
         $this->repository = $em->getRepository(CategorySnapshot::class);
     }
 
-    public function getCurrentSnapshot(ServiceCategory $category, int $version)
+    public function getCurrentSnapshot(ServiceCategory $category)
     {
-//        $version = $this->categoryManager->getCurrentVersion($category);
+        $version = $this->categoryManager->getCurrentVersion($category);
 
         $currentSnapshot = $this->repository->getCurrent($category, $version);
 

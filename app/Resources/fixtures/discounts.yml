@@ -1,0 +1,26 @@
+
+AppBundle\Entity\Discount:
+
+  discount_442_1:
+    name: "discount_442_1"
+    code: "D442X1"
+    costItems: ["@item_4_4_2"]
+    price: 10
+    startDate:  '<(new DateTime("-1 week"))>'
+    endDate:  '<(new DateTime("+1 month"))>'
+
+  discount_442_2:
+    name: "discount_442_2"
+    code: "D442X2"
+    costItems: ["@item_4_4_2"]
+    price: 30000
+    startDate:  '<(new DateTime("-1 day"))>'
+    endDate:  '<(new DateTime("+2 months"))>'
+
+  discount_expired_444:
+    name: "discount_expired_444"
+    code: "D444EX"
+    costItems: ["@item_4_4_2", "@item_4_4_4"]
+    price: 47
+    startDate:  '<(new DateTime("-1 month"))>'
+    endDate:  '<(new DateTime("-3 days"))>'

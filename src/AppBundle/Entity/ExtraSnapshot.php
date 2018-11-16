@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\Billable;
+use AppBundle\Model\Priceable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,8 +20,9 @@ use AppBundle\Entity\Extra;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExtraSnapshotRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class ExtraSnapshot extends AbstractSnapshot
+class ExtraSnapshot extends AbstractSnapshot implements Billable
 {
+    use Priceable ;
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Extra")
      * @ORM\JoinColumn(name="extra_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
@@ -39,6 +42,8 @@ class ExtraSnapshot extends AbstractSnapshot
 
         $this->extra = $extra;
         $this->setName($extra->getName());
+        $this->price = $extra->getPrice();
+        $this->priceType = $extra->getPriceType();
     }
 
     /**
