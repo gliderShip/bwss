@@ -263,9 +263,15 @@ class Discount
         }
     }
 
+    public function isExpired(string $time = 'now'){
+
+        $now = new \DateTime($time);
+        return $now  > $this->getEndDate();
+    }
+
     public function __toString()
     {
-        return $this->code;
+        return $this->code . ' - '. $this->price.$this->currency ;
     }
 
 

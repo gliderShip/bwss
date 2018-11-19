@@ -10,11 +10,14 @@
             <th scope="col">Currency</th>
             <th scope="col">%VAT</th>
             <th scope="col">Vat Amount</th>
+            <th scope="col">Discount Amount</th>
+            <th scope="col">Aviable Discount</th>
         </tr>
         </thead>
         <tbody>
 
         {% for singlePriceOfferItem in singlePriceOfferItems %}
+            {% set cId = singlePriceOfferItem.itemSnapshot.costItem.id %}
             <tr>
                 <th scope="row">{{ loop.index }}</th>
                 <td>{{ singlePriceOfferItem.name }}</td>
@@ -23,6 +26,12 @@
                 <td>{{ singlePriceOfferItem.currency }}</td>
                 <td>{{ singlePriceOfferItem.vat }}</td>
                 <td class="vat-amount">{{ singlePriceOfferItem.vatAmount }}</td>
+                <td class="discount-amount">{{ singlePriceOfferItem.getDiscountAmount }}</td>
+                {% if attribute(form, "item-#{cId}-discount") is defined %}
+                    <td>
+                        {{ form_row(attribute(form, "item-#{cId}-discount")) }}
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
 

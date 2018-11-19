@@ -1,0 +1,64 @@
+<script>
+    $(".time").change(function (e) {
+        var timeInputEl = e.target;
+        var hoursWorked = timeInputEl.value;
+        var costItemId = timeInputEl.getAttribute("costItem");
+        var hourlyGrossPrice = $(`#item-${costItemId}-gross-price-hour`).text();
+        var hourlyNetPrice = $(`#item-${costItemId}-net-price-hour`).text();
+
+        var offerItemGrossPrice = parseFloat((hourlyGrossPrice * hoursWorked)).toFixed(2);
+        var offerItemNetPrice = parseFloat((hourlyNetPrice * hoursWorked)).toFixed(2);
+        var offerItemVatAmount = parseFloat((offerItemGrossPrice - offerItemNetPrice)).toFixed(2);
+
+        var offerItemGrossCell = $(`#item-${costItemId}-gross-price`);
+        offerItemGrossCell.text(offerItemGrossPrice);
+        offerItemGrossCell.effect("highlight", {}, 3500);
+
+        var offerItemNetCell = $(`#item-${costItemId}-net-price`);
+        offerItemNetCell.text(offerItemNetPrice);
+        offerItemNetCell.effect("highlight", {}, 3500);
+
+        var offerVatAmountCell = $(`#item-${costItemId}-vat-amount`);
+        offerVatAmountCell.text(offerItemVatAmount);
+        offerVatAmountCell.effect("highlight", {}, 3500);
+
+        var totalGrossPrice = 0;
+        $(".grossprice").each(function () {
+            totalGrossPrice += parseFloat($(this).text());
+        });
+
+        var totalVatAmount = 0;
+        $(".vat-amount").each(function () {
+            totalVatAmount += parseFloat($(this).text());
+        });
+
+
+        totalGrossPrice = totalGrossPrice.toFixed(2);
+        totalVatAmount = totalVatAmount.toFixed(2);
+
+        $('#subtotal').text(totalGrossPrice);
+        $('#subtotal').effect("highlight", {}, 3500);
+
+        $('#grandtotal').text(totalGrossPrice);
+        $('#grandtotal').effect("highlight", {}, 3500);
+
+        $('#vatAmount').text(totalVatAmount);
+        $('#vatAmount').effect("highlight", {}, 3500);
+
+
+    });
+
+    // $(".discount").change(function (e) {
+    //     var discount = e.target;
+    //     var discountValue = $(".discount").find(':selected').attr('discount');
+    //     var subtotal = parseFloat($('#subtotal').text());
+    //     subtotal = subtotal + discountValue;
+    //     console.log(subtotal);
+    //     $('#subtotal').text(parseFloat(subtotal).toFixed(2));
+    //     $('#subtotal').effect("highlight", {}, 3500);
+    //
+    // });
+
+
+
+</script>

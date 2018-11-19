@@ -51,6 +51,13 @@ class OfferItem implements Billable
      */
     protected $itemSnapshot;
 
+    /**
+     * @var Discount
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Discount")
+     * @ORM\JoinColumn(name="discount_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $discount;
+
     public function __construct(ItemSnapshot $itemSnapshot)
     {
         $this->itemSnapshot = $itemSnapshot;
@@ -144,12 +151,49 @@ class OfferItem implements Billable
         return $this->itemSnapshot->getName();
     }
 
+    /**
+     * @return Discount|null
+     */
+    public function getDiscount(): ?Discount
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param Discount $discount
+     */
+    public function setDiscount(Discount $discount): void
+    {
+        $this->discount = $discount;
+    }
+
+    public function getDiscountAmount()
+    {
+        if(!$this->discount){
+            return 0;
+        }
+
+        return $this->getPrice() <= $this->discount->getPrice() ? $this->getPrice() :  $this->discount->getPrice();
+    }
+
     public function __toString()
     {
 
         return 'Oitem '.$this->itemSnapshot->getName() . ' ['.$this->getId().']';
     }
 
+    public function getDiscountedPrice($vatIncluded = true)
+    {
+        $discountAmount = $this->discount ? $this->discount->getPrice() : 0;
+        $netNormalPrice = $this->getPrice($includeVat = false, $unitPrice=false);
+        $netDiscountedPrice = $netNormalPrice <= $discountAmount ? 0 : $netNormalPrice - $discountAmount;
+
+        if($vatIncluded){
+            return $netDiscountedPrice * (1+$this->getVat());
+        }
+
+        return $netDiscountedPrice;
+    }
 
     /* Billable Interface */
     public function getPrice($vatIncluded = true, $unitPrice=false)
@@ -203,6 +247,11 @@ class OfferItem implements Billable
         }
 
         return $itemSnapshotVatAmount;
+    }
+
+    public function getVatAmountAfterDiscount(){
+
+        return $this->getDiscountedPrice(false) * $this->getVat();
     }
 
     public function priceEquals($thatItem, $unitPrice=false){

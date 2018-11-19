@@ -9,37 +9,13 @@
 
         <h3>{{ offer.serviceSnapshot.name }} Service Offer</h3>
 
-        {% include '_fixed_offer_items.html.twig' with {'singlePriceOfferItems': singlePriceOfferItems} only %}
+        {% include '_fixed_offer_items.html.twig' with {'singlePriceOfferItems': singlePriceOfferItems, 'form': form} only %}
 
         {% include '_rentable_offer_items.html.twig' with {'rentableOfferItems': rentableOfferItems, 'form': form} only %}
 
         {% include '_offer_extras.html.twig' with {'selectedSextras': selectedSextras} only %}
 
-        <table class="table table-bordered table-hover ">
-            <caption><h4>Offer Summary</h4></caption>
-            <thead>
-            <tr class="info">
-                <th scope="col">Sub Total</th>
-                <th scope="col">Grand Total</th>
-                <th scope="col">VAT Amount</th>
-                <th scope="col">Total Items</th>
-                <th scope="col">Created At</th>
-                <th scope="col">Updated At</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr class="warning">
-                <td id="subtotal">{{ offer.subTotal }}</td>
-                <td id="grandtotal">{{ offer.grandTotal }}</td>
-                <td id="vatAmount">{{ offer.vatAmount }}</td>
-                <td>{{ offer.offerItems|length }}</td>
-                <td>{{ offer.updatedAt is empty ? "New offer" : offer.updatedAt|date('Y-m-d H:i:s') }}</td>
-                <td>{{ offer.createdAt is empty ? "New Offer" : offer.createdAt|date('Y-m-d H:i:s') }}</td>
-            </tr>
-
-            </tbody>
-        </table>
+        {% include '_offer_summary.html.twig' with {'offer': offer} only %}
 
         {{ form_row(form.save, {'attr': {'class': 'querty'}}) }}
         {{ form_widget(form) }}
@@ -61,55 +37,6 @@
         </div>
     {% endfor %}
 
-    <script>
-        $(".time").change(function (e) {
-            var timeInputEl = e.target;
-            var hoursWorked = timeInputEl.value;
-            var costItemId = timeInputEl.getAttribute("costItem");
-            var hourlyGrossPrice = $(`#item-${costItemId}-gross-price-hour`).text();
-            var hourlyNetPrice = $(`#item-${costItemId}-net-price-hour`).text();
-
-            var offerItemGrossPrice = parseFloat((hourlyGrossPrice * hoursWorked)).toFixed(2);
-            var offerItemNetPrice = parseFloat((hourlyNetPrice * hoursWorked)).toFixed(2);
-            var offerItemVatAmount = parseFloat((offerItemGrossPrice - offerItemNetPrice)).toFixed(2);
-
-            var offerItemGrossCell = $(`#item-${costItemId}-gross-price`);
-            offerItemGrossCell.text(offerItemGrossPrice);
-            offerItemGrossCell.effect("highlight", {}, 3500);
-
-            var offerItemNetCell = $(`#item-${costItemId}-net-price`);
-            offerItemNetCell.text(offerItemNetPrice);
-            offerItemNetCell.effect("highlight", {}, 3500);
-
-            var offerVatAmountCell = $(`#item-${costItemId}-vat-amount`);
-            offerVatAmountCell.text(offerItemVatAmount);
-            offerVatAmountCell.effect("highlight", {}, 3500);
-
-            var totalGrossPrice = 0;
-            $(".grossprice").each(function () {
-                totalGrossPrice += parseFloat($(this).text());
-            });
-
-            var totalVatAmount = 0;
-            $(".vat-amount").each(function () {
-                totalVatAmount += parseFloat($(this).text());
-            });
-
-
-            totalGrossPrice = totalGrossPrice.toFixed(2);
-            totalVatAmount = totalVatAmount.toFixed(2);
-
-            $('#subtotal').text(totalGrossPrice);
-            $('#subtotal').effect("highlight", {}, 3500);
-
-            $('#grandtotal').text(totalGrossPrice);
-            $('#grandtotal').effect("highlight", {}, 3500);
-
-            $('#vatAmount').text(totalVatAmount);
-            $('#vatAmount').effect("highlight", {}, 3500);
-
-
-        });
-    </script>
+    {% include '_offer_live_price_script.html.twig' %}
 
 {% endblock %}

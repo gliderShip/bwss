@@ -28,13 +28,17 @@ AppBundle\Entity\CostItem:
     price: 100
     priceType: 'SINGLE AMOUNT'
     service: "@service_4_4"
+    discountable: true
+
   item_4_4_3:
     name: "item_4_4_3"
     price: 121
     priceType: 'HOURLY AMOUNT'
     service: "@service_4_4"
+    discountable: true
   item_4_4_4:
     name: "item_4_4_4"
     price: 100
     priceType: 'HOURLY AMOUNT'
     service: "@service_4_4"
+    discountable: true

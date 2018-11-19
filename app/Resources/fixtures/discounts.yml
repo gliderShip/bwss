@@ -17,6 +17,14 @@ AppBundle\Entity\Discount:
     startDate:  '<(new DateTime("-1 day"))>'
     endDate:  '<(new DateTime("+2 months"))>'
 
+  discount_443:
+    name: "discount_443"
+    code: "D443OK"
+    costItems: ["@item_4_4_3"]
+    price: 15
+    startDate:  '<(new DateTime("-2 weeks"))>'
+    endDate:  '<(new DateTime("+1 month"))>'
+
   discount_expired_444:
     name: "discount_expired_444"
     code: "D444EX"

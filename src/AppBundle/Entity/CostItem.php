@@ -58,7 +58,7 @@ class CostItem extends Item implements Billable, Versionable
     }
 
     /**
-     * @return mixed
+     * @return Discount[]|null
      */
     public function getDiscounts()
     {

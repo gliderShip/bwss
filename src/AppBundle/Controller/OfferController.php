@@ -13,6 +13,7 @@ use AppBundle\Form\CreateOfferForm;
 use AppBundle\Form\DataTransformer\ItemToNameTransformer;
 use AppBundle\Form\PickServiceType;
 use AppBundle\Service\CategorySnapshotManager;
+use AppBundle\Service\DiscountManager;
 use AppBundle\Service\ExtraManager;
 use AppBundle\Service\ExtraSnapshotManager;
 use AppBundle\Service\ItemSnapshotManager;
@@ -20,6 +21,7 @@ use AppBundle\Service\OfferManager;
 use AppBundle\Service\ServiceSnapshotManager;
 use AppBundle\Service\SnapshotManageruse;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -33,18 +35,46 @@ class OfferController extends Controller
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    /** @var ItemSnapshotManager $ism */
+    private $ism;
+
+    /** @var ServiceSnapshotManager $ssm */
+    private $ssm;
+
+    /** @var ExtraSnapshotManager $esm */
+    private $esm;
+
+    /** @var CategorySnapshotManager $csm */
+    private $csm;
+
+    /** @var DiscountManager $dm */
+    private $dm;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        ItemSnapshotManager $ism,
+        ServiceSnapshotManager $ssm,
+        ExtraSnapshotManager $esm,
+        CategorySnapshotManager $csm,
+        OfferManager $om,
+        DiscountManager $dm
+    )
     {
         $this->em = $em;
+        $this->ism = $ism;
+        $this->ssm = $ssm;
+        $this->esm = $esm;
+        $this->csm = $csm;
+        $this->om = $om;
+        $this->dm = $dm;
     }
 
     /**
      * @Route("/offer/categories", name="offer_categories")
      */
-    public function listCategoryAction(Request $request, ItemSnapshotManager $ism, ServiceSnapshotManager $ssm, ExtraSnapshotManager $esm, CategorySnapshotManager $csm)
+    public function listCategoryAction(Request $request)
     {
         $form = $this->createForm(PickServiceType::class);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -63,25 +93,26 @@ class OfferController extends Controller
                 /** @var Extra[] $extras */
                 $extras = $data['extras'];
 
-                $serviceSnapshot = $ssm->getCurrentSnapshot($service);  /** TODO: Snapshots must belong to a group of users through @owners attribute, many-to-many relationship. Required to lock "items to promised price" */
-                if($serviceSnapshot->getId() == null){
+                $serviceSnapshot = $this->ssm->getCurrentSnapshot($service);
+                /** TODO: Snapshots must belong to a group of users through @owners attribute, many-to-many relationship. Required to lock "items to promised price" */
+                if ($serviceSnapshot->getId() == null) {
                     $this->em->flush();
                 }
 
-                $categorySnapshot = $csm->getCurrentSnapshot($category);
+                $categorySnapshot = $this->csm->getCurrentSnapshot($category);
 
-                $ism->generateItemSnapshots($service, $serviceSnapshot);
+                $this->ism->generateItemSnapshots($service, $serviceSnapshot);
 
                 $sExtras = array();
 
-                foreach ($extras as $extra){
-                    $sExtras[] = $esm->getCurrentSnapshot($extra, $categorySnapshot);
+                foreach ($extras as $extra) {
+                    $sExtras[] = $this->esm->getCurrentSnapshot($extra, $categorySnapshot);
                 }
 
                 $this->em->flush();
 
                 $sExtrasIds = array();
-                foreach ($sExtras as $sExtra){
+                foreach ($sExtras as $sExtra) {
                     $sExtrasIds[] = $sExtra->getId();
                 }
 
@@ -102,7 +133,7 @@ class OfferController extends Controller
     /**
      * @Route("/offer/service/snapshot/{snapshotId}/create", name="offer_create", requirements={"snapshotId"="\d+"})
      */
-    public function offerCreateAction(Request $request, int $snapshotId, OfferManager $offerManager, ServiceSnapshotManager $ssm, ExtraSnapshotManager $sExtraManager)
+    public function offerCreateAction(Request $request, int $snapshotId)
     {
         $serviceRepository = $this->em->getRepository(Service::class);
         $serviceSnapshotRepository = $this->em->getRepository(ServiceSnapshot::class);
@@ -115,13 +146,13 @@ class OfferController extends Controller
         }
 
         $jsonSelectedSextras = $request->query->get('extras');
-        $selectedSextras =  $sExtraManager->getRequestSextras($jsonSelectedSextras, $serviceSnapshot->getCategorySnapshot());
+        $selectedSextras = $this->esm->getRequestSextras($jsonSelectedSextras, $serviceSnapshot->getCategorySnapshot());
 
-        $offer = $offerManager->createOffer($serviceSnapshot, $selectedSextras);
+        $offer = $this->om->createOffer($serviceSnapshot, $selectedSextras);
 
         $offerItems = $offer->getOfferItems();
-        $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
-        $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
+        $singlePriceOfferItems = $this->om->getSinglePriceOfferItems($offer);
+        $rentableOfferItems = $this->om->getRentableOfferItems($offer);
 
         $offerForm = $this->getOfferForm($offerItems, $rentableOfferItems);
         $offerForm->handleRequest($request);
@@ -152,9 +183,10 @@ class OfferController extends Controller
     /**
      * @Route("/offer/{offerId}/edit", name="offer_edit", requirements={"offerId"="\d+"})
      */
-    public function offerEditAction(Request $request, int $offerId, OfferManager $offerManager, ServiceSnapshotManager $ssm)
+    public function offerEditAction(Request $request, int $offerId)
     {
         $offerRepository = $this->em->getRepository(Offer::class);
+
         /**
          * @var Offer $offer
          */
@@ -165,21 +197,31 @@ class OfferController extends Controller
 
         $selectedSextras = $offer->getExtraSnapshots();
         $offerItems = $offer->getOfferItems();
-        $singlePriceOfferItems = $offerManager->getSinglePriceOfferItems($offer);
-        $rentableOfferItems = $offerManager->getRentableOfferItems($offer);
-        $offerForm = $this->getOfferForm($rentableOfferItems, 'Update');
+        $singlePriceOfferItems = $this->om->getSinglePriceOfferItems($offer);
+        $rentableOfferItems = $this->om->getRentableOfferItems($offer);
+        $offerForm = $this->getOfferForm($offerItems, $rentableOfferItems, 'Update');
         $offerForm->handleRequest($request);
         if ($offerForm->isSubmitted() && $offerForm->isValid()) {
             $formData = $offerForm->getData();
+
             foreach ($rentableOfferItems as $rentableItem) {
                 $costItemSnapshot = $rentableItem->getItemSnapshot();
                 // TODO: Validate Form. Contains all rentable items names and hours etc.
                 $rentableItem->setHours($formData[$costItemSnapshot->getName()]);
             }
 
+            foreach ($offerItems as $offerItem) {
+                $ci = $offerItem->getItemSnapshot()->getCostItem();
+                $formKey = 'item-'.$ci->getId().'-discount';
+                if(!empty($formData[$formKey])){
+                    $offerItem->setDiscount($formData[$formKey]);
+                }
+            }
+
+
             $this->em->persist($offer);
             $this->em->flush();
-            $this->addFlash('success','Order edited successfully!');
+            $this->addFlash('success', 'Order edited successfully!');
         }
 
         return $this->render('offer.html.twig', array(
@@ -206,7 +248,7 @@ class OfferController extends Controller
             $itemSnapshot = $rentableItem->getItemSnapshot();
             $form->add($itemSnapshot->getName(), IntegerType::class, [
                     'attr' => [
-                        'class' => 'time',
+                        'class' => 'time customizable',
                         'offerItem' => $rentableItem->getId() ?? null,
                         'itemSnapshot' => $itemSnapshot->getId() ?? null,
                         'costItem' => $itemSnapshot->getCostItem()->getId() ?? null,
@@ -221,30 +263,29 @@ class OfferController extends Controller
         }
 
         /** @var OfferItem $offerItem */
-        foreach ($offerItems as $offerItem){
+        foreach ($offerItems as $offerItem) {
             $ci = $offerItem->getItemSnapshot()->getCostItem();
-            if($ci->isDiscountable()){
-                $discounts = $ci->getDiscounts();
-                foreach ($discounts as $ds){
-
-                    $form->add(
-                        'discount',
-                        EntityType::class,
-                        [
-                            'class' => Discount::class,
-                            'label' => 'Pick a discount',
-                            'placeholder' => '',
-                            'choice_label' => 'price',
-                            'choices' => $discounts,
-                        ]
-                    );
-
-                }
+            $discounts = $this->dm->getValidDisounts($ci);
+            if ($ci->isDiscountable() and !empty($discounts)) {
+                $form->add(
+                    'item-' . $ci->getId() . '-discount',
+                    EntityType::class,
+                    [
+                        'class' => Discount::class,
+                        'label' => 'Pick a discount',
+                        'placeholder' => '',
+                        'choices' => $discounts,
+                        'required' => false,
+                        'choice_attr' => function($choiceValue, $key, $value) {
+                            return ['discount' => $choiceValue->getPrice()];
+                        },
+                        'attr' => [
+                            'class' => 'discount',
+                            ]
+                    ]
+                );
             }
         }
-
-        dump($form);
-        die;
 
         $form->add('save', SubmitType::class, ['label' => $actionLabel]);
         return $form->getForm();

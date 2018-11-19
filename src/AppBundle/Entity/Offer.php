@@ -137,6 +137,26 @@ class Offer
         return $itemsTotal;
     }
 
+    public function getItemsTotalWithDiscounts($vatIncluded = true)
+    {
+        $itemsTotal = 0;
+        foreach ($this->offerItems as $offerItem) {
+            $itemsTotal += $offerItem->getDiscountedPrice($vatIncluded);
+        }
+
+        return $itemsTotal;
+    }
+
+    public function getDiscountsAmountTotal($vatIncluded = true)
+    {
+        $discountTotal = 0;
+        foreach ($this->offerItems as $offerItem) {
+            $discountTotal += $offerItem->getDiscountAmount();
+        }
+
+        return $discountTotal;
+    }
+
     public function getExtrasTotal($vatIncluded = true)
     {
         $extrasTotal = 0;
