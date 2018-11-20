@@ -22,6 +22,9 @@ ___
     ```sh
        bin/console h:f:l     #optional: upload fixtures [notice: deletes current data]
      ```  
+    ```sh
+       bin/console server:run     # run built-in web server
+     ```  
   
      ![fixtures](https://github.com/gliderShip/bwss/blob/master/web/fixtures.png)
 
