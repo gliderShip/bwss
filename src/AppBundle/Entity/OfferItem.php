@@ -184,7 +184,7 @@ class OfferItem implements Billable
 
     public function getDiscountedPrice($vatIncluded = true)
     {
-        $discountAmount = $this->discount ? $this->discount->getPrice() : 0;
+        $discountAmount = $this->getDiscountAmount();
         $netNormalPrice = $this->getPrice($includeVat = false, $unitPrice=false);
         $netDiscountedPrice = $netNormalPrice <= $discountAmount ? 0 : $netNormalPrice - $discountAmount;
 
