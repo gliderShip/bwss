@@ -43,7 +43,11 @@ class OfferController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+
+            if (!$form->isValid()) {
+                return $this->render('form_view.html.twig', array('form' => $form->createView(),));
+            }
 
             $data = $form->getData();
 
