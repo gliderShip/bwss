@@ -26,7 +26,7 @@ ___
        bin/console server:run     # run built-in web server
      ```  
   
-     ![fixtures](https://github.com/gliderShip/bwss/blob/master/web/fixtures.png)
+     ![fixtures](https://github.com/gliderShip/bwss/blob/Level_2/web/fixtures.png)
 
 
 
@@ -111,23 +111,23 @@ Deliverables for Level 1:
 - [x] Provide functionality to edit and delete a service. When deleted, all subservices and respective costitems get deleted as well.
 - [x] Provide a multi-step form to create an offer.
 - Step 1: 
-- [x] Chose the service and subservice for that offer.
-- [x] Have a "next" button taking you to the next step.
+    - [x] Chose the service and subservice for that offer.
+    - [x] Have a "next" button taking you to the next step.
 - Step 2: 
-- [x] For each of the costitems in the selected subservice that has hourly billing, include a text box where you can enter the number of hours.
-- [x] Have a "next" button taking you to the next step.
+    - [x] For each of the costitems in the selected subservice that has hourly billing, include a text box where you can enter the number of hours.
+    - [x] Have a "next" button taking you to the next step.
 - Step 3: 
-- [x] Display an cverview containing the selected service, subservice and costitems.
-- [x] For fixed-price costitems display the cost in EUR beside each costitem
-- [x] For hourly-rated costitems, display the price per hour, number of hours
-- [x] Display a section called "Totals", containing the subtotal, VAT amount and grand total in EUR.
-- [x] Have a "save" button to finish the process.
-- [x] The creation date and time of the offer is set automatically upon pressing the "save" button.
-- [x] At the end of step 3, save this offer in the database, in a way that the contained service, subservice, and costitem specifications are a copy of the originals and do not reference the originals. This will allow the service/subservice/costitems specificaitons to change in the future without impacting the previous offers.
-
-- [x] Provide a view of all saved offers.
-- [x] Provide a way to delete an offer.
-- [x] Provide a migration script (either in PHP or SQL) to create the neccessary database tables.
+    - [x] Display an cverview containing the selected service, subservice and costitems.
+    - [x] For fixed-price costitems display the cost in EUR beside each costitem
+    - [x] For hourly-rated costitems, display the price per hour, number of hours
+    - [x] Display a section called "Totals", containing the subtotal, VAT amount and grand total in EUR.
+    - [x] Have a "save" button to finish the process.
+    - [x] The creation date and time of the offer is set automatically upon pressing the "save" button.
+    - [x] At the end of step 3, save this offer in the database, in a way that the contained service, subservice, and costitem specifications are a copy of the originals and do not reference the originals. This will allow the service/subservice/costitems specificaitons to change in the future without impacting the previous offers.
+    
+    - [x] Provide a view of all saved offers.
+    - [x] Provide a way to delete an offer.
+    - [x] Provide a migration script (either in PHP or SQL) to create the neccessary database tables.
 
 Level 2
 =======
@@ -158,31 +158,31 @@ Discounts
 Deliverables for Level 2
 ------------------------
 
-- Provide a way to defina an extra and add it to a service
-- Provide a way to list extras based on a service (you may group them with the services view if you so desire)
-- Provide a way to edit or delete extras.
-- When a service is deleted, all extras belonging to it are also deleted.
-- When creating or editing a costitem, add the option to specify whether the price for this costitem also includes VAT (default to yes)
-- When creating or editing a costitem, add the option to specify whether this subservice can have discounts applied to it (default to yes)
-- Provide a way to create a discount. This should include a way to select one or more costitems that this discount is applicable to.
+- [x] Provide a way to defina an extra and add it to a service
+- [x] Provide a way to list extras based on a service (you may group them with the services view if you so desire)
+- [x] Provide a way to edit or delete extras.
+- [x] When a service is deleted, all extras belonging to it are also deleted.
+- [x] When creating or editing a costitem, add the option to specify whether the price for this costitem also includes VAT (default to yes)
+- [x] When creating or editing a costitem, add the option to specify whether this subservice can have discounts applied to it (default to yes)
+- [x] Provide a way to create a discount. This should include a way to select one or more costitems that this discount is applicable to.
 - Make the following changes to the multi-step offer form:
-    - Step 1: 
-     - Display extras available for the selected service.
-     - Allow selection of zero or more extras.
-    - Step 2: 
-     - For all costitems that have available discounts, add a dropdown menu listing all eligible discounts (available to this costitem and is within the discounts' valid time period ).
-     - Only one discount can be selected per costitem.
-     - For each costitem, allow the option to not apply the discount.
+   - [x] Step 1: 
+     - [x] Display extras available for the selected service.
+     - [x] Allow selection of zero or more extras.
+   - Step 2: 
+     - [x] For all costitems that have available discounts, add a dropdown menu listing all eligible discounts (available to this costitem and is within the discounts' valid time period ).
+     - [x] Only one discount can be selected per costitem.
+     - [x] For each costitem, allow the option to not apply the discount.
      - Add a "back" button taking you to step 1.
-    - Step 3: 
-     - For each costitem, if a discount is applied, display that discount code and value beside the respective costitem.
-     - Below the costitems, display a list of all the extras selected in Step 1, alongside their respective prices.
-     - In the subtotal, and total include the sums of the selected extras.
-     - In the VAT calculation, include the VAT only for the costitems and additional services that are VAT-inclusive.
+   - Step 3: 
+     - [x] For each costitem, if a discount is applied, display that discount code and value beside the respective costitem.
+     - [x] Below the costitems, display a list of all the extras selected in Step 1, alongside their respective prices.
+     - [x] In the subtotal, and total include the sums of the selected extras.
+     - [x] In the VAT calculation, include the VAT only for the costitems and additional services that are VAT-inclusive.
      - Below the VAT include the sum of all discounts that have been applied.
-     - Make sure the saved offers do not reference the extras, but contain or are linked to a copy instead.
+     - [x] Make sure the saved offers do not reference the extras, but contain or are linked to a copy instead.
      - Add a "back" button taking you to step 2.
-- Provide a migration script (either in PHP or SQL) to create the additional database tables, alter the existing tables to fit the new requirements, and populate newly added fields with their default values.
+- [x] Provide a migration script (either in PHP or SQL) to create the additional database tables, alter the existing tables to fit the new requirements, and populate newly added fields with their default values.
 
 
 Level 3
